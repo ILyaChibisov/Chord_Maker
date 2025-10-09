@@ -7,12 +7,11 @@ from pydub.silence import split_on_silence
 import tempfile
 import subprocess
 import warnings
+sys.path.append(os.path.join(os.path.dirname(__file__), 'grafic_tools'))
 
+from grafic_tools.professional_drawing import ProfessionalDrawingTab
 
 from scipy import signal
-
-
-
 
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QTreeView, QFileSystemModel, QVBoxLayout, QWidget, QPushButton, \
     QFileDialog, QMenu, QMessageBox, QDialog, QLabel, QLineEdit ,QListWidget,QListWidgetItem, QHBoxLayout, QTabWidget,
@@ -52,12 +51,32 @@ def custom_which(program):
         return original_which(program)
 
 pydub.utils.which = custom_which
+
+# Создаем папку templates2 если её нет
+TEMPLATES2_DIR = "templates2"
+if not os.path.exists(TEMPLATES2_DIR):
+    os.makedirs(TEMPLATES2_DIR)
+    print(f"Создана папка {TEMPLATES2_DIR}")
+
+# Создаем базовый конфиг если его нет
+DEFAULT_CONFIG_PATH = os.path.join(TEMPLATES2_DIR, "template.json")
+if not os.path.exists(DEFAULT_CONFIG_PATH):
+    default_config = {
+        'frets': {},
+        'notes': {},
+        'open_notes': {},
+        'barres': {}
+    }
+    with open(DEFAULT_CONFIG_PATH, 'w', encoding='utf-8') as f:
+        json.dump(default_config, f, indent=2, ensure_ascii=False)
+    print(f"Создан базовый конфиг: {DEFAULT_CONFIG_PATH}")
+
 # Варианты для вкладок
 class MainApp(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Контент Менеджер')
-        self.setGeometry(100, 100, 700, 600)
+        self.setGeometry(100, 100, 1200, 800)
         self.layout = QVBoxLayout(self)
 
         self.tabs = QTabWidget()
@@ -66,14 +85,14 @@ class MainApp(QWidget):
         # Создаём вкладки
         self.chord_redactor = ImageEditor()
         self.chord_recorder = ChordRecorderTab()  # Новая вкладка для записи аккордов
-        # self.gen_image = ImageGeneratorApp()
+        self.pro_drawing = ProfessionalDrawingTab()  # Новая вкладка профессионального рисования
 
-        self.tabs.addTab(self.chord_redactor, "Рисование")
-        self.tabs.addTab(self.chord_recorder, "Запись аккордов")  # Добавляем новую вкладку
-        # self.tabs.addTab(self.gen_image, "Картинки")
+        self.tabs.addTab(self.chord_redactor, "Базовое рисование")
+        self.tabs.addTab(self.chord_recorder, "Запись аккордов")
+        self.tabs.addTab(self.pro_drawing, "Профессиональное рисование")
 
 
-# модуль 10 (Рисование аккордов)
+# модуль 1 (Рисование аккордов)
 class ImageEditor(QMainWindow):
     def __init__(self):
         super().__init__()

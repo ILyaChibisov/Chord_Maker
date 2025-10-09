@@ -1,0 +1,8 @@
+chord_editor/
+├── main.py
+├── grafic_tools/
+│   ├── __init__.py
+│   ├── professional_drawing.py
+│   ├── templates_manager.py
+│   └── drawing_elements.py
+└── templates/
