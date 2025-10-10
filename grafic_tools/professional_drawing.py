@@ -172,6 +172,31 @@ class ProfessionalDrawingTab(QMainWindow):
         self.fret_symbol_combo = QComboBox()
         self.fret_symbol_combo.addItems(['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'])
 
+        # Выбор шрифта
+        self.fret_font_combo = QComboBox()
+        self.fret_font_combo.addItems([
+            'Arial', 'Times New Roman', 'Courier New', 'Verdana',
+            'Georgia', 'Palatino', 'Garamond', 'Trebuchet MS',
+            'Comic Sans MS', 'Impact', 'Lucida Sans'
+        ])
+        self.fret_font_combo.setCurrentText('Arial')
+
+        # Выбор стиля текста
+        self.fret_style_combo = QComboBox()
+        self.fret_style_combo.addItems([
+            'default', 'gradient_text', 'shadow', 'glow', 'outline',
+            'metallic', 'gold_embossed', 'silver_embossed', 'neon', 'stamped'
+        ])
+        self.fret_style_combo.setCurrentText('default')
+
+        # Выбор цвета
+        self.fret_color_combo = QComboBox()
+        self.fret_color_combo.addItems([
+            'Черный', 'Белый', 'Красный', 'Синий', 'Зеленый', 'Золотой',
+            'Серебряный', 'Бронзовый', 'Пурпурный', 'Бирюзовый', 'Оранжевый'
+        ])
+        self.fret_color_combo.setCurrentText('Черный')
+
         # Кнопки
         self.add_fret_button = QPushButton("Добавить лад")
         self.add_fret_button.clicked.connect(self.add_fret)
@@ -190,7 +215,8 @@ class ProfessionalDrawingTab(QMainWindow):
         # Добавляем все в layout
         widgets = [
             self.fret_x_input, self.fret_y_input, self.fret_size_input,
-            self.fret_symbol_combo, self.add_fret_button, self.remove_fret_button,
+            self.fret_symbol_combo, self.fret_font_combo, self.fret_style_combo,
+            self.fret_color_combo, self.add_fret_button, self.remove_fret_button,
             self.save_fret_template_button, self.fret_template_combo
         ]
 
@@ -482,9 +508,29 @@ class ProfessionalDrawingTab(QMainWindow):
             y = int(self.fret_y_input.text())
             size = int(self.fret_size_input.text())
             symbol = self.fret_symbol_combo.currentText()
+            font_family = self.fret_font_combo.currentText()
+            style = self.fret_style_combo.currentText()
+
+            # Преобразуем название цвета в RGB
+            color_name = self.fret_color_combo.currentText()
+            color_map = {
+                'Черный': (0, 0, 0),
+                'Белый': (255, 255, 255),
+                'Красный': (255, 0, 0),
+                'Синий': (0, 0, 255),
+                'Зеленый': (0, 128, 0),
+                'Золотой': (255, 215, 0),
+                'Серебряный': (192, 192, 192),
+                'Бронзовый': (205, 127, 50),
+                'Пурпурный': (128, 0, 128),
+                'Бирюзовый': (64, 224, 208),
+                'Оранжевый': (255, 165, 0)
+            }
+            color = color_map.get(color_name, (0, 0, 0))
 
             self.elements['frets'].append({
-                'x': x, 'y': y, 'size': size, 'symbol': symbol
+                'x': x, 'y': y, 'size': size, 'symbol': symbol,
+                'font_family': font_family, 'style': style, 'color': color
             })
             self.repaint()
         except ValueError as e:
@@ -576,11 +622,30 @@ class ProfessionalDrawingTab(QMainWindow):
     # Методы работы с шаблонами
     def save_fret_template(self):
         """Сохранение шаблона лада"""
+        color_name = self.fret_color_combo.currentText()
+        color_map = {
+            'Черный': (0, 0, 0),
+            'Белый': (255, 255, 255),
+            'Красный': (255, 0, 0),
+            'Синий': (0, 0, 255),
+            'Зеленый': (0, 128, 0),
+            'Золотой': (255, 215, 0),
+            'Серебряный': (192, 192, 192),
+            'Бронзовый': (205, 127, 50),
+            'Пурпурный': (128, 0, 128),
+            'Бирюзовый': (64, 224, 208),
+            'Оранжевый': (255, 165, 0)
+        }
+        color = color_map.get(color_name, (0, 0, 0))
+
         self._save_template('frets', self.fret_template_combo, {
             'x': int(self.fret_x_input.text()),
             'y': int(self.fret_y_input.text()),
             'size': int(self.fret_size_input.text()),
-            'symbol': self.fret_symbol_combo.currentText()
+            'symbol': self.fret_symbol_combo.currentText(),
+            'font_family': self.fret_font_combo.currentText(),
+            'style': self.fret_style_combo.currentText(),
+            'color': color
         })
 
     def save_note_template(self):
@@ -645,7 +710,10 @@ class ProfessionalDrawingTab(QMainWindow):
             'fret_y_input': 'y',
             'fret_size_input': 'size'
         }, additional_setters={
-            'fret_symbol_combo': 'symbol'
+            'fret_symbol_combo': 'symbol',
+            'fret_font_combo': 'font_family',
+            'fret_style_combo': 'style',
+            'fret_color_combo': lambda x: self._get_color_name(x)
         })
 
     def load_note_template(self):
@@ -685,6 +753,23 @@ class ProfessionalDrawingTab(QMainWindow):
             'barre_color_input': lambda x: ','.join(map(str, x))
         })
 
+    def _get_color_name(self, color_tuple):
+        """Преобразует RGB кортеж в название цвета"""
+        color_map = {
+            (0, 0, 0): 'Черный',
+            (255, 255, 255): 'Белый',
+            (255, 0, 0): 'Красный',
+            (0, 0, 255): 'Синий',
+            (0, 128, 0): 'Зеленый',
+            (255, 215, 0): 'Золотой',
+            (192, 192, 192): 'Серебряный',
+            (205, 127, 50): 'Бронзовый',
+            (128, 0, 128): 'Пурпурный',
+            (64, 224, 208): 'Бирюзовый',
+            (255, 165, 0): 'Оранжевый'
+        }
+        return color_map.get(tuple(color_tuple), 'Черный')
+
     def _load_template(self, template_type, combo_box, field_mapping, additional_setters=None):
         """Общий метод загрузки шаблона"""
         template_name = combo_box.currentText()
@@ -704,7 +789,10 @@ class ProfessionalDrawingTab(QMainWindow):
                 for field_name, template_key in additional_setters.items():
                     field = getattr(self, field_name)
                     if template_key in template:
-                        field.setCurrentText(template[template_key])
+                        if callable(template_key):
+                            field.setCurrentText(template_key(template[template_key]))
+                        else:
+                            field.setCurrentText(template[template_key])
 
     def load_config_file(self):
         """Загрузка конфигурации из файла"""

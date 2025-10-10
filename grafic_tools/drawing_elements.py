@@ -5,12 +5,18 @@ from PyQt5.QtCore import Qt, QPoint
 class DrawingElements:
     @staticmethod
     def draw_fret(painter, fret):
-        """Рисование лада (римская цифра)"""
+        """Рисование лада с различными стилями"""
         x, y, size, symbol = fret['x'], fret['y'], fret['size'], fret['symbol']
+        style = fret.get('style', 'default')
+        font_family = fret.get('font_family', 'Arial')
+        color = fret.get('color', (0, 0, 0))
 
-        font = QFont("Arial", size, QFont.Bold)
+        # Применяем выбранный стиль
+        DrawingElements._apply_fret_style(painter, x, y, size, style, color)
+
+        # Настраиваем шрифт
+        font = QFont(font_family, size, QFont.Bold)
         painter.setFont(font)
-        painter.setPen(QColor(0, 0, 0))  # Черный цвет
 
         font_metrics = QFontMetrics(painter.font())
         text_width = font_metrics.width(symbol)
@@ -20,6 +26,75 @@ class DrawingElements:
         text_y = y + text_height // 3
 
         painter.drawText(text_x, text_y, symbol)
+
+    @staticmethod
+    def _apply_fret_style(painter, x, y, size, style, color):
+        """Применение различных стилей к ладу"""
+        if style == 'default':
+            painter.setPen(QColor(*color))
+
+        elif style == 'gradient_text':
+            # Градиентный текст
+            gradient = QLinearGradient(x - size, y - size, x + size, y + size)
+            gradient.setColorAt(0, QColor(255, 100, 100))
+            gradient.setColorAt(0.5, QColor(*color))
+            gradient.setColorAt(1, QColor(100, 100, 255))
+            painter.setPen(QPen(gradient, 2))
+
+        elif style == 'shadow':
+            # Тень под текстом
+            shadow_color = QColor(0, 0, 0, 100)
+            painter.setPen(QPen(shadow_color, 3))
+            # Основной текст будет нарисован позже
+
+        elif style == 'glow':
+            # Свечение вокруг текста
+            glow_color = QColor(255, 255, 255, 80)
+            painter.setPen(QPen(glow_color, 4))
+            # Основной текст будет нарисован позже
+
+        elif style == 'outline':
+            # Контур вокруг текста
+            outline_color = QColor(255, 255, 255)
+            painter.setPen(QPen(outline_color, 4))
+            # Основной текст будет нарисован позже
+
+        elif style == 'metallic':
+            # Металлический эффект
+            gradient = QLinearGradient(x - size, y - size, x + size, y + size)
+            gradient.setColorAt(0, QColor(255, 255, 255))
+            gradient.setColorAt(0.3, QColor(200, 200, 200))
+            gradient.setColorAt(0.7, QColor(100, 100, 100))
+            gradient.setColorAt(1, QColor(150, 150, 150))
+            painter.setPen(QPen(gradient, 2))
+
+        elif style == 'gold_embossed':
+            # Золотое тиснение
+            gradient = QLinearGradient(x - size, y - size, x + size, y + size)
+            gradient.setColorAt(0, QColor(255, 215, 0))
+            gradient.setColorAt(0.5, QColor(218, 165, 32))
+            gradient.setColorAt(1, QColor(184, 134, 11))
+            painter.setPen(QPen(gradient, 3))
+
+        elif style == 'silver_embossed':
+            # Серебряное тиснение
+            gradient = QLinearGradient(x - size, y - size, x + size, y + size)
+            gradient.setColorAt(0, QColor(255, 255, 255))
+            gradient.setColorAt(0.5, QColor(192, 192, 192))
+            gradient.setColorAt(1, QColor(150, 150, 150))
+            painter.setPen(QPen(gradient, 3))
+
+        elif style == 'neon':
+            # Неоновый эффект
+            neon_color = QColor(*color)
+            neon_color.setAlpha(200)
+            painter.setPen(QPen(neon_color, 2))
+
+        elif style == 'stamped':
+            # Штампованный эффект
+            stamp_color = QColor(*color)
+            stamp_color.setAlpha(180)
+            painter.setPen(QPen(stamp_color, 2))
 
     @staticmethod
     def draw_note(painter, note):
