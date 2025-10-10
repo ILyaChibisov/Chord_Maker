@@ -131,9 +131,6 @@ class ProfessionalDrawingTab(QMainWindow):
         self.reload_template_btn.clicked.connect(self.update_template_comboboxes)
         self.toolbar.addWidget(self.reload_template_btn)
 
-    # ... остальные методы setup_main_layout, setup_controls и т.д. остаются без изменений ...
-    # (используйте код из предыдущего ответа для этих методов)
-
     def setup_main_layout(self):
         """Настройка основного layout"""
         self.central_widget = QWidget(self)
@@ -163,12 +160,12 @@ class ProfessionalDrawingTab(QMainWindow):
         self.frets_layout = QHBoxLayout(self.frets_widget)
 
         # Поля ввода
-        self.fret_x_input = QLineEdit();
+        self.fret_x_input = QLineEdit()
         self.fret_x_input.setPlaceholderText("X координата")
-        self.fret_y_input = QLineEdit();
+        self.fret_y_input = QLineEdit()
         self.fret_y_input.setPlaceholderText("Y координата")
-        self.fret_size_input = QLineEdit();
-        self.fret_size_input.setPlaceholderText("Размер шрифта");
+        self.fret_size_input = QLineEdit()
+        self.fret_size_input.setPlaceholderText("Размер шрифта")
         self.fret_size_input.setText("20")
 
         # Выбор символа
@@ -208,16 +205,33 @@ class ProfessionalDrawingTab(QMainWindow):
         self.notes_layout = QHBoxLayout(self.notes_widget)
 
         # Поля ввода
-        self.note_x_input = QLineEdit();
+        self.note_x_input = QLineEdit()
         self.note_x_input.setPlaceholderText("X координата")
-        self.note_y_input = QLineEdit();
+        self.note_y_input = QLineEdit()
         self.note_y_input.setPlaceholderText("Y координата")
-        self.note_radius_input = QLineEdit();
-        self.note_radius_input.setPlaceholderText("Радиус");
+        self.note_radius_input = QLineEdit()
+        self.note_radius_input.setPlaceholderText("Радиус")
         self.note_radius_input.setText("15")
-        self.note_color_input = QLineEdit();
-        self.note_color_input.setPlaceholderText("Цвет R,G,B");
-        self.note_color_input.setText("255,0,0")
+
+        # Выбор стиля (50+ вариантов)
+        self.note_style_combo = QComboBox()
+        note_styles = [
+            'default', 'blue_gradient', 'red_3d', 'green_3d', 'purple_3d', 'gold_3d',
+            'glass', 'metal', 'fire', 'ice', 'soft_pink', 'mint_green', 'lavender',
+            'peach', 'sky_blue', 'lemon_yellow', 'coral', 'aqua_marine', 'rose_quartz',
+            'seafoam', 'buttercup', 'lilac', 'honey', 'turquoise', 'apricot', 'periwinkle',
+            'sage', 'melon', 'powder_blue', 'pistachio', 'blush', 'mauve', 'cream', 'teal',
+            'salmon', 'orchid', 'mint_blue', 'pear', 'rose_gold', 'lavender_gray', 'honeydew',
+            'peach_puff', 'azure', 'pale_green', 'light_coral', 'thistle', 'wheat', 'light_cyan',
+            'pale_turquoise', 'light_pink', 'light_salmon', 'light_skyblue', 'light_green', 'plum', 'bisque'
+        ]
+        self.note_style_combo.addItems(note_styles)
+        self.note_style_combo.setCurrentText('red_3d')
+
+        # Выбор оформления
+        self.note_decoration_combo = QComboBox()
+        self.note_decoration_combo.addItems(['none', 'double_border', 'glow', 'shadow', 'sparkle', 'dotted_border'])
+        self.note_decoration_combo.setCurrentText('none')
 
         # Выбор пальца и ноты
         self.note_finger_combo = QComboBox()
@@ -244,9 +258,9 @@ class ProfessionalDrawingTab(QMainWindow):
         # Добавляем все в layout
         widgets = [
             self.note_x_input, self.note_y_input, self.note_radius_input,
-            self.note_color_input, self.note_finger_combo, self.note_name_combo,
-            self.add_note_button, self.remove_note_button, self.save_note_template_button,
-            self.note_template_combo
+            self.note_style_combo, self.note_decoration_combo, self.note_finger_combo,
+            self.note_name_combo, self.add_note_button, self.remove_note_button,
+            self.save_note_template_button, self.note_template_combo
         ]
 
         for widget in widgets:
@@ -260,16 +274,34 @@ class ProfessionalDrawingTab(QMainWindow):
         self.open_notes_layout = QHBoxLayout(self.open_notes_widget)
 
         # Поля ввода
-        self.open_note_x_input = QLineEdit();
+        self.open_note_x_input = QLineEdit()
         self.open_note_x_input.setPlaceholderText("X координата")
-        self.open_note_y_input = QLineEdit();
+        self.open_note_y_input = QLineEdit()
         self.open_note_y_input.setPlaceholderText("Y координата")
-        self.open_note_radius_input = QLineEdit();
-        self.open_note_radius_input.setPlaceholderText("Радиус");
+        self.open_note_radius_input = QLineEdit()
+        self.open_note_radius_input.setPlaceholderText("Радиус")
         self.open_note_radius_input.setText("15")
-        self.open_note_color_input = QLineEdit();
-        self.open_note_color_input.setPlaceholderText("Цвет R,G,B");
-        self.open_note_color_input.setText("0,0,255")
+
+        # Выбор стиля (50+ вариантов)
+        self.open_note_style_combo = QComboBox()
+        note_styles = [
+            'default', 'blue_gradient', 'red_3d', 'green_3d', 'purple_3d', 'gold_3d',
+            'glass', 'metal', 'fire', 'ice', 'soft_pink', 'mint_green', 'lavender',
+            'peach', 'sky_blue', 'lemon_yellow', 'coral', 'aqua_marine', 'rose_quartz',
+            'seafoam', 'buttercup', 'lilac', 'honey', 'turquoise', 'apricot', 'periwinkle',
+            'sage', 'melon', 'powder_blue', 'pistachio', 'blush', 'mauve', 'cream', 'teal',
+            'salmon', 'orchid', 'mint_blue', 'pear', 'rose_gold', 'lavender_gray', 'honeydew',
+            'peach_puff', 'azure', 'pale_green', 'light_coral', 'thistle', 'wheat', 'light_cyan',
+            'pale_turquoise', 'light_pink', 'light_salmon', 'light_skyblue', 'light_green', 'plum', 'bisque'
+        ]
+        self.open_note_style_combo.addItems(note_styles)
+        self.open_note_style_combo.setCurrentText('blue_gradient')
+
+        # Выбор оформления
+        self.open_note_decoration_combo = QComboBox()
+        self.open_note_decoration_combo.addItems(
+            ['none', 'double_border', 'glow', 'shadow', 'sparkle', 'dotted_border'])
+        self.open_note_decoration_combo.setCurrentText('none')
 
         # Выбор символа и ноты
         self.open_note_symbol_combo = QComboBox()
@@ -296,8 +328,8 @@ class ProfessionalDrawingTab(QMainWindow):
         # Добавляем все в layout
         widgets = [
             self.open_note_x_input, self.open_note_y_input, self.open_note_radius_input,
-            self.open_note_color_input, self.open_note_symbol_combo, self.open_note_name_combo,
-            self.add_open_note_button, self.remove_open_note_button,
+            self.open_note_style_combo, self.open_note_decoration_combo, self.open_note_symbol_combo,
+            self.open_note_name_combo, self.add_open_note_button, self.remove_open_note_button,
             self.save_open_note_template_button, self.open_note_template_combo
         ]
 
@@ -312,21 +344,21 @@ class ProfessionalDrawingTab(QMainWindow):
         self.barre_layout = QHBoxLayout(self.barre_widget)
 
         # Поля ввода
-        self.barre_x_input = QLineEdit();
+        self.barre_x_input = QLineEdit()
         self.barre_x_input.setPlaceholderText("X координата")
-        self.barre_y_input = QLineEdit();
+        self.barre_y_input = QLineEdit()
         self.barre_y_input.setPlaceholderText("Y координата")
-        self.barre_width_input = QLineEdit();
-        self.barre_width_input.setPlaceholderText("Ширина");
+        self.barre_width_input = QLineEdit()
+        self.barre_width_input.setPlaceholderText("Ширина")
         self.barre_width_input.setText("100")
-        self.barre_height_input = QLineEdit();
-        self.barre_height_input.setPlaceholderText("Высота");
+        self.barre_height_input = QLineEdit()
+        self.barre_height_input.setPlaceholderText("Высота")
         self.barre_height_input.setText("20")
-        self.barre_radius_input = QLineEdit();
-        self.barre_radius_input.setPlaceholderText("Закругление");
+        self.barre_radius_input = QLineEdit()
+        self.barre_radius_input.setPlaceholderText("Закругление")
         self.barre_radius_input.setText("10")
-        self.barre_color_input = QLineEdit();
-        self.barre_color_input.setPlaceholderText("Цвет R,G,B");
+        self.barre_color_input = QLineEdit()
+        self.barre_color_input.setPlaceholderText("Цвет R,G,B")
         self.barre_color_input.setText("189,183,107")
 
         # Кнопки
@@ -464,12 +496,13 @@ class ProfessionalDrawingTab(QMainWindow):
             x = int(self.note_x_input.text())
             y = int(self.note_y_input.text())
             radius = int(self.note_radius_input.text())
-            color = tuple(map(int, self.note_color_input.text().split(',')))
+            style = self.note_style_combo.currentText()
+            decoration = self.note_decoration_combo.currentText()
             finger = self.note_finger_combo.currentText()
             note_name = self.note_name_combo.currentText()
 
             self.elements['notes'].append({
-                'x': x, 'y': y, 'radius': radius, 'color': color,
+                'x': x, 'y': y, 'radius': radius, 'style': style, 'decoration': decoration,
                 'finger': finger, 'note_name': note_name
             })
             self.repaint()
@@ -482,12 +515,13 @@ class ProfessionalDrawingTab(QMainWindow):
             x = int(self.open_note_x_input.text())
             y = int(self.open_note_y_input.text())
             radius = int(self.open_note_radius_input.text())
-            color = tuple(map(int, self.open_note_color_input.text().split(',')))
+            style = self.open_note_style_combo.currentText()
+            decoration = self.open_note_decoration_combo.currentText()
             symbol = self.open_note_symbol_combo.currentText()
             note_name = self.open_note_name_combo.currentText()
 
             self.elements['open_notes'].append({
-                'x': x, 'y': y, 'radius': radius, 'color': color,
+                'x': x, 'y': y, 'radius': radius, 'style': style, 'decoration': decoration,
                 'symbol': symbol, 'note_name': note_name
             })
             self.repaint()
@@ -555,7 +589,8 @@ class ProfessionalDrawingTab(QMainWindow):
             'x': int(self.note_x_input.text()),
             'y': int(self.note_y_input.text()),
             'radius': int(self.note_radius_input.text()),
-            'color': tuple(map(int, self.note_color_input.text().split(','))),
+            'style': self.note_style_combo.currentText(),
+            'decoration': self.note_decoration_combo.currentText(),
             'finger': self.note_finger_combo.currentText(),
             'note_name': self.note_name_combo.currentText()
         })
@@ -566,7 +601,8 @@ class ProfessionalDrawingTab(QMainWindow):
             'x': int(self.open_note_x_input.text()),
             'y': int(self.open_note_y_input.text()),
             'radius': int(self.open_note_radius_input.text()),
-            'color': tuple(map(int, self.open_note_color_input.text().split(','))),
+            'style': self.open_note_style_combo.currentText(),
+            'decoration': self.open_note_decoration_combo.currentText(),
             'symbol': self.open_note_symbol_combo.currentText(),
             'note_name': self.open_note_name_combo.currentText()
         })
@@ -618,8 +654,9 @@ class ProfessionalDrawingTab(QMainWindow):
             'note_x_input': 'x',
             'note_y_input': 'y',
             'note_radius_input': 'radius',
-            'note_color_input': lambda x: ','.join(map(str, x))
         }, additional_setters={
+            'note_style_combo': 'style',
+            'note_decoration_combo': 'decoration',
             'note_finger_combo': 'finger',
             'note_name_combo': 'note_name'
         })
@@ -630,8 +667,9 @@ class ProfessionalDrawingTab(QMainWindow):
             'open_note_x_input': 'x',
             'open_note_y_input': 'y',
             'open_note_radius_input': 'radius',
-            'open_note_color_input': lambda x: ','.join(map(str, x))
         }, additional_setters={
+            'open_note_style_combo': 'style',
+            'open_note_decoration_combo': 'decoration',
             'open_note_symbol_combo': 'symbol',
             'open_note_name_combo': 'note_name'
         })
