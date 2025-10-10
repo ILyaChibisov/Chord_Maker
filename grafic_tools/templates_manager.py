@@ -4,7 +4,6 @@ import os
 
 class TemplatesManager:
     def __init__(self, config_path=None):
-        # Используем папку templates2 по умолчанию
         if config_path is None:
             config_path = os.path.join("templates2", "template.json")
 
@@ -13,10 +12,10 @@ class TemplatesManager:
             'frets': {},
             'notes': {},
             'open_notes': {},
-            'barres': {}
+            'barres': {},
+            'crop_rects': {}  # Добавляем раздел для рамок обрезки
         }
 
-        # Создаем папку и файл если не существуют
         self._ensure_config_exists()
 
         if os.path.exists(config_path):
@@ -24,19 +23,18 @@ class TemplatesManager:
 
     def _ensure_config_exists(self):
         """Создает папку и конфиг если они не существуют"""
-        # Создаем папку templates2 если её нет
         templates_dir = os.path.dirname(self.config_path) if os.path.dirname(self.config_path) else "templates2"
         if not os.path.exists(templates_dir):
             os.makedirs(templates_dir)
             print(f"Создана папка: {templates_dir}")
 
-        # Создаем базовый конфиг если его нет
         if not os.path.exists(self.config_path):
             default_config = {
                 'frets': {},
                 'notes': {},
                 'open_notes': {},
-                'barres': {}
+                'barres': {},
+                'crop_rects': {}
             }
             with open(self.config_path, 'w', encoding='utf-8') as f:
                 json.dump(default_config, f, indent=2, ensure_ascii=False)
@@ -49,7 +47,6 @@ class TemplatesManager:
             with open(file_path, 'r', encoding='utf-8') as f:
                 loaded_templates = json.load(f)
 
-                # Обновляем только существующие ключи
                 for key in self.templates:
                     if key in loaded_templates:
                         self.templates[key] = loaded_templates[key]
@@ -67,7 +64,6 @@ class TemplatesManager:
 
         if self.config_path:
             try:
-                # Создаем директорию если не существует
                 os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
 
                 with open(self.config_path, 'w', encoding='utf-8') as f:
