@@ -2,7 +2,7 @@
   "frets": {},
   "notes": {},
   "open_notes": {
-    "1FO": {
+    "1FO1": {
       "x": 298,
       "y": 482,
       "radius": 55,
@@ -18,9 +18,25 @@
       "symbol": "",
       "note_name": ""
     },
-    "2FO": {
+    "1FO2": {
       "x": 298,
       "y": 598,
+      "radius": 55,
+      "style": "green_3d",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "1FO3": {
+      "x": 298,
+      "y": 714,
       "radius": 55,
       "style": "green_3d",
       "decoration": "none",

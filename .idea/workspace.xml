@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="настроил разделитель аккордов">
-      <change afterPath="$PROJECT_DIR$/caption.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/grafic_tools/chord_elements_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/grafic_tools/chord_save_dialog.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/grafic_tools/controls_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/grafic_tools/image_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caption" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/grafic_tools/professional_drawing.py" beforeDir="false" afterPath="$PROJECT_DIR$/grafic_tools/professional_drawing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grafic_tools/templates_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/grafic_tools/templates_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="разбил на модули настроил сохранение шаблонов">
       <change beforePath="$PROJECT_DIR$/templates2/template.json" beforeDir="false" afterPath="$PROJECT_DIR$/templates2/template.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -114,11 +104,20 @@
       <option name="project" value="LOCAL" />
       <updated>1759600679742</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="разбил на модули настроил сохранение шаблонов">
+      <option name="closed" value="true" />
+      <created>1760198920969</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1760198920969</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="настроил разделитель аккордов" />
-    <option name="LAST_COMMIT_MESSAGE" value="настроил разделитель аккордов" />
+    <MESSAGE value="разбил на модули настроил сохранение шаблонов" />
+    <option name="LAST_COMMIT_MESSAGE" value="разбил на модули настроил сохранение шаблонов" />
   </component>
 </project>
