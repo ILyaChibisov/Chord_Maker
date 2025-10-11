@@ -7,8 +7,11 @@ from pydub.silence import split_on_silence
 import tempfile
 import subprocess
 import warnings
+
+# Добавляем путь к grafic_tools
 sys.path.append(os.path.join(os.path.dirname(__file__), 'grafic_tools'))
 
+# Импорты из нашего пакета
 from grafic_tools.professional_drawing import ProfessionalDrawingTab
 
 from scipy import signal
@@ -83,9 +86,9 @@ class MainApp(QWidget):
         self.layout.addWidget(self.tabs)
 
         # Создаём вкладки
-        self.chord_redactor = ImageEditor()
-        self.chord_recorder = ChordRecorderTab()  # Новая вкладка для записи аккордов
-        self.pro_drawing = ProfessionalDrawingTab()  # Новая вкладка профессионального рисования
+        self.chord_redactor = ImageEditor()  # Закомментировано, если нет этого класса
+        self.chord_recorder = ChordRecorderTab()  # Закомментировано, если нет этого класса
+        self.pro_drawing = ProfessionalDrawingTab()  # Основная вкладка профессионального рисования
 
         self.tabs.addTab(self.chord_redactor, "Базовое рисование")
         self.tabs.addTab(self.chord_recorder, "Запись аккордов")
@@ -303,6 +306,20 @@ class ImageEditor(QMainWindow):
         self.roman_numeral_combo = QComboBox(self)
         self.roman_numeral_combo.addItems(
             ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', '1'])
+
+        # Новые элементы для стилизации символов
+        self.symbol_color_combo = QComboBox(self)
+        self.symbol_color_combo.addItems(['Белый', 'Черный', 'Красный', 'Золотой'])
+        self.symbol_color_combo.setCurrentText('Белый')
+
+        self.symbol_bg_combo = QComboBox(self)
+        self.symbol_bg_combo.addItems(['Без фона', 'Темный', 'Светлый', 'Полупрозрачный'])
+        self.symbol_bg_combo.setCurrentText('Темный')
+
+        self.symbol_style_combo = QComboBox(self)
+        self.symbol_style_combo.addItems(['Обычный', 'С обводкой', 'Жирный'])
+        self.symbol_style_combo.setCurrentText('С обводкой')
+
         self.symbol_x_input = QLineEdit(self)
         self.symbol_x_input.setPlaceholderText("X")
         self.symbol_y_input = QLineEdit(self)
@@ -331,6 +348,12 @@ class ImageEditor(QMainWindow):
         symbol_input_layout.addWidget(self.symbol_y_input)
         symbol_input_layout.addWidget(self.symbol_size_input)
         symbol_input_layout.addWidget(self.roman_numeral_combo)
+        symbol_input_layout.addWidget(QLabel("Цвет:"))
+        symbol_input_layout.addWidget(self.symbol_color_combo)
+        symbol_input_layout.addWidget(QLabel("Фон:"))
+        symbol_input_layout.addWidget(self.symbol_bg_combo)
+        symbol_input_layout.addWidget(QLabel("Стиль:"))
+        symbol_input_layout.addWidget(self.symbol_style_combo)
         symbol_input_layout.addWidget(self.add_symbol_button)
         symbol_input_layout.addWidget(self.remove_symbol_button)
         symbol_input_layout.addWidget(self.save_symbol_template_button)
@@ -523,19 +546,6 @@ class ImageEditor(QMainWindow):
         # self.toolbar.addWidget(self.ellipse_bt)
         self.toolbar.addWidget(self.ellipse_bt_del)
 
-        # self.add_spacer()
-
-        # self.symbol_template_combo.setFixedSize(60, 24)
-        # self.toolbar.addWidget(self.symbol_template_combo)
-        # self.toolbar.addWidget(self.symbol_bt)
-        # self.toolbar.addWidget(self.symbol_bt_del)
-        # self.toolbar.addWidget(self.img_label)
-        # self.toolbar.addWidget(self.img_combo_box)
-        # self.toolbar.addWidget(self.json_label)
-        # self.toolbar.addWidget(self.json_combo_box)
-        # self.toolbar.addWidget(self.combo_box_json_img)
-        # self.toolbar.addWidget(self.clear_bt)
-
     ########################################################################################################################
 
     def add_spacer(self):
@@ -652,23 +662,63 @@ class ImageEditor(QMainWindow):
                     ellipse['radius']  # Радиус закругления углов
                 )
 
+            # Улучшенная отрисовка символов с обводкой и фоном
             for symbol in self.symbols:
                 x = symbol['x']
                 y = symbol['y']
                 size = symbol['size']
                 text = symbol['symbol']
 
-                font = QFont("Arial", size, QFont.Bold)
+                # Получаем дополнительные параметры (с значениями по умолчанию)
+                color = symbol.get('color', (255, 255, 255))
+                outline_color = symbol.get('outline_color', (0, 0, 0))
+                outline_width = symbol.get('outline_width', 1)
+                font_family = symbol.get('font_family', 'Arial')
+                bold = symbol.get('bold', True)
+                has_background = symbol.get('has_background', False)
+                background_color = symbol.get('background_color', (50, 50, 50, 180))
+                corner_radius = symbol.get('corner_radius', 5)
+
+                # Настраиваем шрифт
+                font = QFont(font_family, size, QFont.Bold if bold else QFont.Normal)
                 painter.setFont(font)
 
+                # Получаем размеры текста
                 font_metrics = QFontMetrics(painter.font())
                 text_width = font_metrics.width(text)
                 text_height = font_metrics.height()
 
+                # Отступы вокруг текста
+                padding = size // 3
+                rect_width = text_width + padding * 2
+                rect_height = text_height + padding * 2
+
+                # Координаты для фона
+                bg_x = x - rect_width // 2
+                bg_y = y - rect_height // 2
+
+                # Рисуем фон если нужно
+                if has_background:
+                    painter.setBrush(QColor(*background_color))
+                    painter.setPen(Qt.NoPen)
+                    painter.drawRoundedRect(bg_x, bg_y, rect_width, rect_height, corner_radius, corner_radius)
+
+                # Координаты для текста (центрирование)
                 text_x = x - text_width // 2
                 text_y = y + text_height // 3
 
-                painter.drawText(text_x, text_y, text)  # Рисуем символ
+                # Рисуем обводку текста
+                if outline_width > 0:
+                    painter.setPen(QPen(QColor(*outline_color), outline_width))
+                    # Рисуем текст со смещениями для обводки
+                    for dx in [-outline_width, 0, outline_width]:
+                        for dy in [-outline_width, 0, outline_width]:
+                            if dx != 0 or dy != 0:
+                                painter.drawText(text_x + dx, text_y + dy, text)
+
+                # Рисуем основной текст
+                painter.setPen(QColor(*color))
+                painter.drawText(text_x, text_y, text)
 
             self.image_label.update()
 
@@ -785,7 +835,7 @@ class ImageEditor(QMainWindow):
             QMessageBox.critical(self, "Ошибка", "Произошла ошибка: " + str(e))
             print(e)
 
-    # добавление символа (номер лада римская цифра)
+    # улучшенное добавление символа (номер лада римская цифра)
     def add_symbol(self):
         try:
             x = int(self.symbol_x_input.text())
@@ -796,13 +846,47 @@ class ImageEditor(QMainWindow):
             if not (x and y and size and symbol):
                 raise ValueError("Все поля должны быть заполнены.")
 
-            # Добавляем символ в список символов
-            self.symbols.append({
+            # Определяем цвет текста
+            color_map = {
+                'Белый': (255, 255, 255),
+                'Черный': (0, 0, 0),
+                'Красный': (255, 0, 0),
+                'Золотой': (255, 215, 0)
+            }
+
+            # Определяем настройки фона
+            bg_map = {
+                'Без фона': {'has_background': False},
+                'Темный': {'has_background': True, 'background_color': (50, 50, 50, 220)},
+                'Светлый': {'has_background': True, 'background_color': (240, 240, 240, 220)},
+                'Полупрозрачный': {'has_background': True, 'background_color': (0, 0, 0, 128)}
+            }
+
+            # Определяем стиль
+            style_map = {
+                'Обычный': {'outline_width': 0, 'bold': False},
+                'С обводкой': {'outline_width': 2, 'bold': True},
+                'Жирный': {'outline_width': 0, 'bold': True}
+            }
+
+            # Базовые настройки
+            symbol_config = {
                 'x': x,
                 'y': y,
                 'size': size,
-                'symbol': symbol
-            })
+                'symbol': symbol,
+                'color': color_map[self.symbol_color_combo.currentText()],
+                'outline_color': (0, 0, 0),
+                'font_family': 'Arial',
+                'corner_radius': 5
+            }
+
+            # Добавляем настройки фона и стиля
+            symbol_config.update(bg_map[self.symbol_bg_combo.currentText()])
+            symbol_config.update(style_map[self.symbol_style_combo.currentText()])
+
+            # Добавляем символ в список символов
+            self.symbols.append(symbol_config)
 
             # Обновляем изображение
             self.repaint()
@@ -1046,7 +1130,7 @@ class ImageEditor(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "Ошибка", "Произошла ошибка: " + str(e))
 
-    # сохраняем символ
+    # улучшенное сохранение символа
     def save_symbol_template(self):
         try:
             x = int(self.symbol_x_input.text())
@@ -1057,13 +1141,21 @@ class ImageEditor(QMainWindow):
             if not (x and y and size and symbol):
                 raise ValueError("Все поля должны быть заполнены.")
 
+            # Сохраняем все параметры стиля
             template_name, ok = QInputDialog.getText(self, "Сохранить шаблон символа", "Введите название шаблона:")
             if ok and template_name:
                 template = {
                     'x': x,
                     'y': y,
                     'size': size,
-                    'symbol': symbol
+                    'symbol': symbol,
+                    'color': (255, 255, 255),  # или из комбобоксов
+                    'outline_width': 2,
+                    'has_background': True,
+                    'background_color': (50, 50, 50, 180),
+                    'bold': True,
+                    'font_family': 'Arial',
+                    'corner_radius': 5
                 }
                 self.templates['symbols'][template_name] = template
                 if self.config_file_path:
@@ -1190,23 +1282,53 @@ class ImageEditor(QMainWindow):
                 painter.drawLine(x - size, y - size, x + size, y + size)  # Первая диагональ
                 painter.drawLine(x + size, y - size, x - size, y + size)  # Вторая диагональ
 
+            # Улучшенная отрисовка символов при сохранении
             for symbol in self.symbols:
                 x = symbol['x']
                 y = symbol['y']
                 size = symbol['size']
                 text = symbol['symbol']
 
-                font = QFont("Arial", size, QFont.Bold)
+                color = symbol.get('color', (255, 255, 255))
+                outline_color = symbol.get('outline_color', (0, 0, 0))
+                outline_width = symbol.get('outline_width', 1)
+                font_family = symbol.get('font_family', 'Arial')
+                bold = symbol.get('bold', True)
+                has_background = symbol.get('has_background', False)
+                background_color = symbol.get('background_color', (50, 50, 50, 180))
+                corner_radius = symbol.get('corner_radius', 5)
+
+                font = QFont(font_family, size, QFont.Bold if bold else QFont.Normal)
                 painter.setFont(font)
 
                 font_metrics = QFontMetrics(painter.font())
                 text_width = font_metrics.width(text)
                 text_height = font_metrics.height()
 
+                padding = size // 3
+                rect_width = text_width + padding * 2
+                rect_height = text_height + padding * 2
+
+                bg_x = x - rect_width // 2
+                bg_y = y - rect_height // 2
+
+                if has_background:
+                    painter.setBrush(QColor(*background_color))
+                    painter.setPen(Qt.NoPen)
+                    painter.drawRoundedRect(bg_x, bg_y, rect_width, rect_height, corner_radius, corner_radius)
+
                 text_x = x - text_width // 2
                 text_y = y + text_height // 3
 
-                painter.drawText(text_x, text_y, text)  # Рисуем символ
+                if outline_width > 0:
+                    painter.setPen(QPen(QColor(*outline_color), outline_width))
+                    for dx in [-outline_width, 0, outline_width]:
+                        for dy in [-outline_width, 0, outline_width]:
+                            if dx != 0 or dy != 0:
+                                painter.drawText(text_x + dx, text_y + dy, text)
+
+                painter.setPen(QColor(*color))
+                painter.drawText(text_x, text_y, text)
 
             painter.end()  # Завершаем рисование
 
@@ -1307,6 +1429,9 @@ class ImageEditor(QMainWindow):
         self.symbol_y_input.show()
         self.symbol_size_input.show()
         self.roman_numeral_combo.show()
+        self.symbol_color_combo.show()
+        self.symbol_bg_combo.show()
+        self.symbol_style_combo.show()
         self.add_symbol_button.show()
         self.remove_symbol_button.show()
         self.save_symbol_template_button.show()
@@ -1345,13 +1470,13 @@ class ImageEditor(QMainWindow):
         self.symbol_y_input.hide()
         self.symbol_size_input.hide()
         self.roman_numeral_combo.hide()
+        self.symbol_color_combo.hide()
+        self.symbol_bg_combo.hide()
+        self.symbol_style_combo.hide()
         self.add_symbol_button.hide()
         self.remove_symbol_button.hide()
         self.save_symbol_template_button.hide()
         self.symbol_template_combo.hide()
-
-
-
 
 class ChordRecorderTab(QWidget):
     def __init__(self):

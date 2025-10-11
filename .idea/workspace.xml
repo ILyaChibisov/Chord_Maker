@@ -4,37 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/GuitarChord_maker.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_10.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_11.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_12.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_3.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_4.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_5.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_6.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_7.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_8.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_9.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/template_9.png" afterDir="false" />
+    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="настроил разделитель аккордов">
+      <change afterPath="$PROJECT_DIR$/caption.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grafic_tools/chord_elements_manager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grafic_tools/chord_save_dialog.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grafic_tools/controls_manager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grafic_tools/image_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caption" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/grafic_tools/professional_drawing.py" beforeDir="false" afterPath="$PROJECT_DIR$/grafic_tools/professional_drawing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grafic_tools/templates_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/grafic_tools/templates_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates2/template.json" beforeDir="false" afterPath="$PROJECT_DIR$/templates2/template.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,24 +32,36 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ILyaChibisov&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ILyaChibisov/Chord_Maker.git&quot;,
+    &quot;accountId&quot;: &quot;ac150063-0b91-4e49-9ccf-b6b8ba78ca36&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="33bHhdm13QETxSxJPe2MnGFiXbE" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GuitarChord_maker" />
@@ -113,6 +106,19 @@
       <option name="presentableId" value="Default" />
       <updated>1759578971540</updated>
     </task>
+    <task id="LOCAL-00001" summary="настроил разделитель аккордов">
+      <option name="closed" value="true" />
+      <created>1759600679742</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1759600679742</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="настроил разделитель аккордов" />
+    <option name="LAST_COMMIT_MESSAGE" value="настроил разделитель аккордов" />
   </component>
 </project>

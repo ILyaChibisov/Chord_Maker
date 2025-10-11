@@ -1,0 +1,28 @@
+├── main.py
+├── grafic_tools/
+│   ├── __init__.py
+│   ├── professional_drawing.py
+│   ├── templates_manager.py
+│   ├── drawing_elements.py
+│   ├── chord_save_dialog.py
+│   ├── chord_elements_manager.py
+│   ├── controls_manager.py
+│   └── image_manager.py
+└── templates2/
+    ├── template.json
+    └── аккорды/
+        ├── A/
+        │   ├── вариант_1/
+        │   │   ├── A_вариант_1_N.json
+        │   │   └── A_вариант_1_F.json
+        │   └── вариант_2/
+        │       ├── A_вариант_2_N.json
+        │       └── A_вариант_2_F.json
+        ├── C/
+        │   └── вариант_1/
+        │       ├── C_вариант_1_N.json
+        │       └── C_вариант_1_F.json
+        └── Dm/
+            └── вариант_1/
+                ├── Dm_вариант_1_N.json
+                └── Dm_вариант_1_F.json

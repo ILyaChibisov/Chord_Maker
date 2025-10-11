@@ -1,6 +1,40 @@
 {
   "frets": {},
   "notes": {},
-  "open_notes": {},
-  "barres": {}
+  "open_notes": {
+    "1FO": {
+      "x": 298,
+      "y": 482,
+      "radius": 55,
+      "style": "green_3d",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "2FO": {
+      "x": 298,
+      "y": 598,
+      "radius": 55,
+      "style": "green_3d",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    }
+  },
+  "barres": {},
+  "crop_rects": {}
 }

@@ -13,7 +13,7 @@ class TemplatesManager:
             'notes': {},
             'open_notes': {},
             'barres': {},
-            'crop_rects': {}  # Добавляем раздел для рамок обрезки
+            'crop_rects': {}
         }
 
         self._ensure_config_exists()

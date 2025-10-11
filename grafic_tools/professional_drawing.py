@@ -1,67 +1,21 @@
 import os
 import json
 from PyQt5.QtWidgets import (
-    QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel,
-    QLineEdit, QPushButton, QComboBox, QFrame, QFileDialog,
-    QMessageBox, QInputDialog, QAction, QToolBar, QMenu, QCheckBox,
-    QDialog, QFormLayout, QSpinBox, QTextEdit
+    QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QLineEdit,
+    QPushButton, QComboBox, QFrame, QFileDialog, QMessageBox, QInputDialog,
+    QAction, QToolBar, QMenu, QCheckBox, QDialog, QFormLayout, QSpinBox,
+    QTextEdit
 )
-from PyQt5.QtGui import QPixmap, QPainter, QFont
-from PyQt5.QtCore import Qt, QRect
+from PyQt5.QtGui import QPixmap, QPainter
+from PyQt5.QtCore import Qt
 
-# Импорты из нашего пакета
+# Импорты из наших модулей
 from .templates_manager import TemplatesManager
 from .drawing_elements import DrawingElements
-
-
-class ChordSaveDialog(QDialog):
-    """Диалог сохранения конфигурации аккорда"""
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle("Сохранить аккорд")
-        self.setGeometry(200, 200, 400, 300)
-        self.setup_ui()
-
-    def setup_ui(self):
-        layout = QFormLayout(self)
-
-        # Поле для имени аккорда
-        self.chord_name_input = QLineEdit()
-        self.chord_name_input.setPlaceholderText("Например: A, C, Dm, G7")
-        layout.addRow("Имя аккорда:", self.chord_name_input)
-
-        # Спинбокс для варианта аккорда
-        self.chord_variant_spin = QSpinBox()
-        self.chord_variant_spin.setRange(1, 100)
-        self.chord_variant_spin.setValue(1)
-        layout.addRow("Вариант аккорда:", self.chord_variant_spin)
-
-        # Поле для описания
-        self.chord_description_input = QTextEdit()
-        self.chord_description_input.setMaximumHeight(80)
-        self.chord_description_input.setPlaceholderText("Описание аккорда...")
-        layout.addRow("Описание:", self.chord_description_input)
-
-        # Кнопки
-        button_layout = QHBoxLayout()
-        self.save_button = QPushButton("Сохранить")
-        self.save_button.clicked.connect(self.accept)
-        self.cancel_button = QPushButton("Отмена")
-        self.cancel_button.clicked.connect(self.reject)
-
-        button_layout.addWidget(self.save_button)
-        button_layout.addWidget(self.cancel_button)
-
-        layout.addRow(button_layout)
-
-    def get_chord_data(self):
-        """Возвращает данные аккорда"""
-        return {
-            'name': self.chord_name_input.text().strip(),
-            'variant': self.chord_variant_spin.value(),
-            'description': self.chord_description_input.toPlainText().strip()
-        }
+from .chord_save_dialog import ChordSaveDialog
+from .chord_elements_manager import ChordElementsManager
+from .controls_manager import ControlsManager
+from .image_manager import ImageManager
 
 
 class ProfessionalDrawingTab(QMainWindow):
@@ -70,25 +24,16 @@ class ProfessionalDrawingTab(QMainWindow):
         self.setWindowTitle("Профессиональное рисование аккордов")
         self.setGeometry(100, 100, 1000, 700)
 
-        # Инициализация менеджера шаблонов с путем к templates2
+        # Инициализация менеджеров
         default_config_path = os.path.join("templates2", "template.json")
         self.templates_manager = TemplatesManager(default_config_path)
+        self.elements_manager = ChordElementsManager()
+        self.image_manager = ImageManager(self)
+        self.controls_manager = ControlsManager(self)
 
-        # Хранилище элементов
-        self.elements = {
-            'frets': [],
-            'notes': [],
-            'open_notes': [],
-            'barres': [],
-            'crop_rect': None
-        }
-
-        self.image = None
-        self.current_image_path = None
-        self.show_crop_rect = True  # По умолчанию показываем рамку
+        self.show_crop_rect = True
 
         self.initUI()
-        # Автоматически загружаем шаблоны при старте
         self.update_template_comboboxes()
 
     def initUI(self):
@@ -107,7 +52,7 @@ class ProfessionalDrawingTab(QMainWindow):
         file_menu = menubar.addMenu('Файл')
 
         load_image_action = QAction('Загрузить изображение', self)
-        load_image_action.triggered.connect(self.load_image)
+        load_image_action.triggered.connect(self.image_manager.load_image)
         file_menu.addAction(load_image_action)
 
         save_image_action = QAction('Сохранить изображение', self)
@@ -648,65 +593,52 @@ class ProfessionalDrawingTab(QMainWindow):
     # Методы работы с аккордами
     def save_chord_config(self):
         """Сохранение конфигурации аккорда"""
-        if not self.image:
+        if not self.image_manager.image:
             QMessageBox.warning(self, "Ошибка", "Нет изображения для сохранения аккорда")
             return
 
         dialog = ChordSaveDialog(self)
         if dialog.exec_() == QDialog.Accepted:
             chord_data = dialog.get_chord_data()
+            file_suffix = dialog.get_file_suffix()
 
             if not chord_data['name']:
                 QMessageBox.warning(self, "Ошибка", "Введите имя аккорда")
                 return
 
+            # Подготавливаем элементы для сохранения
+            elements_to_save = self.elements_manager.prepare_elements_for_saving(chord_data['display_type'])
+
             # Создаем структуру папок
-            chords_dir = "шаблоны аккордов"
-            chord_name_dir = os.path.join(chords_dir, chord_data['name'])
-            chord_variant_dir = os.path.join(chord_name_dir, str(chord_data['variant']))
+            chord_name = chord_data['name']
+            variant = chord_data['variant']
 
-            # Создаем директории если не существуют
-            os.makedirs(chord_variant_dir, exist_ok=True)
+            chord_dir = os.path.join("templates2", "аккорды", chord_name, f"вариант_{variant}")
+            os.makedirs(chord_dir, exist_ok=True)
 
-            # Имя файла конфигурации
-            config_filename = f"{chord_data['name']}_{chord_data['variant']}.json"
-            config_path = os.path.join(chord_variant_dir, config_filename)
-
-            # Собираем данные для сохранения
-            chord_config = {
-                'chord_info': {
-                    'name': chord_data['name'],
-                    'variant': chord_data['variant'],
-                    'description': chord_data['description'],
-                    'timestamp': os.path.getctime(config_path) if os.path.exists(config_path) else None
-                },
-                'image_info': {
-                    'path': self.current_image_path,
-                    'width': self.image.width(),
-                    'height': self.image.height()
-                },
-                'elements': self.elements.copy(),  # Сохраняем все элементы отрисовки
-                'crop_rect': self.elements['crop_rect'],
-                'display_settings': {
-                    'show_crop_rect': self.show_crop_rect
-                }
+            # Сохраняем конфигурацию
+            config_data = {
+                'chord_name': chord_name,
+                'variant': variant,
+                'display_type': chord_data['display_type'],
+                'description': chord_data['description'],
+                'elements': elements_to_save
             }
 
-            # Сохраняем конфигурацию в JSON
+            file_name = f"{chord_name}_вариант_{variant}_{file_suffix}.json"
+            file_path = os.path.join(chord_dir, file_name)
+
             try:
-                with open(config_path, 'w', encoding='utf-8') as f:
-                    json.dump(chord_config, f, indent=2, ensure_ascii=False)
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    json.dump(config_data, f, indent=2, ensure_ascii=False)
 
-                QMessageBox.information(self, "Успех",
-                                        f"Аккорд '{chord_data['name']}' (вариант {chord_data['variant']}) сохранен!\n"
-                                        f"Путь: {config_path}")
-
+                QMessageBox.information(self, "Успех", f"Аккорд сохранен в:\n{file_path}")
             except Exception as e:
-                QMessageBox.critical(self, "Ошибка", f"Не удалось сохранить аккорд: {str(e)}")
+                QMessageBox.warning(self, "Ошибка", f"Не удалось сохранить аккорд: {str(e)}")
 
     def load_chord_config(self):
         """Загрузка конфигурации аккорда"""
-        chords_dir = "шаблоны аккордов"
+        chords_dir = os.path.join("templates2", "аккорды")
         if not os.path.exists(chords_dir):
             QMessageBox.information(self, "Информация", "Папка с аккордами не найдена")
             return
@@ -748,35 +680,21 @@ class ProfessionalDrawingTab(QMainWindow):
                     chord_config = json.load(f)
 
                 # Загружаем информацию об аккорде
-                chord_info = chord_config.get('chord_info', {})
+                chord_info = chord_config
                 QMessageBox.information(self, "Информация об аккорде",
-                                        f"Аккорд: {chord_info.get('name', 'Неизвестно')}\n"
+                                        f"Аккорд: {chord_info.get('chord_name', 'Неизвестно')}\n"
                                         f"Вариант: {chord_info.get('variant', 'Неизвестно')}\n"
+                                        f"Тип: {chord_info.get('display_type', 'Неизвестно')}\n"
                                         f"Описание: {chord_info.get('description', 'Нет описания')}")
 
-                # Загружаем изображение если путь указан
-                image_info = chord_config.get('image_info', {})
-                image_path = image_info.get('path')
-
-                if image_path and os.path.exists(image_path):
-                    self.display_image(image_path)
-                else:
-                    QMessageBox.warning(self, "Внимание",
-                                        "Исходное изображение не найдено. Загрузите изображение вручную.")
-
                 # Загружаем элементы отрисовки
-                self.elements = chord_config.get('elements', {
+                self.elements_manager.elements = chord_config.get('elements', {
                     'frets': [], 'notes': [], 'open_notes': [], 'barres': [], 'crop_rect': None
                 })
 
-                # Загружаем настройки отображения
-                display_settings = chord_config.get('display_settings', {})
-                self.show_crop_rect = display_settings.get('show_crop_rect', True)
-                self.show_crop_checkbox.setChecked(self.show_crop_rect)
-
                 # Обновляем поля ввода для рамки если есть
-                if self.elements['crop_rect']:
-                    crop = self.elements['crop_rect']
+                if self.elements_manager.elements['crop_rect']:
+                    crop = self.elements_manager.elements['crop_rect']
                     self.crop_x_input.setText(str(crop.get('x', 50)))
                     self.crop_y_input.setText(str(crop.get('y', 50)))
                     self.crop_width_input.setText(str(crop.get('width', 400)))
@@ -789,69 +707,17 @@ class ProfessionalDrawingTab(QMainWindow):
                 QMessageBox.critical(self, "Ошибка", f"Не удалось загрузить аккорд: {str(e)}")
 
     # Методы работы с изображениями
-    def load_image(self):
-        """Загрузка изображения"""
-        file_name, _ = QFileDialog.getOpenFileName(
-            self,
-            "Открыть изображение грифа",
-            "",
-            "Images (*.png *.jpg *.jpeg *.bmp)"
-        )
-        if file_name:
-            self.display_image(file_name)
-
-    def display_image(self, file_path):
-        """Отображение изображения"""
-        self.current_image_path = file_path
-        self.image = QPixmap(file_path)
-
-        if not self.image.isNull():
-            # Масштабируем изображение под размер label
-            scaled_pixmap = self.image.scaled(
-                self.image_label.width(),
-                self.image_label.height(),
-                Qt.KeepAspectRatio,
-                Qt.SmoothTransformation
-            )
-            self.image_label.setPixmap(scaled_pixmap)
-        else:
-            QMessageBox.warning(self, "Ошибка", "Не удалось загрузить изображение")
-
     def save_image(self):
         """Сохранение изображения с нарисованными элементами"""
-        if not self.image:
-            QMessageBox.warning(self, "Ошибка", "Нет изображения для сохранения")
-            return
-
-        file_name, _ = QFileDialog.getSaveFileName(
-            self,
-            "Сохранить изображение",
-            "chord_diagram.png",
-            "Images (*.png *.jpg *.jpeg *.bmp)"
-        )
-
-        if file_name:
-            # Создаем копию изображения для рисования
-            result_image = QPixmap(self.image)
-            painter = QPainter(result_image)
-
-            # Рисуем все элементы
-            self.draw_all_elements(painter)
-            painter.end()
-
-            # Сохраняем
-            if result_image.save(file_name):
-                QMessageBox.information(self, "Успех", f"Изображение сохранено: {file_name}")
-            else:
-                QMessageBox.warning(self, "Ошибка", "Не удалось сохранить изображение")
+        self.image_manager.save_image(self.elements_manager.elements, self.draw_all_elements)
 
     def save_cropped_image(self):
         """Сохранение обрезанного изображения"""
-        if not self.image:
+        if not self.image_manager.image:
             QMessageBox.warning(self, "Ошибка", "Нет изображения для сохранения")
             return
 
-        if not self.elements['crop_rect']:
+        if not self.elements_manager.elements['crop_rect']:
             QMessageBox.warning(self, "Ошибка", "Не установлена рамка обрезки")
             return
 
@@ -864,7 +730,7 @@ class ProfessionalDrawingTab(QMainWindow):
 
         if file_name:
             # Создаем копию изображения
-            result_image = QPixmap(self.image)
+            result_image = QPixmap(self.image_manager.image)
             painter = QPainter(result_image)
 
             # Рисуем все элементы
@@ -872,7 +738,7 @@ class ProfessionalDrawingTab(QMainWindow):
             painter.end()
 
             # Обрезаем изображение
-            crop = self.elements['crop_rect']
+            crop = self.elements_manager.elements['crop_rect']
 
             # Проверяем, что область обрезки находится в пределах изображения
             img_width = result_image.width()
@@ -920,7 +786,7 @@ class ProfessionalDrawingTab(QMainWindow):
             }
             color = color_map.get(color_name, (0, 0, 0))
 
-            self.elements['frets'].append({
+            self.elements_manager.elements['frets'].append({
                 'x': x, 'y': y, 'size': size, 'symbol': symbol,
                 'font_family': font_family, 'style': style, 'color': color
             })
@@ -951,7 +817,7 @@ class ProfessionalDrawingTab(QMainWindow):
             }
             color = color_map.get(color_name, (189, 183, 107))
 
-            self.elements['barres'].append({
+            self.elements_manager.elements['barres'].append({
                 'x': x, 'y': y, 'width': width, 'height': height,
                 'radius': radius, 'style': style, 'decoration': decoration, 'color': color
             })
@@ -986,7 +852,7 @@ class ProfessionalDrawingTab(QMainWindow):
             finger = self.note_finger_combo.currentText()
             note_name = self.note_name_combo.currentText()
 
-            self.elements['notes'].append({
+            self.elements_manager.elements['notes'].append({
                 'x': x, 'y': y, 'radius': radius, 'style': style, 'decoration': decoration,
                 'text_color': text_color, 'font_style': font_style, 'display_text': display_text,
                 'finger': finger, 'note_name': note_name
@@ -1022,7 +888,7 @@ class ProfessionalDrawingTab(QMainWindow):
             symbol = self.open_note_symbol_combo.currentText()
             note_name = self.open_note_name_combo.currentText()
 
-            self.elements['open_notes'].append({
+            self.elements_manager.elements['open_notes'].append({
                 'x': x, 'y': y, 'radius': radius, 'style': style, 'decoration': decoration,
                 'text_color': text_color, 'font_style': font_style, 'display_text': display_text,
                 'symbol': symbol, 'note_name': note_name
@@ -1053,7 +919,7 @@ class ProfessionalDrawingTab(QMainWindow):
             }
             color = color_map.get(color_name, (255, 0, 0))
 
-            self.elements['crop_rect'] = {
+            self.elements_manager.elements['crop_rect'] = {
                 'x': x, 'y': y, 'width': width, 'height': height,
                 'style': style, 'color': color
             }
@@ -1064,37 +930,37 @@ class ProfessionalDrawingTab(QMainWindow):
 
     def clear_crop_rect(self):
         """Очистка рамки обрезки"""
-        self.elements['crop_rect'] = None
+        self.elements_manager.elements['crop_rect'] = None
         self.repaint()
 
     # Методы удаления элементов
     def remove_fret(self):
-        if self.elements['frets']:
-            self.elements['frets'].pop()
+        if self.elements_manager.elements['frets']:
+            self.elements_manager.elements['frets'].pop()
             self.repaint()
 
     def remove_note(self):
-        if self.elements['notes']:
-            self.elements['notes'].pop()
+        if self.elements_manager.elements['notes']:
+            self.elements_manager.elements['notes'].pop()
             self.repaint()
 
     def remove_open_note(self):
-        if self.elements['open_notes']:
-            self.elements['open_notes'].pop()
+        if self.elements_manager.elements['open_notes']:
+            self.elements_manager.elements['open_notes'].pop()
             self.repaint()
 
     def remove_barre(self):
-        if self.elements['barres']:
-            self.elements['barres'].pop()
+        if self.elements_manager.elements['barres']:
+            self.elements_manager.elements['barres'].pop()
             self.repaint()
 
     def clear_all_elements(self):
         """Очистка всех элементов"""
-        for key in self.elements:
+        for key in self.elements_manager.elements:
             if key == 'crop_rect':
-                self.elements[key] = None
+                self.elements_manager.elements[key] = None
             else:
-                self.elements[key] = []
+                self.elements_manager.elements[key] = []
         self.repaint()
 
     # Методы работы с шаблонами
@@ -1206,7 +1072,7 @@ class ProfessionalDrawingTab(QMainWindow):
 
     def save_crop_template(self):
         """Сохранение шаблона рамки обрезки"""
-        if not self.elements['crop_rect']:
+        if not self.elements_manager.elements['crop_rect']:
             QMessageBox.warning(self, "Ошибка", "Нет рамки для сохранения в шаблон")
             return
 
@@ -1218,7 +1084,7 @@ class ProfessionalDrawingTab(QMainWindow):
             )
 
             if ok and template_name:
-                crop_data = self.elements['crop_rect'].copy()
+                crop_data = self.elements_manager.elements['crop_rect'].copy()
                 if self.templates_manager.add_template('crop_rects', template_name, crop_data):
                     self.templates_manager.save_templates()
                     self.crop_template_combo.addItem(template_name)
@@ -1453,17 +1319,17 @@ class ProfessionalDrawingTab(QMainWindow):
     # Методы рисования
     def paintEvent(self, event):
         """Обработчик события перерисовки"""
-        if self.image and not self.image.isNull():
+        if self.image_manager.image and not self.image_manager.image.isNull():
             # Создаем временное изображение для рисования
-            temp_pixmap = QPixmap(self.image)
+            temp_pixmap = QPixmap(self.image_manager.image)
             painter = QPainter(temp_pixmap)
 
             # Рисуем все элементы
             self.draw_all_elements(painter)
 
             # Рисуем рамку обрезки если включена
-            if self.show_crop_rect and self.elements['crop_rect']:
-                DrawingElements.draw_crop_rect(painter, self.elements['crop_rect'])
+            if self.show_crop_rect and self.elements_manager.elements['crop_rect']:
+                DrawingElements.draw_crop_rect(painter, self.elements_manager.elements['crop_rect'])
 
             painter.end()
 
@@ -1479,14 +1345,18 @@ class ProfessionalDrawingTab(QMainWindow):
     def draw_all_elements(self, painter):
         """Рисование всех элементов на изображении"""
         # Рисуем элементы в определенном порядке
-        for barre in self.elements['barres']:
+        for barre in self.elements_manager.elements['barres']:
             DrawingElements.draw_barre(painter, barre)
 
-        for fret in self.elements['frets']:
+        for fret in self.elements_manager.elements['frets']:
             DrawingElements.draw_fret(painter, fret)
 
-        for note in self.elements['notes']:
+        for note in self.elements_manager.elements['notes']:
             DrawingElements.draw_note(painter, note)
 
-        for open_note in self.elements['open_notes']:
+        for open_note in self.elements_manager.elements['open_notes']:
             DrawingElements.draw_open_note(painter, open_note)
+
+    def repaint(self):
+        """Перерисовка изображения"""
+        self.update()
