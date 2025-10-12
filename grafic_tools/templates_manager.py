@@ -76,7 +76,7 @@ class TemplatesManager:
         return False
 
     def add_template(self, template_type, name, data):
-        """Добавление нового шаблона"""
+        """Добавление нового шаблона (перезаписывает существующий)"""
         if template_type in self.templates:
             self.templates[template_type][name] = data
             return True
@@ -89,3 +89,11 @@ class TemplatesManager:
     def get_all_templates(self, template_type):
         """Получение всех шаблонов определенного типа"""
         return self.templates.get(template_type, {})
+
+    def get_template_names(self, template_type):
+        """Получение списка имен шаблонов определенного типа"""
+        return list(self.templates.get(template_type, {}).keys())
+
+    def template_exists(self, template_type, name):
+        """Проверяет, существует ли шаблон с таким именем"""
+        return name in self.templates.get(template_type, {})

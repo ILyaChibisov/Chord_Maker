@@ -209,7 +209,7 @@ class ProfessionalDrawingTab(QMainWindow):
 
         # Выбор символа
         self.fret_symbol_combo = QComboBox()
-        self.fret_symbol_combo.addItems(['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'])
+        self.fret_symbol_combo.addItems(['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI'])
 
         # Выбор шрифта
         self.fret_font_combo = QComboBox()
@@ -966,6 +966,14 @@ class ProfessionalDrawingTab(QMainWindow):
     # Методы работы с шаблонами
     def save_fret_template(self):
         """Сохранение шаблона лада"""
+        try:
+            x = int(self.fret_x_input.text())
+            y = int(self.fret_y_input.text())
+            size = int(self.fret_size_input.text())
+        except ValueError:
+            QMessageBox.warning(self, "Ошибка", "Проверьте правильность координат и размера")
+            return
+
         color_name = self.fret_color_combo.currentText()
         color_map = {
             'Черный': (0, 0, 0),
@@ -982,18 +990,28 @@ class ProfessionalDrawingTab(QMainWindow):
         }
         color = color_map.get(color_name, (0, 0, 0))
 
-        self._save_template('frets', self.fret_template_combo, {
-            'x': int(self.fret_x_input.text()),
-            'y': int(self.fret_y_input.text()),
-            'size': int(self.fret_size_input.text()),
+        template_data = {
+            'x': x,
+            'y': y,
+            'size': size,
             'symbol': self.fret_symbol_combo.currentText(),
             'font_family': self.fret_font_combo.currentText(),
             'style': self.fret_style_combo.currentText(),
             'color': color
-        })
+        }
+
+        self._save_template('frets', self.fret_template_combo, template_data)
 
     def save_note_template(self):
         """Сохранение шаблона ноты"""
+        try:
+            x = int(self.note_x_input.text())
+            y = int(self.note_y_input.text())
+            radius = int(self.note_radius_input.text())
+        except ValueError:
+            QMessageBox.warning(self, "Ошибка", "Проверьте правильность координат и радиуса")
+            return
+
         color_name = self.note_text_color_combo.currentText()
         color_map = {
             'Белый': (255, 255, 255),
@@ -1006,10 +1024,10 @@ class ProfessionalDrawingTab(QMainWindow):
         }
         text_color = color_map.get(color_name, (255, 255, 255))
 
-        self._save_template('notes', self.note_template_combo, {
-            'x': int(self.note_x_input.text()),
-            'y': int(self.note_y_input.text()),
-            'radius': int(self.note_radius_input.text()),
+        template_data = {
+            'x': x,
+            'y': y,
+            'radius': radius,
             'style': self.note_style_combo.currentText(),
             'decoration': self.note_decoration_combo.currentText(),
             'text_color': text_color,
@@ -1017,10 +1035,20 @@ class ProfessionalDrawingTab(QMainWindow):
             'display_text': 'finger' if self.note_display_text_combo.currentText() == 'Палец' else 'note_name',
             'finger': self.note_finger_combo.currentText(),
             'note_name': self.note_name_combo.currentText()
-        })
+        }
+
+        self._save_template('notes', self.note_template_combo, template_data)
 
     def save_open_note_template(self):
         """Сохранение шаблона открытой ноты"""
+        try:
+            x = int(self.open_note_x_input.text())
+            y = int(self.open_note_y_input.text())
+            radius = int(self.open_note_radius_input.text())
+        except ValueError:
+            QMessageBox.warning(self, "Ошибка", "Проверьте правильность координат и радиуса")
+            return
+
         color_name = self.open_note_text_color_combo.currentText()
         color_map = {
             'Белый': (255, 255, 255),
@@ -1033,10 +1061,10 @@ class ProfessionalDrawingTab(QMainWindow):
         }
         text_color = color_map.get(color_name, (255, 255, 255))
 
-        self._save_template('open_notes', self.open_note_template_combo, {
-            'x': int(self.open_note_x_input.text()),
-            'y': int(self.open_note_y_input.text()),
-            'radius': int(self.open_note_radius_input.text()),
+        template_data = {
+            'x': x,
+            'y': y,
+            'radius': radius,
             'style': self.open_note_style_combo.currentText(),
             'decoration': self.open_note_decoration_combo.currentText(),
             'text_color': text_color,
@@ -1044,10 +1072,22 @@ class ProfessionalDrawingTab(QMainWindow):
             'display_text': 'symbol' if self.open_note_display_text_combo.currentText() == 'Символ' else 'note_name',
             'symbol': self.open_note_symbol_combo.currentText(),
             'note_name': self.open_note_name_combo.currentText()
-        })
+        }
+
+        self._save_template('open_notes', self.open_note_template_combo, template_data)
 
     def save_barre_template(self):
         """Сохранение шаблона баре"""
+        try:
+            x = int(self.barre_x_input.text())
+            y = int(self.barre_y_input.text())
+            width = int(self.barre_width_input.text())
+            height = int(self.barre_height_input.text())
+            radius = int(self.barre_radius_input.text())
+        except ValueError:
+            QMessageBox.warning(self, "Ошибка", "Проверьте правильность координат и размеров")
+            return
+
         color_name = self.barre_color_combo.currentText()
         color_map = {
             'Золотистый': (189, 183, 107),
@@ -1059,16 +1099,18 @@ class ProfessionalDrawingTab(QMainWindow):
         }
         color = color_map.get(color_name, (189, 183, 107))
 
-        self._save_template('barres', self.barre_template_combo, {
-            'x': int(self.barre_x_input.text()),
-            'y': int(self.barre_y_input.text()),
-            'width': int(self.barre_width_input.text()),
-            'height': int(self.barre_height_input.text()),
-            'radius': int(self.barre_radius_input.text()),
+        template_data = {
+            'x': x,
+            'y': y,
+            'width': width,
+            'height': height,
+            'radius': radius,
             'style': self.barre_style_combo.currentText(),
             'decoration': self.barre_decoration_combo.currentText(),
             'color': color
-        })
+        }
+
+        self._save_template('barres', self.barre_template_combo, template_data)
 
     def save_crop_template(self):
         """Сохранение шаблона рамки обрезки"""
@@ -1087,7 +1129,12 @@ class ProfessionalDrawingTab(QMainWindow):
                 crop_data = self.elements_manager.elements['crop_rect'].copy()
                 if self.templates_manager.add_template('crop_rects', template_name, crop_data):
                     self.templates_manager.save_templates()
-                    self.crop_template_combo.addItem(template_name)
+                    # Обновляем комбобокс
+                    self.update_template_comboboxes()
+                    # Устанавливаем текущий выбранный элемент
+                    index = self.crop_template_combo.findText(template_name)
+                    if index >= 0:
+                        self.crop_template_combo.setCurrentIndex(index)
                     QMessageBox.information(self, "Успех", f"Шаблон рамки '{template_name}' сохранен")
                 else:
                     QMessageBox.warning(self, "Ошибка", "Не удалось сохранить шаблон")
@@ -1105,9 +1152,26 @@ class ProfessionalDrawingTab(QMainWindow):
             )
 
             if ok and template_name:
+                # Проверяем, существует ли уже шаблон с таким именем
+                if self.templates_manager.template_exists(template_type, template_name):
+                    reply = QMessageBox.question(
+                        self,
+                        "Шаблон уже существует",
+                        f"Шаблон '{template_name}' уже существует. Перезаписать?",
+                        QMessageBox.Yes | QMessageBox.No,
+                        QMessageBox.No
+                    )
+                    if reply != QMessageBox.Yes:
+                        return
+
                 if self.templates_manager.add_template(template_type, template_name, template_data):
                     self.templates_manager.save_templates()
-                    combo_box.addItem(template_name)
+                    # Обновляем комбобокс
+                    self.update_template_comboboxes()
+                    # Устанавливаем текущий выбранный элемент
+                    index = combo_box.findText(template_name)
+                    if index >= 0:
+                        combo_box.setCurrentIndex(index)
                     QMessageBox.information(self, "Успех", f"Шаблон '{template_name}' сохранен")
                 else:
                     QMessageBox.warning(self, "Ошибка", "Не удалось сохранить шаблон")
@@ -1117,87 +1181,133 @@ class ProfessionalDrawingTab(QMainWindow):
 
     def load_fret_template(self):
         """Загрузка шаблона лада"""
-        self._load_template('frets', self.fret_template_combo, {
-            'fret_x_input': 'x',
-            'fret_y_input': 'y',
-            'fret_size_input': 'size'
-        }, additional_setters={
-            'fret_symbol_combo': 'symbol',
-            'fret_font_combo': 'font_family',
-            'fret_style_combo': 'style',
-            'fret_color_combo': lambda x: self._get_color_name(x)
-        })
+        template_name = self.fret_template_combo.currentText()
+        if not template_name:
+            return
+
+        template = self.templates_manager.get_template('frets', template_name)
+        if template:
+            # Устанавливаем значения в поля ввода
+            self.fret_x_input.setText(str(template.get('x', '')))
+            self.fret_y_input.setText(str(template.get('y', '')))
+            self.fret_size_input.setText(str(template.get('size', '20')))
+
+            # Устанавливаем значения в комбобоксы
+            self.fret_symbol_combo.setCurrentText(template.get('symbol', 'I'))
+            self.fret_font_combo.setCurrentText(template.get('font_family', 'Arial'))
+            self.fret_style_combo.setCurrentText(template.get('style', 'default'))
+
+            # Устанавливаем цвет
+            color = template.get('color', (0, 0, 0))
+            color_name = self._get_color_name(color)
+            self.fret_color_combo.setCurrentText(color_name)
 
     def load_note_template(self):
         """Загрузка шаблона ноты"""
-        self._load_template('notes', self.note_template_combo, {
-            'note_x_input': 'x',
-            'note_y_input': 'y',
-            'note_radius_input': 'radius',
-        }, additional_setters={
-            'note_style_combo': 'style',
-            'note_decoration_combo': 'decoration',
-            'note_text_color_combo': lambda x: self._get_text_color_name(x),
-            'note_font_style_combo': 'font_style',
-            'note_display_text_combo': lambda x: 'Палец' if x == 'finger' else 'Нота',
-            'note_finger_combo': 'finger',
-            'note_name_combo': 'note_name'
-        })
+        template_name = self.note_template_combo.currentText()
+        if not template_name:
+            return
+
+        template = self.templates_manager.get_template('notes', template_name)
+        if template:
+            # Устанавливаем значения в поля ввода
+            self.note_x_input.setText(str(template.get('x', '')))
+            self.note_y_input.setText(str(template.get('y', '')))
+            self.note_radius_input.setText(str(template.get('radius', '15')))
+
+            # Устанавливаем значения в комбобоксы
+            self.note_style_combo.setCurrentText(template.get('style', 'red_3d'))
+            self.note_decoration_combo.setCurrentText(template.get('decoration', 'none'))
+            self.note_font_style_combo.setCurrentText(template.get('font_style', 'bold'))
+
+            # Устанавливаем отображаемый текст
+            display_text = template.get('display_text', 'finger')
+            self.note_display_text_combo.setCurrentText('Палец' if display_text == 'finger' else 'Нота')
+
+            # Устанавливаем палец и ноту
+            self.note_finger_combo.setCurrentText(template.get('finger', ''))
+            self.note_name_combo.setCurrentText(template.get('note_name', ''))
+
+            # Устанавливаем цвет текста
+            text_color = template.get('text_color', (255, 255, 255))
+            color_name = self._get_text_color_name(text_color)
+            self.note_text_color_combo.setCurrentText(color_name)
 
     def load_open_note_template(self):
         """Загрузка шаблона открытой ноты"""
-        self._load_template('open_notes', self.open_note_template_combo, {
-            'open_note_x_input': 'x',
-            'open_note_y_input': 'y',
-            'open_note_radius_input': 'radius',
-        }, additional_setters={
-            'open_note_style_combo': 'style',
-            'open_note_decoration_combo': 'decoration',
-            'open_note_text_color_combo': lambda x: self._get_text_color_name(x),
-            'open_note_font_style_combo': 'font_style',
-            'open_note_display_text_combo': lambda x: 'Символ' if x == 'symbol' else 'Нота',
-            'open_note_symbol_combo': 'symbol',
-            'open_note_name_combo': 'note_name'
-        })
+        template_name = self.open_note_template_combo.currentText()
+        if not template_name:
+            return
+
+        template = self.templates_manager.get_template('open_notes', template_name)
+        if template:
+            # Устанавливаем значения в поля ввода
+            self.open_note_x_input.setText(str(template.get('x', '')))
+            self.open_note_y_input.setText(str(template.get('y', '')))
+            self.open_note_radius_input.setText(str(template.get('radius', '15')))
+
+            # Устанавливаем значения в комбобоксы
+            self.open_note_style_combo.setCurrentText(template.get('style', 'blue_gradient'))
+            self.open_note_decoration_combo.setCurrentText(template.get('decoration', 'none'))
+            self.open_note_font_style_combo.setCurrentText(template.get('font_style', 'bold'))
+
+            # Устанавливаем отображаемый текст
+            display_text = template.get('display_text', 'symbol')
+            self.open_note_display_text_combo.setCurrentText('Символ' if display_text == 'symbol' else 'Нота')
+
+            # Устанавливаем символ и ноту
+            self.open_note_symbol_combo.setCurrentText(template.get('symbol', ''))
+            self.open_note_name_combo.setCurrentText(template.get('note_name', ''))
+
+            # Устанавливаем цвет текста
+            text_color = template.get('text_color', (255, 255, 255))
+            color_name = self._get_text_color_name(text_color)
+            self.open_note_text_color_combo.setCurrentText(color_name)
 
     def load_barre_template(self):
         """Загрузка шаблона баре"""
-        self._load_template('barres', self.barre_template_combo, {
-            'barre_x_input': 'x',
-            'barre_y_input': 'y',
-            'barre_width_input': 'width',
-            'barre_height_input': 'height',
-            'barre_radius_input': 'radius',
-        }, additional_setters={
-            'barre_style_combo': 'style',
-            'barre_decoration_combo': 'decoration',
-            'barre_color_combo': lambda x: self._get_barre_color_name(x)
-        })
+        template_name = self.barre_template_combo.currentText()
+        if not template_name:
+            return
+
+        template = self.templates_manager.get_template('barres', template_name)
+        if template:
+            # Устанавливаем значения в поля ввода
+            self.barre_x_input.setText(str(template.get('x', '')))
+            self.barre_y_input.setText(str(template.get('y', '')))
+            self.barre_width_input.setText(str(template.get('width', '100')))
+            self.barre_height_input.setText(str(template.get('height', '20')))
+            self.barre_radius_input.setText(str(template.get('radius', '10')))
+
+            # Устанавливаем значения в комбобоксы
+            self.barre_style_combo.setCurrentText(template.get('style', 'default'))
+            self.barre_decoration_combo.setCurrentText(template.get('decoration', 'none'))
+
+            # Устанавливаем цвет
+            color = template.get('color', (189, 183, 107))
+            color_name = self._get_barre_color_name(color)
+            self.barre_color_combo.setCurrentText(color_name)
 
     def load_crop_template(self):
         """Загрузка шаблона рамки обрезки"""
         template_name = self.crop_template_combo.currentText()
-        template = self.templates_manager.get_template('crop_rects', template_name)
+        if not template_name:
+            return
 
+        template = self.templates_manager.get_template('crop_rects', template_name)
         if template:
-            self.crop_x_input.setText(str(template['x']))
-            self.crop_y_input.setText(str(template['y']))
-            self.crop_width_input.setText(str(template['width']))
-            self.crop_height_input.setText(str(template['height']))
+            # Устанавливаем значения в поля ввода
+            self.crop_x_input.setText(str(template.get('x', '50')))
+            self.crop_y_input.setText(str(template.get('y', '50')))
+            self.crop_width_input.setText(str(template.get('width', '400')))
+            self.crop_height_input.setText(str(template.get('height', '300')))
+
+            # Устанавливаем стиль
             self.crop_style_combo.setCurrentText(template.get('style', 'dashed'))
 
             # Устанавливаем цвет
             color = template.get('color', (255, 0, 0))
-            color_map = {
-                (255, 0, 0): 'Красный',
-                (0, 0, 255): 'Синий',
-                (0, 128, 0): 'Зеленый',
-                (0, 0, 0): 'Черный',
-                (255, 255, 255): 'Белый',
-                (255, 255, 0): 'Желтый',
-                (128, 0, 128): 'Пурпурный'
-            }
-            color_name = color_map.get(tuple(color), 'Красный')
+            color_name = self._get_crop_color_name(color)
             self.crop_color_combo.setCurrentText(color_name)
 
     def _get_color_name(self, color_tuple):
@@ -1242,29 +1352,18 @@ class ProfessionalDrawingTab(QMainWindow):
         }
         return color_map.get(tuple(color_tuple), 'Золотистый')
 
-    def _load_template(self, template_type, combo_box, field_mapping, additional_setters=None):
-        """Общий метод загрузки шаблона"""
-        template_name = combo_box.currentText()
-        template = self.templates_manager.get_template(template_type, template_name)
-
-        if template:
-            # Устанавливаем значения в поля ввода
-            for field_name, template_key in field_mapping.items():
-                field = getattr(self, field_name)
-                if callable(template_key):
-                    field.setText(template_key(template[template_key]))
-                else:
-                    field.setText(str(template[template_key]))
-
-            # Устанавливаем значения в комбобоксы
-            if additional_setters:
-                for field_name, template_key in additional_setters.items():
-                    field = getattr(self, field_name)
-                    if template_key in template:
-                        if callable(template_key):
-                            field.setCurrentText(template_key(template[template_key]))
-                        else:
-                            field.setCurrentText(template[template_key])
+    def _get_crop_color_name(self, color_tuple):
+        """Преобразует RGB кортеж в название цвета рамки"""
+        color_map = {
+            (255, 0, 0): 'Красный',
+            (0, 0, 255): 'Синий',
+            (0, 128, 0): 'Зеленый',
+            (0, 0, 0): 'Черный',
+            (255, 255, 255): 'Белый',
+            (255, 255, 0): 'Желтый',
+            (128, 0, 128): 'Пурпурный'
+        }
+        return color_map.get(tuple(color_tuple), 'Красный')
 
     def load_config_file(self):
         """Загрузка конфигурации из файла"""
@@ -1299,8 +1398,6 @@ class ProfessionalDrawingTab(QMainWindow):
 
     def update_template_comboboxes(self):
         """Обновление комбобоксов шаблонов"""
-        templates = self.templates_manager.templates
-
         # Обновляем комбобоксы для каждого типа элементов
         combo_mapping = {
             'frets': self.fret_template_combo,
@@ -1311,10 +1408,15 @@ class ProfessionalDrawingTab(QMainWindow):
         }
 
         for template_type, combo in combo_mapping.items():
+            current_text = combo.currentText()  # Сохраняем текущий выбор
             combo.clear()
             combo.addItem("")  # Пустой элемент
-            for template_name in templates[template_type].keys():
+            for template_name in self.templates_manager.get_template_names(template_type):
                 combo.addItem(template_name)
+
+            # Восстанавливаем предыдущий выбор, если он еще существует
+            if current_text and combo.findText(current_text) >= 0:
+                combo.setCurrentText(current_text)
 
     # Методы рисования
     def paintEvent(self, event):
