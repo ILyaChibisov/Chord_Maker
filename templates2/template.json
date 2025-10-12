@@ -3,7 +3,7 @@
     "1LAD": {
       "x": 500,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "I",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -16,7 +16,7 @@
     "2LAD": {
       "x": 874,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "II",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -29,7 +29,7 @@
     "3LAD": {
       "x": 1212,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "III",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -42,7 +42,7 @@
     "4LAD": {
       "x": 1524,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "IV",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -55,7 +55,7 @@
     "5LAD": {
       "x": 1806,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "V",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -68,7 +68,7 @@
     "6LAD": {
       "x": 2100,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "VI",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -81,7 +81,7 @@
     "7LAD": {
       "x": 2354,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "VII",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -94,7 +94,7 @@
     "8LAD": {
       "x": 2598,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "VIII",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -107,7 +107,7 @@
     "9LAD": {
       "x": 2840,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "IX",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -120,7 +120,7 @@
     "10LAD": {
       "x": 3060,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "X",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -133,7 +133,7 @@
     "11LAD": {
       "x": 3264,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "XI",
       "font_family": "Times New Roman",
       "style": "neon",
@@ -146,8 +146,60 @@
     "12LAD": {
       "x": 3464,
       "y": 384,
-      "size": 80,
+      "size": 60,
       "symbol": "XII",
+      "font_family": "Times New Roman",
+      "style": "neon",
+      "color": [
+        0,
+        0,
+        0
+      ]
+    },
+    "13LAD": {
+      "x": 3650,
+      "y": 384,
+      "size": 60,
+      "symbol": "XIII",
+      "font_family": "Times New Roman",
+      "style": "neon",
+      "color": [
+        0,
+        0,
+        0
+      ]
+    },
+    "14LAD": {
+      "x": 3824,
+      "y": 384,
+      "size": 60,
+      "symbol": "XIV",
+      "font_family": "Times New Roman",
+      "style": "neon",
+      "color": [
+        0,
+        0,
+        0
+      ]
+    },
+    "15LAD": {
+      "x": 4000,
+      "y": 384,
+      "size": 60,
+      "symbol": "XV",
+      "font_family": "Times New Roman",
+      "style": "neon",
+      "color": [
+        0,
+        0,
+        0
+      ]
+    },
+    "16LAD": {
+      "x": 4150,
+      "y": 384,
+      "size": 60,
+      "symbol": "XVI",
       "font_family": "Times New Roman",
       "style": "neon",
       "color": [
@@ -446,12 +498,492 @@
       "display_text": "note_name",
       "symbol": "",
       "note_name": "E"
+    },
+    "2FO1": {
+      "x": 700,
+      "y": 482,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "2FO2": {
+      "x": 700,
+      "y": 598,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "2FO3": {
+      "x": 700,
+      "y": 714,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "2FO4": {
+      "x": 700,
+      "y": 828,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "2FO5": {
+      "x": 700,
+      "y": 938,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "2FO6": {
+      "x": 700,
+      "y": 1052,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "3FO1": {
+      "x": 1046,
+      "y": 482,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "3FO2": {
+      "x": 1046,
+      "y": 598,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "3FO3": {
+      "x": 1046,
+      "y": 714,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "3FO4": {
+      "x": 1046,
+      "y": 828,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "3FO5": {
+      "x": 1046,
+      "y": 938,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "3FO6": {
+      "x": 1046,
+      "y": 1052,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "4FO1": {
+      "x": 1368,
+      "y": 482,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "4FO2": {
+      "x": 1368,
+      "y": 598,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "4FO3": {
+      "x": 1368,
+      "y": 714,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "4FO4": {
+      "x": 1368,
+      "y": 828,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "4FO5": {
+      "x": 1368,
+      "y": 938,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "4FO6": {
+      "x": 1368,
+      "y": 1052,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "5FO1": {
+      "x": 1668,
+      "y": 482,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "5FO2": {
+      "x": 1668,
+      "y": 598,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "5FO3": {
+      "x": 1668,
+      "y": 714,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "5FO4": {
+      "x": 1668,
+      "y": 828,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "5FO5": {
+      "x": 1668,
+      "y": 938,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
+    },
+    "5FO6": {
+      "x": 1668,
+      "y": 1052,
+      "radius": 52,
+      "style": "fire",
+      "decoration": "none",
+      "text_color": [
+        255,
+        255,
+        255
+      ],
+      "font_style": "bold",
+      "display_text": "symbol",
+      "symbol": "",
+      "note_name": ""
     }
   },
   "barres": {},
   "crop_rects": {
     "RAM1": {
       "x": 0,
+      "y": 240,
+      "width": 1750,
+      "height": 1120,
+      "style": "dashed",
+      "color": [
+        255,
+        0,
+        0
+      ]
+    },
+    "RAM2": {
+      "x": 600,
+      "y": 240,
+      "width": 1750,
+      "height": 1120,
+      "style": "dashed",
+      "color": [
+        255,
+        0,
+        0
+      ]
+    },
+    "RAM3": {
+      "x": 950,
+      "y": 240,
+      "width": 1750,
+      "height": 1120,
+      "style": "dashed",
+      "color": [
+        255,
+        0,
+        0
+      ]
+    },
+    "RAM4": {
+      "x": 1280,
+      "y": 240,
+      "width": 1750,
+      "height": 1120,
+      "style": "dashed",
+      "color": [
+        255,
+        0,
+        0
+      ]
+    },
+    "RAM5": {
+      "x": 1580,
+      "y": 240,
+      "width": 1750,
+      "height": 1120,
+      "style": "dashed",
+      "color": [
+        255,
+        0,
+        0
+      ]
+    },
+    "RAM6": {
+      "x": 1870,
+      "y": 240,
+      "width": 1750,
+      "height": 1120,
+      "style": "dashed",
+      "color": [
+        255,
+        0,
+        0
+      ]
+    },
+    "RAM7": {
+      "x": 2140,
+      "y": 240,
+      "width": 1750,
+      "height": 1120,
+      "style": "dashed",
+      "color": [
+        255,
+        0,
+        0
+      ]
+    },
+    "RAM8": {
+      "x": 2410,
+      "y": 240,
+      "width": 1750,
+      "height": 1120,
+      "style": "dashed",
+      "color": [
+        255,
+        0,
+        0
+      ]
+    },
+    "RAM9": {
+      "x": 2640,
       "y": 240,
       "width": 1750,
       "height": 1120,
