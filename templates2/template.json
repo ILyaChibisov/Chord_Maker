@@ -209,10 +209,7 @@
       ]
     }
   },
-
   "notes": {
-
-
     "1F11": {
       "x": 508,
       "y": 482,
@@ -309,7 +306,7 @@
       "finger": "1",
       "note_name": ""
     },
-"2F11": {
+    "2F11": {
       "x": 876,
       "y": 482,
       "radius": 52,
@@ -405,7 +402,7 @@
       "finger": "1",
       "note_name": ""
     },
-"3F11": {
+    "3F11": {
       "x": 1212,
       "y": 482,
       "radius": 52,
@@ -501,7 +498,7 @@
       "finger": "1",
       "note_name": ""
     },
-"4F11": {
+    "4F11": {
       "x": 1520,
       "y": 482,
       "radius": 52,
@@ -597,7 +594,7 @@
       "finger": "1",
       "note_name": ""
     },
-"5F11": {
+    "5F11": {
       "x": 1814,
       "y": 482,
       "radius": 52,
@@ -693,7 +690,7 @@
       "finger": "1",
       "note_name": ""
     },
-"6F11": {
+    "6F11": {
       "x": 2098,
       "y": 482,
       "radius": 52,
@@ -789,7 +786,7 @@
       "finger": "1",
       "note_name": ""
     },
-"7F11": {
+    "7F11": {
       "x": 2364,
       "y": 482,
       "radius": 52,
@@ -885,7 +882,7 @@
       "finger": "1",
       "note_name": ""
     },
-"8F11": {
+    "8F11": {
       "x": 2610,
       "y": 482,
       "radius": 52,
@@ -981,7 +978,7 @@
       "finger": "1",
       "note_name": ""
     },
-"9F11": {
+    "9F11": {
       "x": 2844,
       "y": 482,
       "radius": 52,
@@ -1077,7 +1074,7 @@
       "finger": "1",
       "note_name": ""
     },
-"10F11": {
+    "10F11": {
       "x": 3062,
       "y": 482,
       "radius": 52,
@@ -1173,7 +1170,7 @@
       "finger": "1",
       "note_name": ""
     },
-"11F11": {
+    "11F11": {
       "x": 3270,
       "y": 482,
       "radius": 52,
@@ -1269,7 +1266,7 @@
       "finger": "1",
       "note_name": ""
     },
-"12F11": {
+    "12F11": {
       "x": 3464,
       "y": 482,
       "radius": 52,
@@ -1365,7 +1362,7 @@
       "finger": "1",
       "note_name": ""
     },
-"13F11": {
+    "13F11": {
       "x": 3648,
       "y": 482,
       "radius": 52,
@@ -1461,7 +1458,7 @@
       "finger": "1",
       "note_name": ""
     },
-"14F11": {
+    "14F11": {
       "x": 3824,
       "y": 482,
       "radius": 52,
@@ -1557,7 +1554,7 @@
       "finger": "1",
       "note_name": ""
     },
-"15F11": {
+    "15F11": {
       "x": 3992,
       "y": 482,
       "radius": 52,
@@ -1653,7 +1650,7 @@
       "finger": "1",
       "note_name": ""
     },
-"1F12": {
+    "1F12": {
       "x": 508,
       "y": 482,
       "radius": 52,
@@ -1749,7 +1746,7 @@
       "finger": "2",
       "note_name": ""
     },
-"2F12": {
+    "2F12": {
       "x": 876,
       "y": 482,
       "radius": 52,
@@ -1845,7 +1842,7 @@
       "finger": "2",
       "note_name": ""
     },
-"3F12": {
+    "3F12": {
       "x": 1212,
       "y": 482,
       "radius": 52,
@@ -1941,7 +1938,7 @@
       "finger": "2",
       "note_name": ""
     },
-"4F12": {
+    "4F12": {
       "x": 1520,
       "y": 482,
       "radius": 52,
@@ -2037,7 +2034,7 @@
       "finger": "2",
       "note_name": ""
     },
-"5F12": {
+    "5F12": {
       "x": 1814,
       "y": 482,
       "radius": 52,
@@ -2133,7 +2130,7 @@
       "finger": "2",
       "note_name": ""
     },
-"6F12": {
+    "6F12": {
       "x": 2098,
       "y": 482,
       "radius": 52,
@@ -2229,7 +2226,7 @@
       "finger": "2",
       "note_name": ""
     },
-"7F12": {
+    "7F12": {
       "x": 2364,
       "y": 482,
       "radius": 52,
@@ -2325,7 +2322,7 @@
       "finger": "2",
       "note_name": ""
     },
-"8F12": {
+    "8F12": {
       "x": 2610,
       "y": 482,
       "radius": 52,
@@ -2421,7 +2418,7 @@
       "finger": "2",
       "note_name": ""
     },
-"9F12": {
+    "9F12": {
       "x": 2844,
       "y": 482,
       "radius": 52,
@@ -2517,7 +2514,7 @@
       "finger": "2",
       "note_name": ""
     },
-"10F12": {
+    "10F12": {
       "x": 3062,
       "y": 482,
       "radius": 52,
@@ -2613,7 +2610,7 @@
       "finger": "2",
       "note_name": ""
     },
-"11F12": {
+    "11F12": {
       "x": 3270,
       "y": 482,
       "radius": 52,
@@ -2709,7 +2706,7 @@
       "finger": "2",
       "note_name": ""
     },
-"12F12": {
+    "12F12": {
       "x": 3464,
       "y": 482,
       "radius": 52,
@@ -2805,7 +2802,7 @@
       "finger": "2",
       "note_name": ""
     },
-"13F12": {
+    "13F12": {
       "x": 3648,
       "y": 482,
       "radius": 52,
@@ -2901,7 +2898,7 @@
       "finger": "2",
       "note_name": ""
     },
-"14F12": {
+    "14F12": {
       "x": 3824,
       "y": 482,
       "radius": 52,
@@ -2997,7 +2994,7 @@
       "finger": "2",
       "note_name": ""
     },
-"15F12": {
+    "15F12": {
       "x": 3992,
       "y": 482,
       "radius": 52,
@@ -3093,7 +3090,7 @@
       "finger": "2",
       "note_name": ""
     },
-"1F13": {
+    "1F13": {
       "x": 508,
       "y": 482,
       "radius": 52,
@@ -3143,22 +3140,6 @@
     },
     "1F43": {
       "x": 508,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "1F43": {
-      "x": 508,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -3189,7 +3170,7 @@
       "finger": "3",
       "note_name": ""
     },
-"2F13": {
+    "2F13": {
       "x": 876,
       "y": 482,
       "radius": 52,
@@ -3239,22 +3220,6 @@
     },
     "2F43": {
       "x": 876,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "2F43": {
-      "x": 876,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -3285,7 +3250,7 @@
       "finger": "3",
       "note_name": ""
     },
-"3F13": {
+    "3F13": {
       "x": 1212,
       "y": 482,
       "radius": 52,
@@ -3335,22 +3300,6 @@
     },
     "3F43": {
       "x": 1212,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "3F43": {
-      "x": 1212,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -3381,7 +3330,7 @@
       "finger": "3",
       "note_name": ""
     },
-"4F13": {
+    "4F13": {
       "x": 1520,
       "y": 482,
       "radius": 52,
@@ -3431,22 +3380,6 @@
     },
     "4F43": {
       "x": 1520,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "4F43": {
-      "x": 1520,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -3477,7 +3410,7 @@
       "finger": "3",
       "note_name": ""
     },
-"5F13": {
+    "5F13": {
       "x": 1814,
       "y": 482,
       "radius": 52,
@@ -3527,22 +3460,6 @@
     },
     "5F43": {
       "x": 1814,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "5F43": {
-      "x": 1814,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -3573,7 +3490,7 @@
       "finger": "3",
       "note_name": ""
     },
-"6F13": {
+    "6F13": {
       "x": 2098,
       "y": 482,
       "radius": 52,
@@ -3623,22 +3540,6 @@
     },
     "6F43": {
       "x": 2098,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "6F43": {
-      "x": 2098,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -3669,7 +3570,7 @@
       "finger": "3",
       "note_name": ""
     },
-"7F13": {
+    "7F13": {
       "x": 2364,
       "y": 482,
       "radius": 52,
@@ -3719,22 +3620,6 @@
     },
     "7F43": {
       "x": 2364,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "7F43": {
-      "x": 2364,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -3765,7 +3650,7 @@
       "finger": "3",
       "note_name": ""
     },
-"8F13": {
+    "8F13": {
       "x": 2610,
       "y": 482,
       "radius": 52,
@@ -3815,22 +3700,6 @@
     },
     "8F43": {
       "x": 2610,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "8F43": {
-      "x": 2610,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -3861,7 +3730,7 @@
       "finger": "3",
       "note_name": ""
     },
-"9F13": {
+    "9F13": {
       "x": 2844,
       "y": 482,
       "radius": 52,
@@ -3911,22 +3780,6 @@
     },
     "9F43": {
       "x": 2844,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "9F43": {
-      "x": 2844,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -3957,7 +3810,7 @@
       "finger": "3",
       "note_name": ""
     },
-"10F13": {
+    "10F13": {
       "x": 3062,
       "y": 482,
       "radius": 52,
@@ -4007,22 +3860,6 @@
     },
     "10F43": {
       "x": 3062,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "10F43": {
-      "x": 3062,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -4053,7 +3890,7 @@
       "finger": "3",
       "note_name": ""
     },
-"11F13": {
+    "11F13": {
       "x": 3270,
       "y": 482,
       "radius": 52,
@@ -4103,22 +3940,6 @@
     },
     "11F43": {
       "x": 3270,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "11F43": {
-      "x": 3270,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -4149,7 +3970,7 @@
       "finger": "3",
       "note_name": ""
     },
-"12F13": {
+    "12F13": {
       "x": 3464,
       "y": 482,
       "radius": 52,
@@ -4199,22 +4020,6 @@
     },
     "12F43": {
       "x": 3464,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "12F43": {
-      "x": 3464,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -4245,7 +4050,7 @@
       "finger": "3",
       "note_name": ""
     },
-"13F13": {
+    "13F13": {
       "x": 3648,
       "y": 482,
       "radius": 52,
@@ -4295,22 +4100,6 @@
     },
     "13F43": {
       "x": 3648,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "13F43": {
-      "x": 3648,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -4341,7 +4130,7 @@
       "finger": "3",
       "note_name": ""
     },
-"14F13": {
+    "14F13": {
       "x": 3824,
       "y": 482,
       "radius": 52,
@@ -4391,22 +4180,6 @@
     },
     "14F43": {
       "x": 3824,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "14F43": {
-      "x": 3824,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -4437,7 +4210,7 @@
       "finger": "3",
       "note_name": ""
     },
-"15F13": {
+    "15F13": {
       "x": 3992,
       "y": 482,
       "radius": 52,
@@ -4487,22 +4260,6 @@
     },
     "15F43": {
       "x": 3992,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "3",
-      "note_name": ""
-    },
-    "15F43": {
-      "x": 3992,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -4533,7 +4290,7 @@
       "finger": "3",
       "note_name": ""
     },
-"1F14": {
+    "1F14": {
       "x": 508,
       "y": 482,
       "radius": 52,
@@ -4583,22 +4340,6 @@
     },
     "1F44": {
       "x": 508,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "1F44": {
-      "x": 508,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -4629,7 +4370,7 @@
       "finger": "4",
       "note_name": ""
     },
-"2F14": {
+    "2F14": {
       "x": 876,
       "y": 482,
       "radius": 52,
@@ -4679,22 +4420,6 @@
     },
     "2F44": {
       "x": 876,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "2F44": {
-      "x": 876,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -4725,7 +4450,7 @@
       "finger": "4",
       "note_name": ""
     },
-"3F14": {
+    "3F14": {
       "x": 1212,
       "y": 482,
       "radius": 52,
@@ -4775,22 +4500,6 @@
     },
     "3F44": {
       "x": 1212,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "3F44": {
-      "x": 1212,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -4821,7 +4530,7 @@
       "finger": "4",
       "note_name": ""
     },
-"4F14": {
+    "4F14": {
       "x": 1520,
       "y": 482,
       "radius": 52,
@@ -4871,22 +4580,6 @@
     },
     "4F44": {
       "x": 1520,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "4F44": {
-      "x": 1520,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -4917,7 +4610,7 @@
       "finger": "4",
       "note_name": ""
     },
-"5F14": {
+    "5F14": {
       "x": 1814,
       "y": 482,
       "radius": 52,
@@ -4967,22 +4660,6 @@
     },
     "5F44": {
       "x": 1814,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "5F44": {
-      "x": 1814,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5013,7 +4690,7 @@
       "finger": "4",
       "note_name": ""
     },
-"6F14": {
+    "6F14": {
       "x": 2098,
       "y": 482,
       "radius": 52,
@@ -5063,22 +4740,6 @@
     },
     "6F44": {
       "x": 2098,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "6F44": {
-      "x": 2098,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5109,7 +4770,7 @@
       "finger": "4",
       "note_name": ""
     },
-"7F14": {
+    "7F14": {
       "x": 2364,
       "y": 482,
       "radius": 52,
@@ -5159,22 +4820,6 @@
     },
     "7F44": {
       "x": 2364,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "7F44": {
-      "x": 2364,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5205,7 +4850,7 @@
       "finger": "4",
       "note_name": ""
     },
-"8F14": {
+    "8F14": {
       "x": 2610,
       "y": 482,
       "radius": 52,
@@ -5255,22 +4900,6 @@
     },
     "8F44": {
       "x": 2610,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "8F44": {
-      "x": 2610,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5301,7 +4930,7 @@
       "finger": "4",
       "note_name": ""
     },
-"9F14": {
+    "9F14": {
       "x": 2844,
       "y": 482,
       "radius": 52,
@@ -5351,22 +4980,6 @@
     },
     "9F44": {
       "x": 2844,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "9F44": {
-      "x": 2844,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5397,7 +5010,7 @@
       "finger": "4",
       "note_name": ""
     },
-"10F14": {
+    "10F14": {
       "x": 3062,
       "y": 482,
       "radius": 52,
@@ -5447,22 +5060,6 @@
     },
     "10F44": {
       "x": 3062,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "10F44": {
-      "x": 3062,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5493,7 +5090,7 @@
       "finger": "4",
       "note_name": ""
     },
-"11F14": {
+    "11F14": {
       "x": 3270,
       "y": 482,
       "radius": 52,
@@ -5543,22 +5140,6 @@
     },
     "11F44": {
       "x": 3270,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "11F44": {
-      "x": 3270,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5589,7 +5170,7 @@
       "finger": "4",
       "note_name": ""
     },
-"12F14": {
+    "12F14": {
       "x": 3464,
       "y": 482,
       "radius": 52,
@@ -5639,22 +5220,6 @@
     },
     "12F44": {
       "x": 3464,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "12F44": {
-      "x": 3464,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5685,7 +5250,7 @@
       "finger": "4",
       "note_name": ""
     },
-"13F14": {
+    "13F14": {
       "x": 3648,
       "y": 482,
       "radius": 52,
@@ -5735,22 +5300,6 @@
     },
     "13F44": {
       "x": 3648,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "13F44": {
-      "x": 3648,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5781,7 +5330,7 @@
       "finger": "4",
       "note_name": ""
     },
-"14F14": {
+    "14F14": {
       "x": 3824,
       "y": 482,
       "radius": 52,
@@ -5831,22 +5380,6 @@
     },
     "14F44": {
       "x": 3824,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "14F44": {
-      "x": 3824,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5877,7 +5410,7 @@
       "finger": "4",
       "note_name": ""
     },
-"15F14": {
+    "15F14": {
       "x": 3992,
       "y": 482,
       "radius": 52,
@@ -5927,22 +5460,6 @@
     },
     "15F44": {
       "x": 3992,
-      "y": 828,
-      "radius": 52,
-      "style": "gold_3d",
-      "decoration": "none",
-      "text_color": [
-        0,
-        0,
-        0
-      ],
-      "font_style": "bold",
-      "display_text": "finger",
-      "finger": "4",
-      "note_name": ""
-    },
-    "15F44": {
-      "x": 3992,
       "y": 938,
       "radius": 52,
       "style": "gold_3d",
@@ -5973,10 +5490,6 @@
       "finger": "4",
       "note_name": ""
     }
-
-
-
-
   },
   "open_notes": {
     "1FX1": {
@@ -8572,7 +8085,218 @@
       "note_name": "E"
     }
   },
-  "barres": {},
+  "barres": {
+    "1BAR1-6": {
+      "x": 508,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "2BAR1-6": {
+      "x": 876,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "3BAR1-6": {
+      "x": 1212,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "4BAR1-6": {
+      "x": 1520,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "5BAR1-6": {
+      "x": 1814,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "6BAR1-6": {
+      "x": 2098,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "7BAR1-6": {
+      "x": 2364,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "8BAR1-6": {
+      "x": 2610,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "9BAR1-6": {
+      "x": 2844,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "10BAR1-6": {
+      "x": 3062,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "11BAR1-6": {
+      "x": 3270,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "12BAR1-6": {
+      "x": 3464,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "13BAR1-6": {
+      "x": 3648,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "14BAR1-6": {
+      "x": 3824,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    },
+    "15BAR1-6": {
+      "x": 3992,
+      "y": 770,
+      "width": 100,
+      "height": 640,
+      "radius": 50,
+      "style": "wood",
+      "decoration": "shadow",
+      "color": [
+        189,
+        183,
+        107
+      ]
+    }
+  },
   "crop_rects": {
     "RAM1": {
       "x": 0,
