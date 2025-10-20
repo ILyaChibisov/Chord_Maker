@@ -7,7 +7,7 @@ from pydub.silence import split_on_silence
 import tempfile
 import subprocess
 import warnings
-
+from chord_config_tab import ChordConfigTab
 # Добавляем путь к grafic_tools
 sys.path.append(os.path.join(os.path.dirname(__file__), 'grafic_tools'))
 
@@ -89,10 +89,13 @@ class MainApp(QWidget):
         self.chord_redactor = ImageEditor()  # Закомментировано, если нет этого класса
         self.chord_recorder = ChordRecorderTab()  # Закомментировано, если нет этого класса
         self.pro_drawing = ProfessionalDrawingTab()  # Основная вкладка профессионального рисования
+        self.chord_config = ChordConfigTab()
+
 
         self.tabs.addTab(self.chord_redactor, "Базовое рисование")
         self.tabs.addTab(self.chord_recorder, "Запись аккордов")
         self.tabs.addTab(self.pro_drawing, "Профессиональное рисование")
+        self.tabs.addTab(self.chord_config, "Конфигурация аккордов")
 
 
 # модуль 1 (Рисование аккордов)
