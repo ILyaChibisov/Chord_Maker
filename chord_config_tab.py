@@ -81,7 +81,7 @@ class ChordConfigTab(QWidget):
                 self.current_group = groups[0]
                 self.load_chord_buttons()
 
-                # АВТОМАТИЧЕСКИ ЗАГРУЖАЕМ ПЕРВЫЙ АККОРД
+                # АВТОМАТИЧЕСКИ ЗАГРУЖАЕМ ПЕРВЫЙ АККОРД С ОБРЕЗКОЙ
                 if self.current_chords:
                     self.current_chord = self.current_chords[0]
                     self.display_chord(self.current_chord)
@@ -125,7 +125,7 @@ class ChordConfigTab(QWidget):
         self.current_group = group
         self.load_chord_buttons()
 
-        # АВТОМАТИЧЕСКИ ЗАГРУЖАЕМ ПЕРВЫЙ АККОРД НОВОЙ ГРУППЫ
+        # АВТОМАТИЧЕСКИ ЗАГРУЖАЕМ ПЕРВЫЙ АККОРД НОВОЙ ГРУППЫ С ОБРЕЗКОЙ
         if self.current_chords:
             self.current_chord = self.current_chords[0]
             self.display_chord(self.current_chord)
@@ -139,8 +139,12 @@ class ChordConfigTab(QWidget):
         self.display_chord(chord_info)
 
     def display_chord(self, chord_info):
-        """Отображение выбранного аккорда"""
+        """Отображение выбранного аккорда с обрезкой по RAM"""
         try:
+            print(f"\n{'=' * 60}")
+            print(f"ОТОБРАЖЕНИЕ АККОРДА: {chord_info['name']}")
+            print(f"Данные аккорда: {chord_info['data']}")
+
             # Загружаем базовое изображение
             if os.path.exists(self.config_manager.image_path):
                 base_pixmap = QPixmap(self.config_manager.image_path)
@@ -149,9 +153,15 @@ class ChordConfigTab(QWidget):
                     self.image_label.setText("Ошибка загрузки изображения")
                     return
 
-                # Получаем область обрезки из RAM
-                ram_key = chord_info['data'].get('RAM', '')
+                # Получаем область обрезки из RAM для этого конкретного аккорда
+                ram_key = chord_info['data'].get('RAM') or chord_info['data'].get('ram')
+                print(f"RAM ключ из данных: '{ram_key}'")
+
                 crop_rect = self.config_manager.get_ram_crop_area(ram_key)
+
+                print(f"=== Отображение аккорда {chord_info['name']} ===")
+                print(f"RAM ключ: {ram_key}")
+                print(f"Область обрезки: {crop_rect}")
 
                 # Получаем элементы для отображения
                 elements = self.config_manager.get_chord_elements(
@@ -159,25 +169,27 @@ class ChordConfigTab(QWidget):
                     self.current_display_type
                 )
 
-                # Если есть область обрезки - обрезаем изображение
+                # ВСЕГДА используем обрезку по RAM, если она определена
                 if crop_rect:
                     x, y, width, height = crop_rect
-                    print(f"Обрезка изображения: x={x}, y={y}, width={width}, height={height}")
 
-                    # Проверяем границы
-                    if (x >= 0 and y >= 0 and
-                            x + width <= base_pixmap.width() and
-                            y + height <= base_pixmap.height() and
-                            width > 0 and height > 0):
+                    # Проверяем границы и корректируем при необходимости
+                    x = max(0, min(x, base_pixmap.width() - 1))
+                    y = max(0, min(y, base_pixmap.height() - 1))
+                    width = max(1, min(width, base_pixmap.width() - x))
+                    height = max(1, min(height, base_pixmap.height() - y))
 
-                        cropped_pixmap = base_pixmap.copy(x, y, width, height)
-                        if not cropped_pixmap.isNull():
-                            # Рисуем элементы на ОБРЕЗАННОМ изображении
-                            result_pixmap = self.config_manager.draw_elements_on_image(cropped_pixmap, elements)
-                        else:
-                            result_pixmap = self.config_manager.draw_elements_on_image(base_pixmap, elements)
+                    print(f"Корректированная область: x={x}, y={y}, width={width}, height={height}")
+
+                    # Обрезаем изображение
+                    cropped_pixmap = base_pixmap.copy(x, y, width, height)
+
+                    if not cropped_pixmap.isNull():
+                        print("Изображение успешно обрезано")
+                        # Рисуем элементы на ОБРЕЗАННОМ изображении
+                        result_pixmap = self.config_manager.draw_elements_on_image(cropped_pixmap, elements)
                     else:
-                        print("Некорректная область обрезки, используем полное изображение")
+                        print("Ошибка обрезки изображения, используем полное")
                         result_pixmap = self.config_manager.draw_elements_on_image(base_pixmap, elements)
                 else:
                     print("Область обрезки не найдена, используем полное изображение")
@@ -192,16 +204,21 @@ class ChordConfigTab(QWidget):
                         Qt.SmoothTransformation
                     )
                     self.image_label.setPixmap(scaled_pixmap)
+                    print(f"Изображение отображено успешно")
                 else:
                     self.image_label.setText("Ошибка создания изображения")
+                    print("Ошибка создания изображения")
 
-                print(f"Отображение аккорда: {chord_info['name']}")
                 print(f"Тип отображения: {self.current_display_type}")
                 print(f"Найдено элементов: {len(elements)}")
+                print("=" * 50)
 
             else:
                 self.image_label.setText(f"Изображение не найдено: {self.config_manager.image_path}")
+                print(f"Ошибка: изображение не найдено по пути {self.config_manager.image_path}")
 
         except Exception as e:
             self.image_label.setText(f"Ошибка отображения: {str(e)}")
             print(f"Ошибка при отображении аккорда: {e}")
+            import traceback
+            traceback.print_exc()
