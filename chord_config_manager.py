@@ -21,15 +21,13 @@ class ChordConfigManager:
             if os.path.exists(self.excel_path):
                 # Основной лист с аккордами
                 df_chords = pd.read_excel(self.excel_path, sheet_name=0)
-                print("Колонки в Excel:", df_chords.columns.tolist())
+                print("=" * 80)
+                print("КОЛОНКИ В EXCEL:", df_chords.columns.tolist())
 
                 # Конвертируем в словари
                 self.chord_data = df_chords.to_dict('records')
                 print(f"Загружено {len(self.chord_data)} аккордов")
 
-                # Выводим первые несколько аккордов для отладки
-                for i, chord in enumerate(self.chord_data[:3]):
-                    print(f"Аккорд {i}: {chord}")
             else:
                 print(f"Excel файл не найден: {self.excel_path}")
                 return False
@@ -55,11 +53,9 @@ class ChordConfigManager:
         """Получение списка групп аккордов"""
         groups = set()
         for chord in self.chord_data:
-            # Используем реальные названия колонок из Excel
-            chord_name = chord.get('CHORD') or chord.get('chord') or chord.get('Chord')
+            chord_name = chord.get('CHORD')
             if chord_name:
                 chord_name = str(chord_name)
-                # Извлекаем базовое название аккорда (без диезов/бемолей)
                 base_chord = ''.join([c for c in chord_name if c.isalpha()])
                 if base_chord:
                     groups.add(base_chord)
@@ -69,8 +65,8 @@ class ChordConfigManager:
         """Получение аккордов по группе"""
         chords = []
         for chord in self.chord_data:
-            chord_name = chord.get('CHORD') or chord.get('chord') or chord.get('Chord')
-            variant = chord.get('VARIANT') or chord.get('variant') or chord.get('Variant')
+            chord_name = chord.get('CHORD')
+            variant = chord.get('VARIANT')
 
             if chord_name and variant is not None:
                 chord_name = str(chord_name)
@@ -91,7 +87,7 @@ class ChordConfigManager:
             return None
 
         ram_name = str(ram_name).strip()
-        print(f"Поиск области обрезки для RAM: {ram_name}")
+        print(f"🔍 Поиск области обрезки для RAM: '{ram_name}'")
 
         # Ищем RAM в разделе crop_rects
         if 'crop_rects' in self.templates and ram_name in self.templates['crop_rects']:
@@ -102,22 +98,10 @@ class ChordConfigManager:
                 crop_data.get('width', 100),
                 crop_data.get('height', 100)
             )
-            print(f"Найдена область обрезки в crop_rects: {area}")
+            print(f"✅ Найдена область обрезки '{ram_name}': {area}")
             return area
 
-        # Ищем среди frets как запасной вариант
-        elif 'frets' in self.templates:
-            # Пробуем разные варианты именования
-            for element_key in [ram_name, f"{ram_name}1", f"{ram_name}0"]:
-                if element_key in self.templates['frets']:
-                    fret_data = self.templates['frets'][element_key]
-                    x = fret_data.get('x', 0)
-                    y = fret_data.get('y', 0)
-                    area = (x - 50, y - 50, 200, 200)
-                    print(f"Найдена область обрезки в frets: {area}")
-                    return area
-
-        print(f"Область обрезки для {ram_name} не найдена в JSON")
+        print(f"❌ Область обрезки для '{ram_name}' не найдена в JSON")
         return None
 
     def get_ram_elements(self, ram_name):
@@ -128,16 +112,21 @@ class ChordConfigManager:
 
         ram_name = str(ram_name).strip()
 
-        # Пробуем разные варианты именования элементов RAM
-        for i in range(0, 5):  # RAM0, RAM1, RAM2, RAM3, RAM4
-            for prefix in [ram_name, f"{ram_name}_"]:
-                element_key = f"{prefix}{i}" if i > 0 else prefix
-                if element_key in self.templates.get('frets', {}):
-                    elements.append({
-                        'type': 'fret',
-                        'data': self.templates['frets'][element_key]
-                    })
-                    print(f"Найден элемент RAM: {element_key}")
+        # Ищем элементы RAM в frets
+        if ram_name in self.templates.get('frets', {}):
+            elements.append({
+                'type': 'fret',
+                'data': self.templates['frets'][ram_name]
+            })
+
+        # Ищем элементы с суффиксами (RAM1, RAM2 и т.д.)
+        for i in range(1, 5):
+            element_key = f"{ram_name}{i}"
+            if element_key in self.templates.get('frets', {}):
+                elements.append({
+                    'type': 'fret',
+                    'data': self.templates['frets'][element_key]
+                })
 
         return elements
 
@@ -155,25 +144,21 @@ class ChordConfigManager:
         """Получение элементов из колонки Excel"""
         elements = []
 
-        # Проверяем, что значение не пустое
         if self._is_empty_value(column_value):
             return elements
 
-        # Преобразуем в строку и разбиваем по запятым
         element_str = str(column_value)
         element_list = element_str.split(',')
 
         for element_key in element_list:
             element_key = element_key.strip()
+
             # Ищем элемент в соответствующем разделе templates
             if element_key in self.templates.get(element_type, {}):
                 elements.append({
                     'type': element_type[:-1] if element_type.endswith('s') else element_type,
                     'data': self.templates[element_type][element_key]
                 })
-                print(f"Найден элемент {element_type}: {element_key}")
-            else:
-                print(f"Элемент {element_type} '{element_key}' не найден в JSON")
 
         return elements
 
@@ -181,47 +166,29 @@ class ChordConfigManager:
         """Получение элементов аккорда в зависимости от типа отображения"""
         elements = []
 
-        print(f"\n=== Загрузка элементов для типа: {display_type} ===")
-
         # Добавляем RAM элементы (всегда)
-        ram_key = chord_config.get('RAM') or chord_config.get('ram')
+        ram_key = chord_config.get('RAM')
         if ram_key:
             ram_elements = self.get_ram_elements(ram_key)
             elements.extend(ram_elements)
-            print(f"RAM элементы ({ram_key}): {len(ram_elements)}")
 
         if display_type == "notes":
             # Для нот: используем FN
-            fn_elements = self.get_elements_from_column(
-                chord_config.get('FN') or chord_config.get('fn'),
-                'notes'
-            )
-
+            fn_elements = self.get_elements_from_column(chord_config.get('FN'), 'notes')
             elements.extend(fn_elements)
-            print(f"FN элементы: {len(fn_elements)}")
 
         else:  # fingers
-            # Для пальцев: используем F0 и F1
-            f0_elements = self.get_elements_from_column(
-                chord_config.get('F0') or chord_config.get('FO') or chord_config.get('f0') or chord_config.get('fo'),
-                'notes'
-            )
-            f1_elements = self.get_elements_from_column(
-                chord_config.get('F1') or chord_config.get('f1'),
-                'notes'
-            )
+            # Для пальцев: используем FO и F2
+            fo_elements = self.get_elements_from_column(chord_config.get('FO'), 'notes')
+            f2_elements = self.get_elements_from_column(chord_config.get('F2'), 'notes')
 
-            elements.extend(f0_elements)
-            elements.extend(f1_elements)
+            elements.extend(fo_elements)
+            elements.extend(f2_elements)
 
-            print(f"F0 элементы: {len(f0_elements)}")
-            print(f"F1 элементы: {len(f1_elements)}")
-
-        print(f"Всего элементов: {len(elements)}")
         return elements
 
-    def draw_elements_on_image(self, pixmap, elements):
-        """Рисование элементов на изображении"""
+    def draw_elements_on_image(self, pixmap, elements, crop_rect=None):
+        """Рисование элементов на изображении с учетом масштаба"""
         if pixmap.isNull():
             return pixmap
 
@@ -231,26 +198,28 @@ class ChordConfigManager:
         try:
             for element in elements:
                 if element['type'] == 'fret':
-                    self.draw_fret(painter, element['data'])
+                    self.draw_fret(painter, element['data'], crop_rect)
                 elif element['type'] == 'note':
-                    self.draw_note(painter, element['data'])
+                    self.draw_note(painter, element['data'], crop_rect)
 
         finally:
             painter.end()
 
         return result_pixmap
 
-    def draw_fret(self, painter, fret_data):
-        """Рисование лада"""
+    def draw_fret(self, painter, fret_data, crop_rect=None):
+        """Рисование лада с учетом масштаба"""
         try:
+            # Адаптируем координаты к масштабу обрезанного изображения
+            adapted_data = self._adapt_coordinates(fret_data, crop_rect)
             from drawing_elements import DrawingElements
-            DrawingElements.draw_fret(painter, fret_data)
+            DrawingElements.draw_fret(painter, adapted_data)
         except ImportError:
-            # Простая реализация если модуль не доступен
-            x = fret_data.get('x', 0)
-            y = fret_data.get('y', 0)
-            size = fret_data.get('size', 20)
-            symbol = fret_data.get('symbol', 'I')
+            adapted_data = self._adapt_coordinates(fret_data, crop_rect)
+            x = adapted_data.get('x', 0)
+            y = adapted_data.get('y', 0)
+            size = adapted_data.get('size', 20)
+            symbol = adapted_data.get('symbol', 'I')
 
             painter.setPen(Qt.black)
             font = painter.font()
@@ -260,17 +229,19 @@ class ChordConfigManager:
         except Exception as e:
             print(f"Ошибка рисования лада: {e}")
 
-    def draw_note(self, painter, note_data):
-        """Рисование ноты"""
+    def draw_note(self, painter, note_data, crop_rect=None):
+        """Рисование ноты с учетом масштаба"""
         try:
+            # Адаптируем координаты к масштабу обрезанного изображения
+            adapted_data = self._adapt_coordinates(note_data, crop_rect)
             from drawing_elements import DrawingElements
-            DrawingElements.draw_note(painter, note_data)
+            DrawingElements.draw_note(painter, adapted_data)
         except ImportError:
-            # Простая реализация если модуль не доступен
-            x = note_data.get('x', 0)
-            y = note_data.get('y', 0)
-            radius = note_data.get('radius', 15)
-            symbol = note_data.get('symbol', '1') or note_data.get('finger', '1')
+            adapted_data = self._adapt_coordinates(note_data, crop_rect)
+            x = adapted_data.get('x', 0)
+            y = adapted_data.get('y', 0)
+            radius = adapted_data.get('radius', 15)
+            symbol = adapted_data.get('symbol', '1') or adapted_data.get('finger', '1')
 
             painter.setPen(Qt.black)
             painter.setBrush(Qt.red)
@@ -283,3 +254,24 @@ class ChordConfigManager:
             painter.drawText(x - 3, y + 3, symbol)
         except Exception as e:
             print(f"Ошибка рисования ноты: {e}")
+
+    def _adapt_coordinates(self, element_data, crop_rect):
+        """Адаптация координат элемента к обрезанному изображению"""
+        if not crop_rect:
+            return element_data.copy()
+
+        # Копируем данные элемента
+        adapted_data = element_data.copy()
+
+        # Получаем координаты обрезки
+        crop_x, crop_y, crop_width, crop_height = crop_rect
+
+        # Предполагаем, что оригинальные координаты заданы для полного изображения
+        # Вычитаем координаты обрезки, чтобы перевести в систему координат обрезанного изображения
+        if 'x' in adapted_data:
+            adapted_data['x'] = adapted_data['x'] - crop_x
+
+        if 'y' in adapted_data:
+            adapted_data['y'] = adapted_data['y'] - crop_y
+
+        return adapted_data

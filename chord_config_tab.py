@@ -139,12 +139,8 @@ class ChordConfigTab(QWidget):
         self.display_chord(chord_info)
 
     def display_chord(self, chord_info):
-        """Отображение выбранного аккорда с обрезкой по RAM"""
+        """Отображение выбранного аккорда с правильным масштабом"""
         try:
-            print(f"\n{'=' * 60}")
-            print(f"ОТОБРАЖЕНИЕ АККОРДА: {chord_info['name']}")
-            print(f"Данные аккорда: {chord_info['data']}")
-
             # Загружаем базовое изображение
             if os.path.exists(self.config_manager.image_path):
                 base_pixmap = QPixmap(self.config_manager.image_path)
@@ -154,14 +150,8 @@ class ChordConfigTab(QWidget):
                     return
 
                 # Получаем область обрезки из RAM для этого конкретного аккорда
-                ram_key = chord_info['data'].get('RAM') or chord_info['data'].get('ram')
-                print(f"RAM ключ из данных: '{ram_key}'")
-
+                ram_key = chord_info['data'].get('RAM')
                 crop_rect = self.config_manager.get_ram_crop_area(ram_key)
-
-                print(f"=== Отображение аккорда {chord_info['name']} ===")
-                print(f"RAM ключ: {ram_key}")
-                print(f"Область обрезки: {crop_rect}")
 
                 # Получаем элементы для отображения
                 elements = self.config_manager.get_chord_elements(
@@ -179,21 +169,22 @@ class ChordConfigTab(QWidget):
                     width = max(1, min(width, base_pixmap.width() - x))
                     height = max(1, min(height, base_pixmap.height() - y))
 
-                    print(f"Корректированная область: x={x}, y={y}, width={width}, height={height}")
-
                     # Обрезаем изображение
                     cropped_pixmap = base_pixmap.copy(x, y, width, height)
 
                     if not cropped_pixmap.isNull():
-                        print("Изображение успешно обрезано")
-                        # Рисуем элементы на ОБРЕЗАННОМ изображении
-                        result_pixmap = self.config_manager.draw_elements_on_image(cropped_pixmap, elements)
+                        # Рисуем элементы на ОБРЕЗАННОМ изображении с учетом масштаба
+                        result_pixmap = self.config_manager.draw_elements_on_image(
+                            cropped_pixmap, elements, crop_rect
+                        )
                     else:
-                        print("Ошибка обрезки изображения, используем полное")
-                        result_pixmap = self.config_manager.draw_elements_on_image(base_pixmap, elements)
+                        result_pixmap = self.config_manager.draw_elements_on_image(
+                            base_pixmap, elements, None
+                        )
                 else:
-                    print("Область обрезки не найдена, используем полное изображение")
-                    result_pixmap = self.config_manager.draw_elements_on_image(base_pixmap, elements)
+                    result_pixmap = self.config_manager.draw_elements_on_image(
+                        base_pixmap, elements, None
+                    )
 
                 # Масштабируем для отображения
                 if not result_pixmap.isNull():
@@ -204,18 +195,11 @@ class ChordConfigTab(QWidget):
                         Qt.SmoothTransformation
                     )
                     self.image_label.setPixmap(scaled_pixmap)
-                    print(f"Изображение отображено успешно")
                 else:
                     self.image_label.setText("Ошибка создания изображения")
-                    print("Ошибка создания изображения")
-
-                print(f"Тип отображения: {self.current_display_type}")
-                print(f"Найдено элементов: {len(elements)}")
-                print("=" * 50)
 
             else:
                 self.image_label.setText(f"Изображение не найдено: {self.config_manager.image_path}")
-                print(f"Ошибка: изображение не найдено по пути {self.config_manager.image_path}")
 
         except Exception as e:
             self.image_label.setText(f"Ошибка отображения: {str(e)}")

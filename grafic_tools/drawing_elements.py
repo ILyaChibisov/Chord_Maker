@@ -197,319 +197,320 @@ class DrawingElements:
             gradient.setColorAt(1, QColor(100, 170, 255))
             painter.setBrush(gradient)
 
+        # ЗАМЕНЕННЫЕ СТИЛИ С НОВЫМИ ЦВЕТАМИ
         elif style == 'soft_pink':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 230, 240))
-            gradient.setColorAt(0.7, QColor(255, 200, 220))
-            gradient.setColorAt(1, QColor(240, 160, 200))
+            gradient.setColorAt(0, QColor(255, 200, 220))
+            gradient.setColorAt(0.7, QColor(255, 150, 180))
+            gradient.setColorAt(1, QColor(230, 100, 150))
             painter.setBrush(gradient)
 
         elif style == 'mint_green':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(220, 255, 220))
-            gradient.setColorAt(0.7, QColor(180, 230, 180))
-            gradient.setColorAt(1, QColor(140, 200, 140))
+            gradient.setColorAt(0, QColor(180, 255, 180))
+            gradient.setColorAt(0.7, QColor(120, 230, 120))
+            gradient.setColorAt(1, QColor(80, 200, 80))
             painter.setBrush(gradient)
 
         elif style == 'lavender':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(240, 230, 255))
-            gradient.setColorAt(0.7, QColor(210, 200, 240))
-            gradient.setColorAt(1, QColor(180, 160, 220))
+            gradient.setColorAt(0, QColor(220, 200, 255))
+            gradient.setColorAt(0.7, QColor(180, 160, 240))
+            gradient.setColorAt(1, QColor(140, 120, 220))
             painter.setBrush(gradient)
 
         elif style == 'peach':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 240, 220))
-            gradient.setColorAt(0.7, QColor(255, 210, 170))
-            gradient.setColorAt(1, QColor(240, 180, 140))
+            gradient.setColorAt(0, QColor(255, 200, 150))
+            gradient.setColorAt(0.7, QColor(255, 160, 100))
+            gradient.setColorAt(1, QColor(230, 120, 80))
             painter.setBrush(gradient)
 
         elif style == 'sky_blue':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(200, 230, 255))
-            gradient.setColorAt(0.7, QColor(150, 200, 240))
-            gradient.setColorAt(1, QColor(100, 170, 220))
+            gradient.setColorAt(0, QColor(150, 200, 255))
+            gradient.setColorAt(0.7, QColor(100, 160, 240))
+            gradient.setColorAt(1, QColor(70, 130, 220))
             painter.setBrush(gradient)
 
         elif style == 'lemon_yellow':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 255, 200))
-            gradient.setColorAt(0.7, QColor(255, 240, 120))
-            gradient.setColorAt(1, QColor(240, 220, 80))
+            gradient.setColorAt(0, QColor(255, 255, 150))
+            gradient.setColorAt(0.7, QColor(255, 230, 80))
+            gradient.setColorAt(1, QColor(240, 200, 40))
             painter.setBrush(gradient)
 
         elif style == 'coral':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 220, 200))
-            gradient.setColorAt(0.7, QColor(255, 180, 140))
-            gradient.setColorAt(1, QColor(240, 140, 100))
+            gradient.setColorAt(0, QColor(255, 180, 150))
+            gradient.setColorAt(0.7, QColor(255, 140, 100))
+            gradient.setColorAt(1, QColor(230, 100, 70))
             painter.setBrush(gradient)
 
         elif style == 'aqua_marine':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(200, 255, 240))
-            gradient.setColorAt(0.7, QColor(160, 230, 220))
-            gradient.setColorAt(1, QColor(120, 200, 190))
+            gradient.setColorAt(0, QColor(150, 255, 220))
+            gradient.setColorAt(0.7, QColor(100, 230, 190))
+            gradient.setColorAt(1, QColor(70, 200, 160))
             painter.setBrush(gradient)
 
         elif style == 'rose_quartz':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 230, 235))
-            gradient.setColorAt(0.7, QColor(240, 200, 210))
-            gradient.setColorAt(1, QColor(220, 170, 190))
+            gradient.setColorAt(0, QColor(255, 200, 210))
+            gradient.setColorAt(0.7, QColor(240, 160, 180))
+            gradient.setColorAt(1, QColor(220, 120, 150))
             painter.setBrush(gradient)
 
         elif style == 'seafoam':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(220, 255, 230))
-            gradient.setColorAt(0.7, QColor(190, 230, 200))
-            gradient.setColorAt(1, QColor(160, 200, 170))
+            gradient.setColorAt(0, QColor(180, 255, 200))
+            gradient.setColorAt(0.7, QColor(140, 230, 170))
+            gradient.setColorAt(1, QColor(100, 200, 140))
             painter.setBrush(gradient)
 
         elif style == 'buttercup':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 245, 180))
-            gradient.setColorAt(0.7, QColor(255, 225, 100))
-            gradient.setColorAt(1, QColor(240, 200, 60))
+            gradient.setColorAt(0, QColor(255, 230, 120))
+            gradient.setColorAt(0.7, QColor(255, 200, 60))
+            gradient.setColorAt(1, QColor(240, 170, 30))
             painter.setBrush(gradient)
 
         elif style == 'lilac':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(245, 230, 255))
-            gradient.setColorAt(0.7, QColor(225, 200, 240))
-            gradient.setColorAt(1, QColor(200, 170, 220))
+            gradient.setColorAt(0, QColor(220, 180, 255))
+            gradient.setColorAt(0.7, QColor(190, 140, 240))
+            gradient.setColorAt(1, QColor(160, 100, 220))
             painter.setBrush(gradient)
 
         elif style == 'honey':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 240, 180))
-            gradient.setColorAt(0.7, QColor(255, 220, 120))
-            gradient.setColorAt(1, QColor(240, 190, 80))
+            gradient.setColorAt(0, QColor(255, 220, 120))
+            gradient.setColorAt(0.7, QColor(255, 180, 60))
+            gradient.setColorAt(1, QColor(230, 150, 30))
             painter.setBrush(gradient)
 
         elif style == 'turquoise':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(200, 240, 230))
-            gradient.setColorAt(0.7, QColor(160, 220, 210))
-            gradient.setColorAt(1, QColor(120, 190, 180))
+            gradient.setColorAt(0, QColor(100, 240, 220))
+            gradient.setColorAt(0.7, QColor(70, 200, 190))
+            gradient.setColorAt(1, QColor(50, 170, 160))
             painter.setBrush(gradient)
 
         elif style == 'apricot':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 230, 200))
-            gradient.setColorAt(0.7, QColor(255, 200, 150))
-            gradient.setColorAt(1, QColor(240, 170, 120))
+            gradient.setColorAt(0, QColor(255, 200, 140))
+            gradient.setColorAt(0.7, QColor(255, 160, 100))
+            gradient.setColorAt(1, QColor(230, 120, 70))
             painter.setBrush(gradient)
 
         elif style == 'periwinkle':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(230, 230, 255))
-            gradient.setColorAt(0.7, QColor(200, 200, 240))
-            gradient.setColorAt(1, QColor(170, 170, 220))
+            gradient.setColorAt(0, QColor(200, 200, 255))
+            gradient.setColorAt(0.7, QColor(160, 160, 240))
+            gradient.setColorAt(1, QColor(120, 120, 220))
             painter.setBrush(gradient)
 
         elif style == 'sage':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(230, 240, 220))
-            gradient.setColorAt(0.7, QColor(200, 220, 180))
-            gradient.setColorAt(1, QColor(170, 190, 150))
+            gradient.setColorAt(0, QColor(180, 220, 160))
+            gradient.setColorAt(0.7, QColor(140, 190, 120))
+            gradient.setColorAt(1, QColor(100, 160, 90))
             painter.setBrush(gradient)
 
         elif style == 'melon':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 220, 190))
-            gradient.setColorAt(0.7, QColor(255, 180, 140))
-            gradient.setColorAt(1, QColor(240, 150, 110))
+            gradient.setColorAt(0, QColor(255, 180, 140))
+            gradient.setColorAt(0.7, QColor(255, 140, 100))
+            gradient.setColorAt(1, QColor(230, 100, 70))
             painter.setBrush(gradient)
 
         elif style == 'powder_blue':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(220, 230, 255))
-            gradient.setColorAt(0.7, QColor(190, 210, 240))
-            gradient.setColorAt(1, QColor(160, 180, 220))
+            gradient.setColorAt(0, QColor(180, 200, 255))
+            gradient.setColorAt(0.7, QColor(140, 170, 240))
+            gradient.setColorAt(1, QColor(100, 140, 220))
             painter.setBrush(gradient)
 
         elif style == 'pistachio':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(230, 255, 220))
-            gradient.setColorAt(0.7, QColor(200, 230, 180))
-            gradient.setColorAt(1, QColor(170, 200, 150))
+            gradient.setColorAt(0, QColor(180, 255, 160))
+            gradient.setColorAt(0.7, QColor(140, 230, 120))
+            gradient.setColorAt(1, QColor(100, 200, 90))
             painter.setBrush(gradient)
 
         elif style == 'blush':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 220, 225))
-            gradient.setColorAt(0.7, QColor(240, 190, 200))
-            gradient.setColorAt(1, QColor(220, 160, 180))
+            gradient.setColorAt(0, QColor(255, 180, 190))
+            gradient.setColorAt(0.7, QColor(240, 140, 160))
+            gradient.setColorAt(1, QColor(220, 100, 130))
             painter.setBrush(gradient)
 
         elif style == 'mauve':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(240, 220, 230))
-            gradient.setColorAt(0.7, QColor(220, 190, 210))
-            gradient.setColorAt(1, QColor(190, 160, 180))
+            gradient.setColorAt(0, QColor(220, 180, 210))
+            gradient.setColorAt(0.7, QColor(190, 140, 180))
+            gradient.setColorAt(1, QColor(160, 100, 150))
             painter.setBrush(gradient)
 
         elif style == 'cream':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 250, 240))
-            gradient.setColorAt(0.7, QColor(255, 240, 220))
-            gradient.setColorAt(1, QColor(240, 220, 200))
+            gradient.setColorAt(0, QColor(255, 240, 200))
+            gradient.setColorAt(0.7, QColor(255, 220, 160))
+            gradient.setColorAt(1, QColor(240, 190, 120))
             painter.setBrush(gradient)
 
         elif style == 'teal':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(200, 230, 230))
-            gradient.setColorAt(0.7, QColor(160, 200, 200))
-            gradient.setColorAt(1, QColor(120, 170, 170))
+            gradient.setColorAt(0, QColor(0, 200, 200))
+            gradient.setColorAt(0.7, QColor(0, 160, 160))
+            gradient.setColorAt(1, QColor(0, 120, 120))
             painter.setBrush(gradient)
 
         elif style == 'salmon':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 200, 190))
-            gradient.setColorAt(0.7, QColor(255, 170, 150))
-            gradient.setColorAt(1, QColor(240, 140, 120))
+            gradient.setColorAt(0, QColor(255, 160, 140))
+            gradient.setColorAt(0.7, QColor(255, 120, 100))
+            gradient.setColorAt(1, QColor(230, 80, 70))
             painter.setBrush(gradient)
 
         elif style == 'orchid':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(245, 210, 240))
-            gradient.setColorAt(0.7, QColor(225, 180, 220))
-            gradient.setColorAt(1, QColor(200, 150, 190))
+            gradient.setColorAt(0, QColor(230, 160, 220))
+            gradient.setColorAt(0.7, QColor(200, 120, 200))
+            gradient.setColorAt(1, QColor(170, 80, 170))
             painter.setBrush(gradient)
 
         elif style == 'mint_blue':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(210, 240, 255))
-            gradient.setColorAt(0.7, QColor(180, 220, 240))
-            gradient.setColorAt(1, QColor(150, 190, 220))
+            gradient.setColorAt(0, QColor(160, 220, 255))
+            gradient.setColorAt(0.7, QColor(120, 190, 240))
+            gradient.setColorAt(1, QColor(80, 160, 220))
             painter.setBrush(gradient)
 
         elif style == 'pear':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(230, 255, 200))
-            gradient.setColorAt(0.7, QColor(200, 230, 160))
-            gradient.setColorAt(1, QColor(170, 200, 130))
+            gradient.setColorAt(0, QColor(200, 255, 150))
+            gradient.setColorAt(0.7, QColor(160, 230, 100))
+            gradient.setColorAt(1, QColor(120, 200, 70))
             painter.setBrush(gradient)
 
         elif style == 'rose_gold':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 230, 210))
-            gradient.setColorAt(0.7, QColor(240, 200, 170))
-            gradient.setColorAt(1, QColor(220, 170, 140))
+            gradient.setColorAt(0, QColor(255, 200, 160))
+            gradient.setColorAt(0.7, QColor(240, 160, 120))
+            gradient.setColorAt(1, QColor(220, 120, 80))
             painter.setBrush(gradient)
 
         elif style == 'lavender_gray':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(240, 230, 240))
-            gradient.setColorAt(0.7, QColor(220, 210, 220))
-            gradient.setColorAt(1, QColor(190, 180, 190))
+            gradient.setColorAt(0, QColor(220, 200, 220))
+            gradient.setColorAt(0.7, QColor(190, 170, 190))
+            gradient.setColorAt(1, QColor(160, 140, 160))
             painter.setBrush(gradient)
 
         elif style == 'honeydew':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(240, 255, 240))
-            gradient.setColorAt(0.7, QColor(220, 240, 220))
-            gradient.setColorAt(1, QColor(200, 220, 200))
+            gradient.setColorAt(0, QColor(200, 255, 200))
+            gradient.setColorAt(0.7, QColor(160, 230, 160))
+            gradient.setColorAt(1, QColor(120, 200, 120))
             painter.setBrush(gradient)
 
         elif style == 'peach_puff':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 230, 210))
-            gradient.setColorAt(0.7, QColor(255, 210, 180))
-            gradient.setColorAt(1, QColor(240, 180, 150))
+            gradient.setColorAt(0, QColor(255, 200, 160))
+            gradient.setColorAt(0.7, QColor(255, 160, 120))
+            gradient.setColorAt(1, QColor(230, 120, 80))
             painter.setBrush(gradient)
 
         elif style == 'azure':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(230, 240, 255))
-            gradient.setColorAt(0.7, QColor(200, 220, 240))
-            gradient.setColorAt(1, QColor(170, 190, 220))
+            gradient.setColorAt(0, QColor(180, 200, 255))
+            gradient.setColorAt(0.7, QColor(140, 170, 240))
+            gradient.setColorAt(1, QColor(100, 140, 220))
             painter.setBrush(gradient)
 
         elif style == 'pale_green':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(230, 255, 230))
-            gradient.setColorAt(0.7, QColor(200, 240, 200))
-            gradient.setColorAt(1, QColor(170, 210, 170))
+            gradient.setColorAt(0, QColor(180, 255, 180))
+            gradient.setColorAt(0.7, QColor(140, 230, 140))
+            gradient.setColorAt(1, QColor(100, 200, 100))
             painter.setBrush(gradient)
 
         elif style == 'light_coral':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 210, 210))
-            gradient.setColorAt(0.7, QColor(240, 180, 180))
-            gradient.setColorAt(1, QColor(220, 150, 150))
+            gradient.setColorAt(0, QColor(255, 160, 160))
+            gradient.setColorAt(0.7, QColor(240, 120, 120))
+            gradient.setColorAt(1, QColor(220, 80, 80))
             painter.setBrush(gradient)
 
         elif style == 'thistle':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(245, 230, 245))
-            gradient.setColorAt(0.7, QColor(225, 200, 225))
-            gradient.setColorAt(1, QColor(200, 170, 200))
+            gradient.setColorAt(0, QColor(220, 180, 220))
+            gradient.setColorAt(0.7, QColor(190, 140, 190))
+            gradient.setColorAt(1, QColor(160, 100, 160))
             painter.setBrush(gradient)
 
         elif style == 'wheat':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 240, 220))
-            gradient.setColorAt(0.7, QColor(240, 220, 190))
-            gradient.setColorAt(1, QColor(220, 190, 160))
+            gradient.setColorAt(0, QColor(255, 220, 160))
+            gradient.setColorAt(0.7, QColor(240, 190, 120))
+            gradient.setColorAt(1, QColor(220, 160, 80))
             painter.setBrush(gradient)
 
         elif style == 'light_cyan':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(230, 255, 255))
-            gradient.setColorAt(0.7, QColor(200, 240, 240))
-            gradient.setColorAt(1, QColor(170, 210, 210))
+            gradient.setColorAt(0, QColor(180, 255, 255))
+            gradient.setColorAt(0.7, QColor(140, 230, 230))
+            gradient.setColorAt(1, QColor(100, 200, 200))
             painter.setBrush(gradient)
 
         elif style == 'pale_turquoise':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(210, 240, 240))
-            gradient.setColorAt(0.7, QColor(180, 220, 220))
-            gradient.setColorAt(1, QColor(150, 190, 190))
+            gradient.setColorAt(0, QColor(160, 240, 240))
+            gradient.setColorAt(0.7, QColor(120, 220, 220))
+            gradient.setColorAt(1, QColor(80, 190, 190))
             painter.setBrush(gradient)
 
         elif style == 'light_pink':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 230, 235))
-            gradient.setColorAt(0.7, QColor(240, 200, 210))
-            gradient.setColorAt(1, QColor(220, 170, 190))
+            gradient.setColorAt(0, QColor(255, 180, 200))
+            gradient.setColorAt(0.7, QColor(240, 140, 170))
+            gradient.setColorAt(1, QColor(220, 100, 140))
             painter.setBrush(gradient)
 
         elif style == 'light_salmon':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 210, 190))
-            gradient.setColorAt(0.7, QColor(255, 180, 150))
-            gradient.setColorAt(1, QColor(240, 150, 120))
+            gradient.setColorAt(0, QColor(255, 160, 140))
+            gradient.setColorAt(0.7, QColor(255, 120, 100))
+            gradient.setColorAt(1, QColor(230, 80, 70))
             painter.setBrush(gradient)
 
         elif style == 'light_skyblue':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(210, 230, 255))
-            gradient.setColorAt(0.7, QColor(180, 210, 240))
-            gradient.setColorAt(1, QColor(150, 180, 220))
+            gradient.setColorAt(0, QColor(160, 200, 255))
+            gradient.setColorAt(0.7, QColor(120, 170, 240))
+            gradient.setColorAt(1, QColor(80, 140, 220))
             painter.setBrush(gradient)
 
         elif style == 'light_green':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(210, 255, 210))
-            gradient.setColorAt(0.7, QColor(180, 230, 180))
-            gradient.setColorAt(1, QColor(150, 200, 150))
+            gradient.setColorAt(0, QColor(160, 255, 160))
+            gradient.setColorAt(0.7, QColor(120, 230, 120))
+            gradient.setColorAt(1, QColor(80, 200, 80))
             painter.setBrush(gradient)
 
         elif style == 'plum':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(245, 210, 245))
-            gradient.setColorAt(0.7, QColor(225, 180, 225))
-            gradient.setColorAt(1, QColor(200, 150, 200))
+            gradient.setColorAt(0, QColor(220, 160, 220))
+            gradient.setColorAt(0.7, QColor(190, 120, 190))
+            gradient.setColorAt(1, QColor(160, 80, 160))
             painter.setBrush(gradient)
 
         elif style == 'bisque':
             gradient = QRadialGradient(x, y, radius)
-            gradient.setColorAt(0, QColor(255, 240, 220))
-            gradient.setColorAt(0.7, QColor(240, 220, 190))
-            gradient.setColorAt(1, QColor(220, 190, 160))
+            gradient.setColorAt(0, QColor(255, 220, 180))
+            gradient.setColorAt(0.7, QColor(255, 190, 140))
+            gradient.setColorAt(1, QColor(240, 160, 100))
             painter.setBrush(gradient)
 
         else:

@@ -5489,6 +5489,54 @@
       "display_text": "finger",
       "finger": "4",
       "note_name": ""
+    },
+    "1F1N": {
+      "x": 508,
+      "y": 482,
+      "radius": 52,
+      "style": "soft_pink",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "F"
+    },
+    "1F2N": {
+      "x": 508,
+      "y": 598,
+      "radius": 52,
+      "style": "metal",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "C"
+    },
+    "1F3N": {
+      "x": 508,
+      "y": 714,
+      "radius": 52,
+      "style": "pear",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "G#"
     }
   },
   "open_notes": {
