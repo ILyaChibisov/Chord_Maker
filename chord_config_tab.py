@@ -153,11 +153,16 @@ class ChordConfigTab(QWidget):
                 ram_key = chord_info['data'].get('RAM')
                 crop_rect = self.config_manager.get_ram_crop_area(ram_key)
 
-                # Получаем элементы для отображения
+                # Получаем элементы для отображения (включая LAD элементы)
                 elements = self.config_manager.get_chord_elements(
                     chord_info['data'],
                     self.current_display_type
                 )
+
+                print(f"🎯 Отображение аккорда: {chord_info['name']}")
+                print(f"📊 Найдено элементов: {len(elements)}")
+                print(f"🔧 RAM ключ: {ram_key}")
+                print(f"📐 Область обрезки: {crop_rect}")
 
                 # ВСЕГДА используем обрезку по RAM, если она определена
                 if crop_rect:

@@ -20,13 +20,26 @@ class ChordConfigManager:
             # Загружаем Excel файл
             if os.path.exists(self.excel_path):
                 # Основной лист с аккордами
-                df_chords = pd.read_excel(self.excel_path, sheet_name=0)
+                df_chords = pd.read_excel(self.excel_path, sheet_name='CHORDS')
                 print("=" * 80)
-                print("КОЛОНКИ В EXCEL:", df_chords.columns.tolist())
+                print("КОЛОНКИ В EXCEL CHORDS:", df_chords.columns.tolist())
 
                 # Конвертируем в словари
                 self.chord_data = df_chords.to_dict('records')
                 print(f"Загружено {len(self.chord_data)} аккордов")
+
+                # Загружаем данные RAM
+                df_ram = pd.read_excel(self.excel_path, sheet_name='RAM')
+                print("КОЛОНКИ В EXCEL RAM:", df_ram.columns.tolist())
+
+                # Сохраняем RAM данные для использования
+                self.ram_data = df_ram.to_dict('records')
+                print(f"Загружено {len(self.ram_data)} RAM конфигураций")
+
+                # Выводим все RAM конфигурации для отладки
+                print("📋 Все RAM конфигурации:")
+                for ram_item in self.ram_data:
+                    print(f"   RAM: {ram_item.get('RAM')} -> LAD: {ram_item.get('LAD')}")
 
             else:
                 print(f"Excel файл не найден: {self.excel_path}")
@@ -37,8 +50,10 @@ class ChordConfigManager:
                 with open(self.template_path, 'r', encoding='utf-8') as f:
                     self.templates = json.load(f)
                 print("JSON шаблоны загружены")
+                print(f"Доступные разделы в JSON: {list(self.templates.keys())}")
+                print(f"Доступные frets в JSON: {list(self.templates.get('frets', {}).keys())}")
             else:
-                print(f"JSON файл не найден: {self.template_path}")
+                print(f"JSON файл не найдена: {self.template_path}")
                 return False
 
             return True
@@ -104,6 +119,25 @@ class ChordConfigManager:
         print(f"❌ Область обрезки для '{ram_name}' не найдена в JSON")
         return None
 
+    def get_ram_lad_value(self, ram_name):
+        """Получение значения LAD для указанного RAM из таблицы RAM"""
+        if not ram_name or self._is_empty_value(ram_name):
+            return None
+
+        ram_name = str(ram_name).strip()
+        print(f"🔍 Поиск LAD для RAM: '{ram_name}'")
+
+        # Ищем RAM в таблице RAM
+        for ram_item in self.ram_data:
+            item_ram = ram_item.get('RAM')
+            if item_ram and str(item_ram).strip() == ram_name:
+                lad_value = ram_item.get('LAD')
+                print(f"✅ Найден LAD для RAM '{ram_name}': '{lad_value}'")
+                return lad_value
+
+        print(f"❌ RAM '{ram_name}' не найден в таблице RAM")
+        return None
+
     def get_ram_elements(self, ram_name):
         """Получение элементов RAM по имени"""
         elements = []
@@ -128,6 +162,34 @@ class ChordConfigManager:
                     'data': self.templates['frets'][element_key]
                 })
 
+        return elements
+
+    def get_ram_elements_from_lad(self, lad_value):
+        """Получение элементов RAM на основе значения LAD"""
+        elements = []
+
+        if not lad_value or self._is_empty_value(lad_value):
+            return elements
+
+        lad_value = str(lad_value).strip()
+        print(f"🔍 Поиск элементов для LAD: '{lad_value}'")
+
+        # Разделяем значения по запятой
+        lad_keys = [key.strip() for key in lad_value.split(',')]
+
+        for lad_key in lad_keys:
+            # Формируем ключ для поиска в JSON (добавляем LAD)
+            json_key = f"{lad_key}LAD"
+            if json_key in self.templates.get('frets', {}):
+                elements.append({
+                    'type': 'fret',
+                    'data': self.templates['frets'][json_key]
+                })
+                print(f"✅ Найден элемент лада: {json_key}")
+            else:
+                print(f"❌ Элемент лада не найден в JSON: {json_key}")
+
+        print(f"📊 Найдено {len(elements)} элементов LAD")
         return elements
 
     def _is_empty_value(self, value):
@@ -166,16 +228,36 @@ class ChordConfigManager:
         """Получение элементов аккорда в зависимости от типа отображения"""
         elements = []
 
-        # Добавляем RAM элементы (всегда)
+        print(f"🎵 Получение элементов для аккорда:")
+        print(f"   RAM: {chord_config.get('RAM')}")
+        print(f"   FN: {chord_config.get('FN')}")
+        print(f"   FO: {chord_config.get('FO')}")
+        print(f"   F2: {chord_config.get('F2')}")
+
+        # Получаем значение LAD из таблицы RAM на основе RAM аккорда
         ram_key = chord_config.get('RAM')
+        lad_value = None
+        if ram_key:
+            lad_value = self.get_ram_lad_value(ram_key)
+            print(f"   LAD (из таблицы RAM): {lad_value}")
+
+        # Добавляем RAM элементы из колонки RAM (для обрезки)
         if ram_key:
             ram_elements = self.get_ram_elements(ram_key)
             elements.extend(ram_elements)
+            print(f"🔧 Добавлено {len(ram_elements)} элементов RAM")
+
+        # Добавляем LAD элементы на основе значения из таблицы RAM
+        if lad_value:
+            lad_elements = self.get_ram_elements_from_lad(lad_value)
+            elements.extend(lad_elements)
+            print(f"🎯 Добавлено {len(lad_elements)} элементов LAD")
 
         if display_type == "notes":
             # Для нот: используем FN
             fn_elements = self.get_elements_from_column(chord_config.get('FN'), 'notes')
             elements.extend(fn_elements)
+            print(f"🎵 Добавлено {len(fn_elements)} элементов нот")
 
         else:  # fingers
             # Для пальцев: используем FO и F2
@@ -184,6 +266,13 @@ class ChordConfigManager:
 
             elements.extend(fo_elements)
             elements.extend(f2_elements)
+            print(f"👆 Добавлено {len(fo_elements) + len(f2_elements)} элементов пальцев")
+
+        print(f"📊 ИТОГО элементов для отрисовки: {len(elements)}")
+
+        # Выводим подробную информацию о каждом элементе
+        for i, element in enumerate(elements):
+            print(f"   Элемент {i + 1}: {element['type']} - {element['data'].get('symbol', '?')}")
 
         return elements
 
@@ -212,6 +301,9 @@ class ChordConfigManager:
         try:
             # Адаптируем координаты к масштабу обрезанного изображения
             adapted_data = self._adapt_coordinates(fret_data, crop_rect)
+            print(
+                f"🎨 Рисование лада: {adapted_data.get('symbol', '?')} на позиции ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)})")
+
             from drawing_elements import DrawingElements
             DrawingElements.draw_fret(painter, adapted_data)
         except ImportError:
@@ -221,13 +313,15 @@ class ChordConfigManager:
             size = adapted_data.get('size', 20)
             symbol = adapted_data.get('symbol', 'I')
 
+            print(f"🎨 Рисование лада (fallback): {symbol} на позиции ({x}, {y}) размер {size}")
+
             painter.setPen(Qt.black)
             font = painter.font()
             font.setPointSize(size)
             painter.setFont(font)
             painter.drawText(x, y, symbol)
         except Exception as e:
-            print(f"Ошибка рисования лада: {e}")
+            print(f"❌ Ошибка рисования лада: {e}")
 
     def draw_note(self, painter, note_data, crop_rect=None):
         """Рисование ноты с учетом масштаба"""

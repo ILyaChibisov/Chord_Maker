@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="рамка работает ноты нет">
+    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="цвета нот определены">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chord_config_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/chord_config_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chord_config_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/chord_config_tab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grafic_tools/drawing_elements.py" beforeDir="false" afterPath="$PROJECT_DIR$/grafic_tools/drawing_elements.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates2/template.json" beforeDir="false" afterPath="$PROJECT_DIR$/templates2/template.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +140,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761240933416</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="цвета нот определены">
+      <option name="closed" value="true" />
+      <created>1761490223807</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1761490223807</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -150,6 +157,7 @@
     <MESSAGE value="баре1" />
     <MESSAGE value="добавил прорисовку аккордов" />
     <MESSAGE value="рамка работает ноты нет" />
-    <option name="LAST_COMMIT_MESSAGE" value="рамка работает ноты нет" />
+    <MESSAGE value="цвета нот определены" />
+    <option name="LAST_COMMIT_MESSAGE" value="цвета нот определены" />
   </component>
 </project>
