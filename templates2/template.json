@@ -211,7 +211,7 @@
   },
 
 
-
+ "notes": {
   "1F1N": {
     "x": 508,
     "y": 482,
@@ -5131,7 +5131,7 @@
       "display_text": "finger",
       "finger": "4",
       "note_name": ""
-    },
+    }},
 
 
   
@@ -7727,8 +7727,9 @@
       "display_text": "note_name",
       "symbol": "",
       "note_name": "E"
-    }
-  },
+    }},
+
+
   "barres": {
     "1BAR1-6": {
       "x": 508,
