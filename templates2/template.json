@@ -5510,7 +5510,7 @@
       "x": 508,
       "y": 598,
       "radius": 52,
-      "style": "metal",
+      "style": "seafoam",
       "decoration": "none",
       "text_color": [
         0,
@@ -5526,7 +5526,7 @@
       "x": 508,
       "y": 714,
       "radius": 52,
-      "style": "pear",
+      "style": "honey",
       "decoration": "none",
       "text_color": [
         0,
@@ -5537,6 +5537,182 @@
       "display_text": "note_name",
       "finger": "1",
       "note_name": "G#"
+    },
+    "1F4N": {
+      "x": 508,
+      "y": 828,
+      "radius": 52,
+      "style": "metal",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "D#"
+    },
+    "1F5N": {
+      "x": 508,
+      "y": 938,
+      "radius": 52,
+      "style": "cream",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "A#"
+    },
+    "1F6N": {
+      "x": 508,
+      "y": 1052,
+      "radius": 52,
+      "style": "soft_pink",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "F"
+    },
+    "2F1N": {
+      "x": 876,
+      "y": 482,
+      "radius": 52,
+      "style": "periwinkle",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "F#"
+    },
+    "2F2N": {
+      "x": 876,
+      "y": 598,
+      "radius": 52,
+      "style": "pistachio",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "C#"
+    },
+    "2F3N": {
+      "x": 876,
+      "y": 714,
+      "radius": 52,
+      "style": "purple_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "A"
+    },
+    "2F4N": {
+      "x": 876,
+      "y": 828,
+      "radius": 52,
+      "style": "ice",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "E"
+    },
+    "2F5N": {
+      "x": 876,
+      "y": 938,
+      "radius": 52,
+      "style": "green_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "B"
+    },
+    "2F6N": {
+      "x": 876,
+      "y": 1052,
+      "radius": 52,
+      "style": "periwinkle",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "F#"
+    },
+    "3F1N": {
+      "x": 1212,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "G"
+    },
+    "3F2N": {
+      "x": 1212,
+      "y": 598,
+      "radius": 52,
+      "style": "red_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "note_name",
+      "finger": "1",
+      "note_name": "D"
     }
   },
   "open_notes": {
