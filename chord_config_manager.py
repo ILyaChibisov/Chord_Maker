@@ -12,6 +12,7 @@ class ChordConfigManager:
         self.image_path = os.path.join("templates2", "img.png")
         self.chord_data = {}
         self.ram_data = {}
+        self.note_data = []  # Данные из листа NOTE
         self.templates = {}
 
     def load_config_data(self):
@@ -36,10 +37,19 @@ class ChordConfigManager:
                 self.ram_data = df_ram.to_dict('records')
                 print(f"Загружено {len(self.ram_data)} RAM конфигураций")
 
-                # Выводим все RAM конфигурации для отладки
-                print("📋 Все RAM конфигурации:")
-                for ram_item in self.ram_data:
-                    print(f"   RAM: {ram_item.get('RAM')} -> LAD: {ram_item.get('LAD')}")
+                # Загружаем данные NOTE
+                try:
+                    df_note = pd.read_excel(self.excel_path, sheet_name='NOTE')
+                    print("КОЛОНКИ В EXCEL NOTE:", df_note.columns.tolist())
+                    print("ПЕРВЫЕ 5 СТРОК NOTE:")
+                    print(df_note.head())
+
+                    # Сохраняем NOTE данные для использования
+                    self.note_data = df_note.to_dict('records')
+                    print(f"Загружено {len(self.note_data)} NOTE конфигураций")
+                except Exception as e:
+                    print(f"⚠️ Лист NOTE не найден или ошибка загрузки: {e}")
+                    self.note_data = []
 
             else:
                 print(f"Excel файл не найден: {self.excel_path}")
@@ -50,8 +60,7 @@ class ChordConfigManager:
                 with open(self.template_path, 'r', encoding='utf-8') as f:
                     self.templates = json.load(f)
                 print("JSON шаблоны загружены")
-                print(f"Доступные разделы в JSON: {list(self.templates.keys())}")
-                print(f"Доступные frets в JSON: {list(self.templates.get('frets', {}).keys())}")
+
             else:
                 print(f"JSON файл не найдена: {self.template_path}")
                 return False
@@ -202,27 +211,148 @@ class ChordConfigManager:
             return True
         return False
 
-    def get_elements_from_column(self, column_value, element_type):
-        """Получение элементов из колонки Excel"""
+    def validate_barre_data(self, barre_data):
+        """Проверка и валидация данных баре"""
+        if not barre_data:
+            return False
+
+        # Проверяем обязательные поля
+        required_fields = ['x', 'y', 'width', 'height']
+        for field in required_fields:
+            if field not in barre_data:
+                print(f"❌ Отсутствует поле {field} в данных баре")
+                return False
+
+        return True
+
+    def get_barre_elements(self, bar_value):
+        """Получение элементов баре из колонки BAR"""
+        elements = []
+
+        if self._is_empty_value(bar_value):
+            return elements
+
+        bar_str = str(bar_value).strip()
+        print(f"🔍 Поиск баре: '{bar_str}'")
+
+        # Ищем баре в разделе barres
+        if bar_str in self.templates.get('barres', {}):
+            barre_data = self.templates['barres'][bar_str]
+
+            # Валидируем данные баре
+            if self.validate_barre_data(barre_data):
+                elements.append({
+                    'type': 'barre',
+                    'data': barre_data
+                })
+                print(f"✅ Найден баре: {bar_str} - {barre_data.get('width', 0)}x{barre_data.get('height', 0)}")
+            else:
+                print(f"❌ Невалидные данные баре: {bar_str}")
+        else:
+            print(f"❌ Баре не найден: {bar_str}")
+
+        return elements
+
+    def get_note_elements_from_column(self, column_value, column_name):
+        """Получение элементов нот из колонки с поиском в таблице NOTE"""
         elements = []
 
         if self._is_empty_value(column_value):
             return elements
 
-        element_str = str(column_value)
-        element_list = element_str.split(',')
+        note_str = str(column_value)
+        note_list = [item.strip() for item in note_str.split(',') if item.strip()]
 
-        for element_key in element_list:
-            element_key = element_key.strip()
+        print(f"🔍 Поиск элементов для колонки '{column_name}': {note_list}")
 
-            # Ищем элемент в соответствующем разделе templates
-            if element_key in self.templates.get(element_type, {}):
-                elements.append({
-                    'type': element_type[:-1] if element_type.endswith('s') else element_type,
-                    'data': self.templates[element_type][element_key]
-                })
+        for note_key in note_list:
+            print(f"  🔎 Обработка значения: '{note_key}'")
 
+            # Ищем в таблице NOTE
+            element_found = self._find_element_in_note_table(note_key, column_name)
+            if element_found:
+                elements.append(element_found)
+                print(f"  ✅ Найден элемент для '{note_key}': {element_found['type']}")
+            else:
+                print(f"  ❌ Элемент не найден в таблице NOTE для '{note_key}'")
+
+        print(f"📝 Найдено {len(elements)} элементов для колонки '{column_name}'")
         return elements
+
+    def _find_element_in_note_table(self, note_key, column_name):
+        """Поиск элемента в таблице NOTE по ключу и колонке"""
+        if not self.note_data:
+            print(f"  ⚠️ Таблица NOTE не загружена, поиск напрямую в JSON")
+            return self._find_element_in_json(note_key)
+
+        # Определяем соответствие колонок
+        column_mapping = {
+            'FNL': ('FNL', 'FNL_ELEM'),
+            'FN': ('FN', 'FN_ELEM'),
+            'FPOL': ('FPOL', 'FPOL_ELEM'),
+            'FPXL': ('FPXL', 'FPXL_ELEM'),
+            'FP1': ('FP1', 'FP1_ELEM'),
+            'FP2': ('FP2', 'FP2_ELEM'),
+            'FP3': ('FP3', 'FP3_ELEM'),
+            'FP4': ('FP4', 'FP4_ELEM')
+        }
+
+        if column_name not in column_mapping:
+            print(f"  ❌ Неизвестная колонка: {column_name}")
+            return None
+
+        source_col, elem_col = column_mapping[column_name]
+
+        # Ищем в таблице NOTE
+        for note_item in self.note_data:
+            item_value = note_item.get(source_col)
+            if item_value and str(item_value).strip() == note_key:
+                elem_value = note_item.get(elem_col)
+                if elem_value and not self._is_empty_value(elem_value):
+                    elem_key = str(elem_value).strip()
+                    print(f"  ✅ Найден элемент в NOTE: {note_key} -> {elem_key}")
+                    return self._find_element_in_json(elem_key)
+
+        print(f"  ❌ Не найдено соответствие в NOTE для '{note_key}' в колонке '{source_col}'")
+        return None
+
+    def _find_element_in_json(self, element_key):
+        """Поиск элемента в различных разделах JSON"""
+        element_key = element_key.strip()
+
+        # Ищем в notes
+        if element_key in self.templates.get('notes', {}):
+            element_data = self.templates['notes'][element_key]
+            # Добавляем ключ для отладки
+            element_data['_key'] = element_key
+            print(f"    ✅ Найден элемент ноты: {element_key} (стиль: {element_data.get('style', 'default')})")
+            return {
+                'type': 'note',
+                'data': element_data
+            }
+
+        # Ищем в open_notes
+        if element_key in self.templates.get('open_notes', {}):
+            element_data = self.templates['open_notes'][element_key]
+            element_data['_key'] = element_key
+            print(f"    ✅ Найден элемент открытой ноты: {element_key} (стиль: {element_data.get('style', 'default')})")
+            return {
+                'type': 'note',
+                'data': element_data
+            }
+
+        # Ищем в frets (на случай, если это лад)
+        if element_key in self.templates.get('frets', {}):
+            element_data = self.templates['frets'][element_key]
+            element_data['_key'] = element_key
+            print(f"    ✅ Найден элемент лада: {element_key}")
+            return {
+                'type': 'fret',
+                'data': element_data
+            }
+
+        print(f"    ❌ Элемент не найден в JSON: {element_key}")
+        return None
 
     def get_chord_elements(self, chord_config, display_type):
         """Получение элементов аккорда в зависимости от типа отображения"""
@@ -230,9 +360,15 @@ class ChordConfigManager:
 
         print(f"🎵 Получение элементов для аккорда:")
         print(f"   RAM: {chord_config.get('RAM')}")
+        print(f"   BAR: {chord_config.get('BAR')}")
+        print(f"   FNL: {chord_config.get('FNL')}")
         print(f"   FN: {chord_config.get('FN')}")
-        print(f"   FO: {chord_config.get('FO')}")
-        print(f"   F2: {chord_config.get('F2')}")
+        print(f"   FPOL: {chord_config.get('FPOL')}")
+        print(f"   FPXL: {chord_config.get('FPXL')}")
+        print(f"   FP1: {chord_config.get('FP1')}")
+        print(f"   FP2: {chord_config.get('FP2')}")
+        print(f"   FP3: {chord_config.get('FP3')}")
+        print(f"   FP4: {chord_config.get('FP4')}")
 
         # Получаем значение LAD из таблицы RAM на основе RAM аккорда
         ram_key = chord_config.get('RAM')
@@ -253,31 +389,44 @@ class ChordConfigManager:
             elements.extend(lad_elements)
             print(f"🎯 Добавлено {len(lad_elements)} элементов LAD")
 
+        # Добавляем элементы баре (всегда)
+        bar_elements = self.get_barre_elements(chord_config.get('BAR'))
+        elements.extend(bar_elements)
+        print(f"🎸 Добавлено {len(bar_elements)} элементов баре")
+
         if display_type == "notes":
-            # Для нот: используем FN
-            fn_elements = self.get_elements_from_column(chord_config.get('FN'), 'notes')
+            # Для нот: используем FNL и FN
+            fnl_elements = self.get_note_elements_from_column(chord_config.get('FNL'), 'FNL')
+            fn_elements = self.get_note_elements_from_column(chord_config.get('FN'), 'FN')
+
+            elements.extend(fnl_elements)
             elements.extend(fn_elements)
-            print(f"🎵 Добавлено {len(fn_elements)} элементов нот")
+            print(f"🎵 Добавлено {len(fnl_elements) + len(fn_elements)} элементов нот")
 
         else:  # fingers
-            # Для пальцев: используем FO и F2
-            fo_elements = self.get_elements_from_column(chord_config.get('FO'), 'notes')
-            f2_elements = self.get_elements_from_column(chord_config.get('F2'), 'notes')
+            # Для пальцев: используем FPOL, FPXL, FP1, FP2, FP3, FP4
+            fpol_elements = self.get_note_elements_from_column(chord_config.get('FPOL'), 'FPOL')
+            fpxl_elements = self.get_note_elements_from_column(chord_config.get('FPXL'), 'FPXL')
+            fp1_elements = self.get_note_elements_from_column(chord_config.get('FP1'), 'FP1')
+            fp2_elements = self.get_note_elements_from_column(chord_config.get('FP2'), 'FP2')
+            fp3_elements = self.get_note_elements_from_column(chord_config.get('FP3'), 'FP3')
+            fp4_elements = self.get_note_elements_from_column(chord_config.get('FP4'), 'FP4')
 
-            elements.extend(fo_elements)
-            elements.extend(f2_elements)
-            print(f"👆 Добавлено {len(fo_elements) + len(f2_elements)} элементов пальцев")
+            elements.extend(fpol_elements)
+            elements.extend(fpxl_elements)
+            elements.extend(fp1_elements)
+            elements.extend(fp2_elements)
+            elements.extend(fp3_elements)
+            elements.extend(fp4_elements)
+            print(
+                f"👆 Добавлено {len(fpol_elements) + len(fpxl_elements) + len(fp1_elements) + len(fp2_elements) + len(fp3_elements) + len(fp4_elements)} элементов пальцев")
 
         print(f"📊 ИТОГО элементов для отрисовки: {len(elements)}")
-
-        # Выводим подробную информацию о каждом элементе
-        for i, element in enumerate(elements):
-            print(f"   Элемент {i + 1}: {element['type']} - {element['data'].get('symbol', '?')}")
 
         return elements
 
     def draw_elements_on_image(self, pixmap, elements, crop_rect=None):
-        """Рисование элементов на изображении с учетом масштаба"""
+        """Рисование элементов на изображении БЕЗ масштабирования элементов"""
         if pixmap.isNull():
             return pixmap
 
@@ -290,67 +439,139 @@ class ChordConfigManager:
                     self.draw_fret(painter, element['data'], crop_rect)
                 elif element['type'] == 'note':
                     self.draw_note(painter, element['data'], crop_rect)
+                elif element['type'] == 'barre':
+                    self.draw_barre(painter, element['data'], crop_rect)
 
         finally:
             painter.end()
 
         return result_pixmap
 
-    def draw_fret(self, painter, fret_data, crop_rect=None):
-        """Рисование лада с учетом масштаба"""
+    def draw_elements_on_canvas(self, painter, elements, crop_rect):
+        """Рисование элементов на готовом QPainter с правильными координатами"""
         try:
-            # Адаптируем координаты к масштабу обрезанного изображения
-            adapted_data = self._adapt_coordinates(fret_data, crop_rect)
-            print(
-                f"🎨 Рисование лада: {adapted_data.get('symbol', '?')} на позиции ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)})")
+            for element in elements:
+                if element['type'] == 'fret':
+                    self.draw_fret_on_canvas(painter, element['data'], crop_rect)
+                elif element['type'] == 'note':
+                    self.draw_note_on_canvas(painter, element['data'], crop_rect)
+                elif element['type'] == 'barre':
+                    self.draw_barre_on_canvas(painter, element['data'], crop_rect)
+        except Exception as e:
+            print(f"❌ Ошибка рисования элементов на canvas: {e}")
+            import traceback
+            traceback.print_exc()
+
+    def draw_fret(self, painter, fret_data, crop_rect=None):
+        """Рисование лада с учетом обрезки"""
+        try:
+            # Адаптируем координаты к обрезанному изображению
+            adapted_data = self._adapt_coordinates_simple(fret_data, crop_rect)
+            symbol = adapted_data.get('symbol', '?')
+            print(f"🎨 Рисование лада: {symbol} на позиции ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)})")
 
             from drawing_elements import DrawingElements
             DrawingElements.draw_fret(painter, adapted_data)
-        except ImportError:
-            adapted_data = self._adapt_coordinates(fret_data, crop_rect)
-            x = adapted_data.get('x', 0)
-            y = adapted_data.get('y', 0)
-            size = adapted_data.get('size', 20)
-            symbol = adapted_data.get('symbol', 'I')
-
-            print(f"🎨 Рисование лада (fallback): {symbol} на позиции ({x}, {y}) размер {size}")
-
-            painter.setPen(Qt.black)
-            font = painter.font()
-            font.setPointSize(size)
-            painter.setFont(font)
-            painter.drawText(x, y, symbol)
         except Exception as e:
             print(f"❌ Ошибка рисования лада: {e}")
 
-    def draw_note(self, painter, note_data, crop_rect=None):
-        """Рисование ноты с учетом масштаба"""
+    def draw_fret_on_canvas(self, painter, fret_data, crop_rect):
+        """Рисование лада на canvas с правильными координатами"""
         try:
-            # Адаптируем координаты к масштабу обрезанного изображения
-            adapted_data = self._adapt_coordinates(note_data, crop_rect)
+            # Адаптируем координаты к canvas
+            adapted_data = self._adapt_coordinates_for_canvas(fret_data, crop_rect)
+            symbol = adapted_data.get('symbol', '?')
+            print(
+                f"🎨 Рисование лада на canvas: {symbol} на позиции ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)})")
+
+            from drawing_elements import DrawingElements
+            DrawingElements.draw_fret(painter, adapted_data)
+        except Exception as e:
+            print(f"❌ Ошибка рисования лада на canvas: {e}")
+
+    def draw_note(self, painter, note_data, crop_rect=None):
+        """Рисование ноты с учетом обрезки"""
+        try:
+            # Адаптируем координаты к обрезанному изображению
+            adapted_data = self._adapt_coordinates_simple(note_data, crop_rect)
+
+            # Определяем тип отображаемого текста
+            display_text = adapted_data.get('display_text', 'finger')
+            if display_text == 'note_name':
+                symbol = adapted_data.get('note_name', '')
+            elif display_text == 'symbol':
+                symbol = adapted_data.get('symbol', '')
+            else:  # finger
+                symbol = adapted_data.get('finger', '1')
+
+            print(f"🎵 Рисование ноты: {symbol} на позиции ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)}) "
+                  f"стиль: {adapted_data.get('style', 'default')}")
+
             from drawing_elements import DrawingElements
             DrawingElements.draw_note(painter, adapted_data)
-        except ImportError:
-            adapted_data = self._adapt_coordinates(note_data, crop_rect)
-            x = adapted_data.get('x', 0)
-            y = adapted_data.get('y', 0)
-            radius = adapted_data.get('radius', 15)
-            symbol = adapted_data.get('symbol', '1') or adapted_data.get('finger', '1')
-
-            painter.setPen(Qt.black)
-            painter.setBrush(Qt.red)
-            painter.drawEllipse(x - radius, y - radius, radius * 2, radius * 2)
-
-            font = painter.font()
-            font.setPointSize(10)
-            painter.setFont(font)
-            painter.setPen(Qt.white)
-            painter.drawText(x - 3, y + 3, symbol)
         except Exception as e:
             print(f"Ошибка рисования ноты: {e}")
 
-    def _adapt_coordinates(self, element_data, crop_rect):
-        """Адаптация координат элемента к обрезанному изображению"""
+    def draw_note_on_canvas(self, painter, note_data, crop_rect):
+        """Рисование ноты на canvas с правильными координатами"""
+        try:
+            # Адаптируем координаты к canvas
+            adapted_data = self._adapt_coordinates_for_canvas(note_data, crop_rect)
+
+            # Определяем тип отображаемого текста
+            display_text = adapted_data.get('display_text', 'finger')
+            if display_text == 'note_name':
+                symbol = adapted_data.get('note_name', '')
+            elif display_text == 'symbol':
+                symbol = adapted_data.get('symbol', '')
+            else:  # finger
+                symbol = adapted_data.get('finger', '1')
+
+            print(
+                f"🎵 Рисование ноты на canvas: {symbol} на позиции ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)}) "
+                f"стиль: {adapted_data.get('style', 'default')}")
+
+            from drawing_elements import DrawingElements
+            DrawingElements.draw_note(painter, adapted_data)
+        except Exception as e:
+            print(f"Ошибка рисования ноты на canvas: {e}")
+
+    def draw_barre(self, painter, barre_data, crop_rect=None):
+        """Рисование баре с учетом обрезки - ПРОСТОЙ СДВИГ КООРДИНАТ"""
+        try:
+            # Адаптируем координаты к обрезанному изображению
+            adapted_data = self._adapt_coordinates_simple(barre_data, crop_rect)
+
+            print(f"🎸 Рисование баре: позиция ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)}) "
+                  f"размер {adapted_data.get('width', 0)}x{adapted_data.get('height', 0)} "
+                  f"стиль {adapted_data.get('style', 'default')}")
+
+            from drawing_elements import DrawingElements
+            DrawingElements.draw_barre(painter, adapted_data)
+        except Exception as e:
+            print(f"❌ Ошибка рисования баре: {e}")
+            import traceback
+            traceback.print_exc()
+
+    def draw_barre_on_canvas(self, painter, barre_data, crop_rect):
+        """Рисование баре на canvas с правильными координатами"""
+        try:
+            # Адаптируем координаты к canvas
+            adapted_data = self._adapt_coordinates_for_canvas(barre_data, crop_rect)
+
+            print(f"🎸 Рисование баре на canvas: позиция ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)}) "
+                  f"размер {adapted_data.get('width', 0)}x{adapted_data.get('height', 0)} "
+                  f"радиус {adapted_data.get('radius', 0)}")
+
+            from drawing_elements import DrawingElements
+            DrawingElements.draw_barre(painter, adapted_data)
+        except Exception as e:
+            print(f"❌ Ошибка рисования баре на canvas: {e}")
+            import traceback
+            traceback.print_exc()
+
+    def _adapt_coordinates_simple(self, element_data, crop_rect):
+        """Простая адаптация координат - только сдвиг без масштабирования"""
         if not crop_rect:
             return element_data.copy()
 
@@ -360,12 +581,53 @@ class ChordConfigManager:
         # Получаем координаты обрезки
         crop_x, crop_y, crop_width, crop_height = crop_rect
 
-        # Предполагаем, что оригинальные координаты заданы для полного изображения
-        # Вычитаем координаты обрезки, чтобы перевести в систему координат обрезанного изображения
+        # Просто вычитаем координаты обрезки
         if 'x' in adapted_data:
             adapted_data['x'] = adapted_data['x'] - crop_x
 
         if 'y' in adapted_data:
             adapted_data['y'] = adapted_data['y'] - crop_y
+
+        # Преобразуем в целые числа для Qt
+        adapted_data['x'] = int(round(adapted_data.get('x', 0)))
+        adapted_data['y'] = int(round(adapted_data.get('y', 0)))
+
+        if 'width' in adapted_data:
+            adapted_data['width'] = int(round(adapted_data.get('width', 100)))
+        if 'height' in adapted_data:
+            adapted_data['height'] = int(round(adapted_data.get('height', 20)))
+        if 'radius' in adapted_data:
+            adapted_data['radius'] = int(round(adapted_data.get('radius', 10)))
+
+        return adapted_data
+
+    def _adapt_coordinates_for_canvas(self, element_data, crop_rect):
+        """Адаптация координат для рисования на canvas размером с область обрезки"""
+        if not crop_rect:
+            return element_data.copy()
+
+        # Копируем данные элемента
+        adapted_data = element_data.copy()
+
+        # Получаем координаты обрезки
+        crop_x, crop_y, crop_width, crop_height = crop_rect
+
+        # Просто вычитаем координаты обрезки (элементы будут в системе координат canvas)
+        if 'x' in adapted_data:
+            adapted_data['x'] = adapted_data['x'] - crop_x
+
+        if 'y' in adapted_data:
+            adapted_data['y'] = adapted_data['y'] - crop_y
+
+        # Преобразуем в целые числа для Qt
+        adapted_data['x'] = int(round(adapted_data.get('x', 0)))
+        adapted_data['y'] = int(round(adapted_data.get('y', 0)))
+
+        if 'width' in adapted_data:
+            adapted_data['width'] = int(round(adapted_data.get('width', 100)))
+        if 'height' in adapted_data:
+            adapted_data['height'] = int(round(adapted_data.get('height', 20)))
+        if 'radius' in adapted_data:
+            adapted_data['radius'] = int(round(adapted_data.get('radius', 10)))
 
         return adapted_data

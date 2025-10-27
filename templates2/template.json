@@ -1292,6 +1292,1448 @@
     "finger": "1",
     "note_name": "G"
   },
+ "1F11": {
+      "x": 508,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "1F21": {
+      "x": 508,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "1F31": {
+      "x": 508,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "1F41": {
+      "x": 508,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "1F51": {
+      "x": 508,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "1F61": {
+      "x": 508,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "2F11": {
+      "x": 876,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "2F21": {
+      "x": 876,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "2F31": {
+      "x": 876,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "2F41": {
+      "x": 876,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "2F51": {
+      "x": 876,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "2F61": {
+      "x": 876,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "3F11": {
+      "x": 1212,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "3F21": {
+      "x": 1212,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "3F31": {
+      "x": 1212,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "3F41": {
+      "x": 1212,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "3F51": {
+      "x": 1212,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "3F61": {
+      "x": 1212,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "4F11": {
+      "x": 1520,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "4F21": {
+      "x": 1520,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "4F31": {
+      "x": 1520,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "4F41": {
+      "x": 1520,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "4F51": {
+      "x": 1520,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "4F61": {
+      "x": 1520,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "5F11": {
+      "x": 1814,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "5F21": {
+      "x": 1814,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "5F31": {
+      "x": 1814,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "5F41": {
+      "x": 1814,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "5F51": {
+      "x": 1814,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "5F61": {
+      "x": 1814,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "6F11": {
+      "x": 2098,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "6F21": {
+      "x": 2098,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "6F31": {
+      "x": 2098,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "6F41": {
+      "x": 2098,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "6F51": {
+      "x": 2098,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "6F61": {
+      "x": 2098,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "7F11": {
+      "x": 2364,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "7F21": {
+      "x": 2364,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "7F31": {
+      "x": 2364,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "7F41": {
+      "x": 2364,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "7F51": {
+      "x": 2364,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "7F61": {
+      "x": 2364,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "8F11": {
+      "x": 2610,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "8F21": {
+      "x": 2610,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "8F31": {
+      "x": 2610,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "8F41": {
+      "x": 2610,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "8F51": {
+      "x": 2610,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "8F61": {
+      "x": 2610,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "9F11": {
+      "x": 2844,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "9F21": {
+      "x": 2844,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "9F31": {
+      "x": 2844,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "9F41": {
+      "x": 2844,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "9F51": {
+      "x": 2844,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "9F61": {
+      "x": 2844,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "10F11": {
+      "x": 3062,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "10F21": {
+      "x": 3062,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "10F31": {
+      "x": 3062,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "10F41": {
+      "x": 3062,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "10F51": {
+      "x": 3062,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "10F61": {
+      "x": 3062,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "11F11": {
+      "x": 3270,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "11F21": {
+      "x": 3270,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "11F31": {
+      "x": 3270,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "11F41": {
+      "x": 3270,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "11F51": {
+      "x": 3270,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "11F61": {
+      "x": 3270,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "12F11": {
+      "x": 3464,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "12F21": {
+      "x": 3464,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "12F31": {
+      "x": 3464,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "12F41": {
+      "x": 3464,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "12F51": {
+      "x": 3464,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "12F61": {
+      "x": 3464,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "13F11": {
+      "x": 3648,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "13F21": {
+      "x": 3648,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "13F31": {
+      "x": 3648,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "13F41": {
+      "x": 3648,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "13F51": {
+      "x": 3648,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "13F61": {
+      "x": 3648,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "14F11": {
+      "x": 3824,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "14F21": {
+      "x": 3824,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "14F31": {
+      "x": 3824,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "14F41": {
+      "x": 3824,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "14F51": {
+      "x": 3824,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "14F61": {
+      "x": 3824,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "15F11": {
+      "x": 3992,
+      "y": 482,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "15F21": {
+      "x": 3992,
+      "y": 598,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "15F31": {
+      "x": 3992,
+      "y": 714,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "15F41": {
+      "x": 3992,
+      "y": 828,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "15F51": {
+      "x": 3992,
+      "y": 938,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },
+    "15F61": {
+      "x": 3992,
+      "y": 1052,
+      "radius": 52,
+      "style": "gold_3d",
+      "decoration": "none",
+      "text_color": [
+        0,
+        0,
+        0
+      ],
+      "font_style": "bold",
+      "display_text": "finger",
+      "finger": "1",
+      "note_name": ""
+    },	
+
+
     "1F12": {
       "x": 508,
       "y": 482,

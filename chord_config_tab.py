@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                              QComboBox, QLabel, QScrollArea, QGridLayout,
                              QGroupBox, QMessageBox, QSizePolicy)
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QPainter
 import os
 import pandas as pd
 
@@ -17,6 +17,7 @@ class ChordConfigTab(QWidget):
         self.current_group = None
         self.current_chords = []
         self.current_chord = None
+        self.original_pixmap = None  # Сохраняем оригинальное изображение
 
         self.initUI()
         self.load_configuration()
@@ -60,18 +61,30 @@ class ChordConfigTab(QWidget):
 
         layout.addLayout(top_layout)
 
-        # Область для изображения - ЗАНИМАЕТ ВСЁ ОСТАВШЕЕСЯ ПРОСТРАНСТВО
+        # Область для изображения с прокруткой
+        self.image_scroll = QScrollArea()
+        self.image_scroll.setWidgetResizable(True)
         self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignCenter)
-        self.image_label.setMinimumSize(400, 300)
-        self.image_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.image_label.setAlignment(Qt.AlignTop | Qt.AlignLeft)  # Выравнивание по верхнему левому углу
         self.image_label.setStyleSheet("border: 1px solid gray; background-color: white;")
         self.image_label.setText("Загрузка...")
-        layout.addWidget(self.image_label, 1)  # Растягиваем изображение
+        self.image_scroll.setWidget(self.image_label)
+        layout.addWidget(self.image_scroll, 1)  # Растягиваем область с изображением
 
     def load_configuration(self):
         """Загрузка конфигурации"""
         if self.config_manager.load_config_data():
+            # Загружаем оригинальное изображение
+            if os.path.exists(self.config_manager.image_path):
+                self.original_pixmap = QPixmap(self.config_manager.image_path)
+                if not self.original_pixmap.isNull():
+                    # Показываем оригинальное изображение при запуске
+                    self.display_original_image()
+                else:
+                    self.image_label.setText("Ошибка загрузки изображения")
+            else:
+                self.image_label.setText(f"Изображение не найдено: {self.config_manager.image_path}")
+
             # Заполняем комбобокс групп
             groups = self.config_manager.get_chord_groups()
             self.group_combo.clear()
@@ -80,15 +93,18 @@ class ChordConfigTab(QWidget):
             if groups:
                 self.current_group = groups[0]
                 self.load_chord_buttons()
-
-                # АВТОМАТИЧЕСКИ ЗАГРУЖАЕМ ПЕРВЫЙ АККОРД С ОБРЕЗКОЙ
-                if self.current_chords:
-                    self.current_chord = self.current_chords[0]
-                    self.display_chord(self.current_chord)
             else:
                 self.image_label.setText("Группы аккордов не найдены")
         else:
             self.image_label.setText("Ошибка загрузки конфигурации. Проверьте файлы в папке templates2")
+
+    def display_original_image(self):
+        """Отображение оригинального изображения при запуске БЕЗ масштабирования"""
+        if self.original_pixmap and not self.original_pixmap.isNull():
+            # Устанавливаем изображение в оригинальном размере
+            self.image_label.setPixmap(self.original_pixmap)
+            self.image_label.resize(self.original_pixmap.size())
+            print(f"📏 Оригинальное изображение: {self.original_pixmap.width()}x{self.original_pixmap.height()}")
 
     def load_chord_buttons(self):
         """Загрузка кнопок аккордов для текущей группы"""
@@ -125,13 +141,16 @@ class ChordConfigTab(QWidget):
         self.current_group = group
         self.load_chord_buttons()
 
-        # АВТОМАТИЧЕСКИ ЗАГРУЖАЕМ ПЕРВЫЙ АККОРД НОВОЙ ГРУППЫ С ОБРЕЗКОЙ
+        # АВТОМАТИЧЕСКИ ЗАГРУЖАЕМ ПЕРВЫЙ АККОРД НОВОЙ ГРУППЫ
         if self.current_chords:
             self.current_chord = self.current_chords[0]
             self.display_chord(self.current_chord)
         else:
             self.current_chord = None
-            self.image_label.setText("Аккорды не найдены")
+            if self.original_pixmap:
+                self.display_original_image()
+            else:
+                self.image_label.setText("Аккорды не найдены")
 
     def on_chord_clicked(self, chord_info):
         """Обработчик клика по кнопке аккорда"""
@@ -139,72 +158,68 @@ class ChordConfigTab(QWidget):
         self.display_chord(chord_info)
 
     def display_chord(self, chord_info):
-        """Отображение выбранного аккорда с правильным масштабом"""
+        """Отображение выбранного аккорда на изображении размером с область обрезки"""
         try:
-            # Загружаем базовое изображение
-            if os.path.exists(self.config_manager.image_path):
-                base_pixmap = QPixmap(self.config_manager.image_path)
+            if not self.original_pixmap or self.original_pixmap.isNull():
+                self.image_label.setText("Ошибка: изображение не загружено")
+                return
 
-                if base_pixmap.isNull():
-                    self.image_label.setText("Ошибка загрузки изображения")
-                    return
+            # Получаем область обрезки из RAM для этого конкретного аккорда
+            ram_key = chord_info['data'].get('RAM')
+            crop_rect = self.config_manager.get_ram_crop_area(ram_key)
 
-                # Получаем область обрезки из RAM для этого конкретного аккорда
-                ram_key = chord_info['data'].get('RAM')
-                crop_rect = self.config_manager.get_ram_crop_area(ram_key)
+            # Получаем элементы для отображения
+            elements = self.config_manager.get_chord_elements(
+                chord_info['data'],
+                self.current_display_type
+            )
 
-                # Получаем элементы для отображения (включая LAD элементы)
-                elements = self.config_manager.get_chord_elements(
-                    chord_info['data'],
-                    self.current_display_type
+            print(f"🎯 Отображение аккорда: {chord_info['name']}")
+            print(f"📊 Найдено элементов: {len(elements)}")
+            print(f"🔧 RAM ключ: {ram_key}")
+            print(f"📐 Область обрезки: {crop_rect}")
+
+            # ВСЕГДА используем обрезку по RAM, если она определена
+            if crop_rect:
+                crop_x, crop_y, crop_width, crop_height = crop_rect
+
+                # Проверяем границы и корректируем при необходимости
+                crop_x = max(0, min(crop_x, self.original_pixmap.width() - 1))
+                crop_y = max(0, min(crop_y, self.original_pixmap.height() - 1))
+                crop_width = max(1, min(crop_width, self.original_pixmap.width() - crop_x))
+                crop_height = max(1, min(crop_height, self.original_pixmap.height() - crop_y))
+
+                # СОЗДАЕМ НОВОЕ ИЗОБРАЖЕНИЕ РАЗМЕРОМ С ОБЛАСТЬ ОБРЕЗКИ
+                result_pixmap = QPixmap(crop_width, crop_height)
+                result_pixmap.fill(Qt.white)  # Заполняем белым фоном
+
+                # Копируем область из оригинального изображения
+                painter = QPainter(result_pixmap)
+                source_rect = (crop_x, crop_y, crop_width, crop_height)
+                painter.drawPixmap(0, 0, self.original_pixmap,
+                                   crop_x, crop_y, crop_width, crop_height)
+
+                # Рисуем элементы на НОВОМ изображении с правильными координатами
+                self.config_manager.draw_elements_on_canvas(
+                    painter, elements, (crop_x, crop_y, crop_width, crop_height)
                 )
+                painter.end()
 
-                print(f"🎯 Отображение аккорда: {chord_info['name']}")
-                print(f"📊 Найдено элементов: {len(elements)}")
-                print(f"🔧 RAM ключ: {ram_key}")
-                print(f"📐 Область обрезки: {crop_rect}")
-
-                # ВСЕГДА используем обрезку по RAM, если она определена
-                if crop_rect:
-                    x, y, width, height = crop_rect
-
-                    # Проверяем границы и корректируем при необходимости
-                    x = max(0, min(x, base_pixmap.width() - 1))
-                    y = max(0, min(y, base_pixmap.height() - 1))
-                    width = max(1, min(width, base_pixmap.width() - x))
-                    height = max(1, min(height, base_pixmap.height() - y))
-
-                    # Обрезаем изображение
-                    cropped_pixmap = base_pixmap.copy(x, y, width, height)
-
-                    if not cropped_pixmap.isNull():
-                        # Рисуем элементы на ОБРЕЗАННОМ изображении с учетом масштаба
-                        result_pixmap = self.config_manager.draw_elements_on_image(
-                            cropped_pixmap, elements, crop_rect
-                        )
-                    else:
-                        result_pixmap = self.config_manager.draw_elements_on_image(
-                            base_pixmap, elements, None
-                        )
-                else:
-                    result_pixmap = self.config_manager.draw_elements_on_image(
-                        base_pixmap, elements, None
-                    )
-
-                # Масштабируем для отображения
+                # Устанавливаем изображение в ОРИГИНАЛЬНОМ РАЗМЕРЕ ОБЛАСТИ ОБРЕЗКИ
                 if not result_pixmap.isNull():
-                    scaled_pixmap = result_pixmap.scaled(
-                        self.image_label.width() - 10,
-                        self.image_label.height() - 10,
-                        Qt.KeepAspectRatio,
-                        Qt.SmoothTransformation
-                    )
-                    self.image_label.setPixmap(scaled_pixmap)
+                    self.image_label.setPixmap(result_pixmap)
+                    self.image_label.resize(result_pixmap.size())
+                    print(f"📏 Создано изображение размером: {crop_width}x{crop_height}")
                 else:
                     self.image_label.setText("Ошибка создания изображения")
 
             else:
-                self.image_label.setText(f"Изображение не найдено: {self.config_manager.image_path}")
+                # Если нет обрезки, рисуем на полном изображении
+                result_pixmap = self.config_manager.draw_elements_on_image(
+                    self.original_pixmap, elements, None
+                )
+                self.image_label.setPixmap(result_pixmap)
+                self.image_label.resize(result_pixmap.size())
 
         except Exception as e:
             self.image_label.setText(f"Ошибка отображения: {str(e)}")
