@@ -65,9 +65,10 @@ class ChordConfigTab(QWidget):
         self.image_scroll = QScrollArea()
         self.image_scroll.setWidgetResizable(True)
         self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignTop | Qt.AlignLeft)  # Выравнивание по верхнему левому углу
+        self.image_label.setAlignment(Qt.AlignCenter)
         self.image_label.setStyleSheet("border: 1px solid gray; background-color: white;")
         self.image_label.setText("Загрузка...")
+        self.image_label.setMinimumSize(400, 300)  # Минимальный размер для отображения
         self.image_scroll.setWidget(self.image_label)
         layout.addWidget(self.image_scroll, 1)  # Растягиваем область с изображением
 
@@ -99,12 +100,18 @@ class ChordConfigTab(QWidget):
             self.image_label.setText("Ошибка загрузки конфигурации. Проверьте файлы в папке templates2")
 
     def display_original_image(self):
-        """Отображение оригинального изображения при запуске БЕЗ масштабирования"""
+        """Отображение оригинального изображения при запуске с масштабированием"""
         if self.original_pixmap and not self.original_pixmap.isNull():
-            # Устанавливаем изображение в оригинальном размере
-            self.image_label.setPixmap(self.original_pixmap)
-            self.image_label.resize(self.original_pixmap.size())
-            print(f"📏 Оригинальное изображение: {self.original_pixmap.width()}x{self.original_pixmap.height()}")
+            # Масштабируем изображение для отображения
+            scaled_pixmap = self.original_pixmap.scaled(
+                self.image_label.width(),
+                self.image_label.height(),
+                Qt.KeepAspectRatio,
+                Qt.SmoothTransformation
+            )
+            self.image_label.setPixmap(scaled_pixmap)
+            print(
+                f"📏 Оригинальное изображение: {self.original_pixmap.width()}x{self.original_pixmap.height()} -> {scaled_pixmap.width()}x{scaled_pixmap.height()}")
 
     def load_chord_buttons(self):
         """Загрузка кнопок аккордов для текущей группы"""
@@ -129,6 +136,11 @@ class ChordConfigTab(QWidget):
             btn.setStyleSheet("font-size: 10px;")  # Маленький шрифт
             btn.clicked.connect(lambda checked, c=chord_info: self.on_chord_clicked(c))
             self.chords_layout.addWidget(btn)
+
+        # АВТОМАТИЧЕСКИ ЗАГРУЖАЕМ ПЕРВЫЙ АККОРД ГРУППЫ
+        if self.current_chords:
+            self.current_chord = self.current_chords[0]
+            self.display_chord(self.current_chord)
 
     def on_display_type_changed(self, display_type):
         """Обработчик изменения типа отображения"""
@@ -195,7 +207,6 @@ class ChordConfigTab(QWidget):
 
                 # Копируем область из оригинального изображения
                 painter = QPainter(result_pixmap)
-                source_rect = (crop_x, crop_y, crop_width, crop_height)
                 painter.drawPixmap(0, 0, self.original_pixmap,
                                    crop_x, crop_y, crop_width, crop_height)
 
@@ -205,21 +216,38 @@ class ChordConfigTab(QWidget):
                 )
                 painter.end()
 
-                # Устанавливаем изображение в ОРИГИНАЛЬНОМ РАЗМЕРЕ ОБЛАСТИ ОБРЕЗКИ
-                if not result_pixmap.isNull():
-                    self.image_label.setPixmap(result_pixmap)
-                    self.image_label.resize(result_pixmap.size())
-                    print(f"📏 Создано изображение размером: {crop_width}x{crop_height}")
+                # МАСШТАБИРУЕМ изображение для отображения (делаем маленьким)
+                display_width = min(400, crop_width)  # Максимальная ширина 400px
+                scale_factor = display_width / crop_width
+                display_height = int(crop_height * scale_factor)
+
+                scaled_pixmap = result_pixmap.scaled(
+                    display_width,
+                    display_height,
+                    Qt.KeepAspectRatio,
+                    Qt.SmoothTransformation
+                )
+
+                # Устанавливаем масштабированное изображение
+                if not scaled_pixmap.isNull():
+                    self.image_label.setPixmap(scaled_pixmap)
+                    print(f"📏 Создано изображение: {crop_width}x{crop_height} -> {display_width}x{display_height}")
                 else:
                     self.image_label.setText("Ошибка создания изображения")
 
             else:
-                # Если нет обрезки, рисуем на полном изображении
+                # Если нет обрезки, рисуем на полном изображении и масштабируем
                 result_pixmap = self.config_manager.draw_elements_on_image(
                     self.original_pixmap, elements, None
                 )
-                self.image_label.setPixmap(result_pixmap)
-                self.image_label.resize(result_pixmap.size())
+                # Масштабируем полное изображение
+                scaled_pixmap = result_pixmap.scaled(
+                    self.image_label.width(),
+                    self.image_label.height(),
+                    Qt.KeepAspectRatio,
+                    Qt.SmoothTransformation
+                )
+                self.image_label.setPixmap(scaled_pixmap)
 
         except Exception as e:
             self.image_label.setText(f"Ошибка отображения: {str(e)}")

@@ -260,7 +260,8 @@ class ChordConfigManager:
         if self._is_empty_value(column_value):
             return elements
 
-        note_str = str(column_value)
+        # Преобразуем значение в строку и обрабатываем числа с плавающей точкой
+        note_str = self._convert_value_to_string(column_value)
         note_list = [item.strip() for item in note_str.split(',') if item.strip()]
 
         print(f"🔍 Поиск элементов для колонки '{column_name}': {note_list}")
@@ -278,6 +279,19 @@ class ChordConfigManager:
 
         print(f"📝 Найдено {len(elements)} элементов для колонки '{column_name}'")
         return elements
+
+    def _convert_value_to_string(self, value):
+        """Конвертирует значение в строку, правильно обрабатывая числа с плавающей точкой"""
+        if isinstance(value, float):
+            # Если число целое - преобразуем в int, иначе оставляем как float
+            if value.is_integer():
+                return str(int(value))
+            else:
+                return str(value)
+        elif isinstance(value, int):
+            return str(value)
+        else:
+            return str(value)
 
     def _find_element_in_note_table(self, note_key, column_name):
         """Поиск элемента в таблице NOTE по ключу и колонке"""
@@ -306,12 +320,15 @@ class ChordConfigManager:
         # Ищем в таблице NOTE
         for note_item in self.note_data:
             item_value = note_item.get(source_col)
-            if item_value and str(item_value).strip() == note_key:
-                elem_value = note_item.get(elem_col)
-                if elem_value and not self._is_empty_value(elem_value):
-                    elem_key = str(elem_value).strip()
-                    print(f"  ✅ Найден элемент в NOTE: {note_key} -> {elem_key}")
-                    return self._find_element_in_json(elem_key)
+            if item_value and not self._is_empty_value(item_value):
+                # Конвертируем значение из таблицы для сравнения
+                item_value_str = self._convert_value_to_string(item_value)
+                if item_value_str == note_key:
+                    elem_value = note_item.get(elem_col)
+                    if elem_value and not self._is_empty_value(elem_value):
+                        elem_key = self._convert_value_to_string(elem_value)
+                        print(f"  ✅ Найден элемент в NOTE: {note_key} -> {elem_key}")
+                        return self._find_element_in_json(elem_key)
 
         print(f"  ❌ Не найдено соответствие в NOTE для '{note_key}' в колонке '{source_col}'")
         return None
@@ -612,12 +629,19 @@ class ChordConfigManager:
         # Получаем координаты обрезки
         crop_x, crop_y, crop_width, crop_height = crop_rect
 
-        # Просто вычитаем координаты обрезки (элементы будут в системе координат canvas)
-        if 'x' in adapted_data:
-            adapted_data['x'] = adapted_data['x'] - crop_x
-
-        if 'y' in adapted_data:
-            adapted_data['y'] = adapted_data['y'] - crop_y
+        # Для баре используем специальную логику - координаты центра
+        if element_data.get('_key', '').startswith('BAR'):
+            # Баре обычно задается координатами центра, а не левого верхнего угла
+            if 'x' in adapted_data:
+                adapted_data['x'] = adapted_data['x'] - crop_x - (adapted_data.get('width', 0) // 2)
+            if 'y' in adapted_data:
+                adapted_data['y'] = adapted_data['y'] - crop_y - (adapted_data.get('height', 0) // 2)
+        else:
+            # Для остальных элементов - обычный сдвиг
+            if 'x' in adapted_data:
+                adapted_data['x'] = adapted_data['x'] - crop_x
+            if 'y' in adapted_data:
+                adapted_data['y'] = adapted_data['y'] - crop_y
 
         # Преобразуем в целые числа для Qt
         adapted_data['x'] = int(round(adapted_data.get('x', 0)))
