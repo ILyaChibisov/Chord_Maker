@@ -124,6 +124,24 @@ class ProfessionalDrawingTab(QMainWindow):
         clear_action.triggered.connect(self.clear_all_elements)
         elements_menu.addAction(clear_action)
 
+        # Меню Быстрая вставка
+        quick_insert_menu = menubar.addMenu('Быстрая вставка')
+
+        # Действие для вставки всех нот из шаблонов
+        insert_notes_action = QAction('Вставить все ноты', self)
+        insert_notes_action.triggered.connect(self.insert_all_notes_from_templates)
+        quick_insert_menu.addAction(insert_notes_action)
+
+        # Действие для вставки всех открытых нот из шаблонов
+        insert_open_notes_action = QAction('Вставить все открытые ноты', self)
+        insert_open_notes_action.triggered.connect(self.insert_all_open_notes_from_templates)
+        quick_insert_menu.addAction(insert_open_notes_action)
+
+        # Действие для вставки всех ладов из шаблонов
+        insert_frets_action = QAction('Вставить все лады', self)
+        insert_frets_action.triggered.connect(self.insert_all_frets_from_templates)
+        quick_insert_menu.addAction(insert_frets_action)
+
     def setup_toolbar(self):
         """Настройка панели инструментов"""
         self.toolbar = QToolBar("Основные инструменты")
@@ -169,6 +187,20 @@ class ProfessionalDrawingTab(QMainWindow):
         self.reload_template_btn.clicked.connect(self.update_template_comboboxes)
         self.toolbar.addWidget(self.reload_template_btn)
 
+        self.toolbar.addSeparator()
+
+        self.insert_notes_btn = QPushButton("Вставить ноты")
+        self.insert_notes_btn.clicked.connect(self.insert_all_notes_from_templates)
+        self.toolbar.addWidget(self.insert_notes_btn)
+
+        self.insert_open_notes_btn = QPushButton("Вставить открытые ноты")
+        self.insert_open_notes_btn.clicked.connect(self.insert_all_open_notes_from_templates)
+        self.toolbar.addWidget(self.insert_open_notes_btn)
+
+        self.insert_frets_btn = QPushButton("Вставить лады")
+        self.insert_frets_btn.clicked.connect(self.insert_all_frets_from_templates)
+        self.toolbar.addWidget(self.insert_frets_btn)
+
     def setup_main_layout(self):
         """Настройка основного layout"""
         self.central_widget = QWidget(self)
@@ -209,7 +241,8 @@ class ProfessionalDrawingTab(QMainWindow):
 
         # Выбор символа
         self.fret_symbol_combo = QComboBox()
-        self.fret_symbol_combo.addItems(['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI'])
+        self.fret_symbol_combo.addItems(
+            ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI'])
 
         # Выбор шрифта
         self.fret_font_combo = QComboBox()
@@ -589,6 +622,87 @@ class ProfessionalDrawingTab(QMainWindow):
         """Переключение видимости рамки обрезки"""
         self.show_crop_rect = (state == Qt.Checked)
         self.repaint()
+
+    # Методы быстрой вставки элементов
+    def insert_all_notes_from_templates(self):
+        """Вставка всех нот из шаблонов (только с буквенными обозначениями нот)"""
+        notes_templates = self.templates_manager.get_all_templates('notes')
+
+        if not notes_templates:
+            QMessageBox.information(self, "Информация", "Нет сохраненных шаблонов нот")
+            return
+
+        # Список допустимых нот
+        valid_notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+
+        added_count = 0
+        for template_name, template_data in notes_templates.items():
+            # Проверяем, содержит ли шаблон допустимую ноту
+            note_name = template_data.get('note_name', '')
+            if note_name in valid_notes:
+                # Создаем копию шаблона чтобы не изменять оригинал
+                note_data = template_data.copy()
+
+                # Добавляем ноту в элементы
+                self.elements_manager.elements['notes'].append(note_data)
+                added_count += 1
+
+        self.repaint()
+        if added_count > 0:
+            QMessageBox.information(self, "Успех", f"Добавлено {added_count} нот с буквенными обозначениями")
+        else:
+            QMessageBox.information(self, "Информация",
+                                    "Не найдено нот с буквенными обозначениями (A, A#, B, C, C#, D, D#, E, F, F#, G, G#)")
+
+    def insert_all_open_notes_from_templates(self):
+        """Вставка всех открытых нот из шаблонов (только с буквенными обозначениями нот)"""
+        open_notes_templates = self.templates_manager.get_all_templates('open_notes')
+
+        if not open_notes_templates:
+            QMessageBox.information(self, "Информация", "Нет сохраненных шаблонов открытых нот")
+            return
+
+        # Список допустимых нот
+        valid_notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+
+        added_count = 0
+        for template_name, template_data in open_notes_templates.items():
+            # Проверяем, содержит ли шаблон допустимую ноту
+            note_name = template_data.get('note_name', '')
+            if note_name in valid_notes:
+                # Создаем копию шаблона чтобы не изменять оригинал
+                open_note_data = template_data.copy()
+
+                # Добавляем открытую ноту в элементы
+                self.elements_manager.elements['open_notes'].append(open_note_data)
+                added_count += 1
+
+        self.repaint()
+        if added_count > 0:
+            QMessageBox.information(self, "Успех", f"Добавлено {added_count} открытых нот с буквенными обозначениями")
+        else:
+            QMessageBox.information(self, "Информация",
+                                    "Не найдено открытых нот с буквенными обозначениями (A, A#, B, C, C#, D, D#, E, F, F#, G, G#)")
+
+    def insert_all_frets_from_templates(self):
+        """Вставка всех ладов из шаблонов"""
+        frets_templates = self.templates_manager.get_all_templates('frets')
+
+        if not frets_templates:
+            QMessageBox.information(self, "Информация", "Нет сохраненных шаблонов ладов")
+            return
+
+        added_count = 0
+        for template_name, template_data in frets_templates.items():
+            # Создаем копию шаблона чтобы не изменять оригинал
+            fret_data = template_data.copy()
+
+            # Добавляем лад в элементы
+            self.elements_manager.elements['frets'].append(fret_data)
+            added_count += 1
+
+        self.repaint()
+        QMessageBox.information(self, "Успех", f"Добавлено {added_count} ладов из шаблонов")
 
     # Методы работы с аккордами
     def save_chord_config(self):
