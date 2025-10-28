@@ -264,9 +264,12 @@ class ChordConfigManager:
         if self._is_empty_value(column_value):
             return elements
 
-        # Преобразуем значение в строку и обрабатываем числа с плавающей точкой
+        # Преобразуем значение в строку
         note_str = self._convert_value_to_string(column_value)
-        note_list = [item.strip() for item in note_str.split(',') if item.strip()]
+
+        # Обрабатываем специальный случай: если значение содержит точку и выглядит как несколько чисел
+        # Например: "21.25" может быть "21,25" в Excel
+        note_list = self._parse_note_values(note_str)
 
         print(f"🔍 Поиск элементов для колонки '{column_name}': {note_list}")
 
@@ -284,13 +287,46 @@ class ChordConfigManager:
         print(f"📝 Найдено {len(elements)} элементов для колонки '{column_name}'")
         return elements
 
+    def _parse_note_values(self, note_str):
+        """Парсит значения нот, обрабатывая специальные случаи с числами"""
+        note_str = str(note_str).strip()
+
+        # Сначала пробуем разделить по запятой (нормальный случай)
+        if ',' in note_str:
+            return [item.strip() for item in note_str.split(',') if item.strip()]
+
+        # Если есть точка и выглядит как несколько чисел (например "21.25" вместо "21,25")
+        if '.' in note_str:
+            parts = note_str.split('.')
+            # Проверяем, может ли это быть несколько целых чисел
+            if len(parts) == 2 and all(part.isdigit() for part in parts):
+                # Вероятно это "21,25" превратилось в "21.25"
+                return [parts[0], parts[1]]
+            elif len(parts) > 2 and all(part.isdigit() for part in parts):
+                # Множественные числа через точку
+                return parts
+
+        # Если ничего не подошло, возвращаем как одно значение
+        return [note_str]
+
     def _convert_value_to_string(self, value):
         """Конвертирует значение в строку, правильно обрабатывая числа с плавающей точкой"""
+        if value is None:
+            return ""
+
         if isinstance(value, float):
-            # Если число целое - преобразуем в int, иначе оставляем как float
+            # Если число выглядит как целое - преобразуем в int
             if value.is_integer():
                 return str(int(value))
             else:
+                # Для дробных чисел проверяем, не является ли это несколькими значениями
+                str_value = str(value)
+                if '.' in str_value:
+                    parts = str_value.split('.')
+                    # Если после точки 2 цифры и обе части выглядят как отдельные значения
+                    if len(parts) == 2 and len(parts[1]) == 2 and parts[0].isdigit() and parts[1].isdigit():
+                        # Вероятно это "21,25" -> 21.25
+                        return f"{parts[0]}.{parts[1]}"  # Оставляем как есть для дальнейшего парсинга
                 return str(value)
         elif isinstance(value, int):
             return str(value)
@@ -327,7 +363,9 @@ class ChordConfigManager:
             if item_value and not self._is_empty_value(item_value):
                 # Конвертируем значение из таблицы для сравнения
                 item_value_str = self._convert_value_to_string(item_value)
-                if item_value_str == note_key:
+
+                # Пробуем разные варианты сравнения
+                if self._values_match(item_value_str, note_key):
                     elem_value = note_item.get(elem_col)
                     if elem_value and not self._is_empty_value(elem_value):
                         elem_key = self._convert_value_to_string(elem_value)
@@ -336,6 +374,29 @@ class ChordConfigManager:
 
         print(f"  ❌ Не найдено соответствие в NOTE для '{note_key}' в колонке '{source_col}'")
         return None
+
+    def _values_match(self, value1, value2):
+        """Проверяет, совпадают ли значения с учетом специальных случаев"""
+        # Прямое сравнение
+        if str(value1).strip() == str(value2).strip():
+            return True
+
+        # Если одно значение с точкой, а другое с запятой
+        v1_clean = str(value1).replace('.', ',').strip()
+        v2_clean = str(value2).replace('.', ',').strip()
+        if v1_clean == v2_clean:
+            return True
+
+        # Если одно значение целое, а другое дробное с .0
+        try:
+            v1_float = float(value1)
+            v2_float = float(value2)
+            if abs(v1_float - v2_float) < 0.001:  # Сравнение с небольшой погрешностью
+                return True
+        except (ValueError, TypeError):
+            pass
+
+        return False
 
     def _find_element_in_json(self, element_key):
         """Поиск элемента в различных разделах JSON"""
@@ -382,14 +443,14 @@ class ChordConfigManager:
         print(f"🎵 Получение элементов для аккорда:")
         print(f"   RAM: {chord_config.get('RAM')}")
         print(f"   BAR: {chord_config.get('BAR')}")
-        print(f"   FNL: {chord_config.get('FNL')}")
-        print(f"   FN: {chord_config.get('FN')}")
-        print(f"   FPOL: {chord_config.get('FPOL')}")
-        print(f"   FPXL: {chord_config.get('FPXL')}")
-        print(f"   FP1: {chord_config.get('FP1')}")
-        print(f"   FP2: {chord_config.get('FP2')}")
-        print(f"   FP3: {chord_config.get('FP3')}")
-        print(f"   FP4: {chord_config.get('FP4')}")
+        print(f"   FNL: {chord_config.get('FNL')} (тип: {type(chord_config.get('FNL'))})")
+        print(f"   FN: {chord_config.get('FN')} (тип: {type(chord_config.get('FN'))})")
+        print(f"   FPOL: {chord_config.get('FPOL')} (тип: {type(chord_config.get('FPOL'))})")
+        print(f"   FPXL: {chord_config.get('FPXL')} (тип: {type(chord_config.get('FPXL'))})")
+        print(f"   FP1: {chord_config.get('FP1')} (тип: {type(chord_config.get('FP1'))})")
+        print(f"   FP2: {chord_config.get('FP2')} (тип: {type(chord_config.get('FP2'))})")
+        print(f"   FP3: {chord_config.get('FP3')} (тип: {type(chord_config.get('FP3'))})")
+        print(f"   FP4: {chord_config.get('FP4')} (тип: {type(chord_config.get('FP4'))})")
 
         # Получаем значение LAD из таблицы RAM на основе RAM аккорда
         ram_key = chord_config.get('RAM')
