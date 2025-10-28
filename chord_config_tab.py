@@ -14,6 +14,7 @@ class ChordConfigTab(QWidget):
         super().__init__()
         self.config_manager = ChordConfigManager()
         self.current_display_type = "fingers"  # fingers или notes
+        self.current_scale_type = "small"  # small, medium1, medium2 или original
         self.current_group = None
         self.current_chords = []
         self.current_chord = None
@@ -27,6 +28,13 @@ class ChordConfigTab(QWidget):
 
         # Верхняя панель с настройками - ВСЕ В ОДНУ СТРОКУ
         top_layout = QHBoxLayout()
+
+        # Комбобокс выбора масштаба (НОВЫЙ)
+        self.scale_combo = QComboBox()
+        self.scale_combo.addItems(["Маленький", "Средний 1", "Средний 2", "Оригинальный размер"])
+        self.scale_combo.currentTextChanged.connect(self.on_scale_changed)
+        top_layout.addWidget(QLabel("Масштаб:"))
+        top_layout.addWidget(self.scale_combo)
 
         # Комбобокс выбора типа отображения
         self.display_type_combo = QComboBox()
@@ -68,7 +76,7 @@ class ChordConfigTab(QWidget):
         self.image_label.setAlignment(Qt.AlignCenter)
         self.image_label.setStyleSheet("border: 1px solid gray; background-color: white;")
         self.image_label.setText("Загрузка...")
-        self.image_label.setMinimumSize(400, 300)  # Минимальный размер для отображения
+        self.image_label.setMinimumSize(400, 300)  # Оригинальный минимальный размер
         self.image_scroll.setWidget(self.image_label)
         layout.addWidget(self.image_scroll, 1)  # Растягиваем область с изображением
 
@@ -102,7 +110,7 @@ class ChordConfigTab(QWidget):
     def display_original_image(self):
         """Отображение оригинального изображения при запуске с масштабированием"""
         if self.original_pixmap and not self.original_pixmap.isNull():
-            # Масштабируем изображение для отображения
+            # Масштабируем изображение для отображения (оригинальный размер)
             scaled_pixmap = self.original_pixmap.scaled(
                 self.image_label.width(),
                 self.image_label.height(),
@@ -142,6 +150,22 @@ class ChordConfigTab(QWidget):
             self.current_chord = self.current_chords[0]
             self.display_chord(self.current_chord)
 
+    def on_scale_changed(self, scale_type):
+        """Обработчик изменения масштаба"""
+        if scale_type == "Маленький":
+            self.current_scale_type = "small"
+        elif scale_type == "Средний 1":
+            self.current_scale_type = "medium1"
+        elif scale_type == "Средний 2":
+            self.current_scale_type = "medium2"
+        else:
+            self.current_scale_type = "original"
+
+        if self.current_chord:
+            self.display_chord(self.current_chord)
+        elif self.original_pixmap:
+            self.display_original_image()
+
     def on_display_type_changed(self, display_type):
         """Обработчик изменения типа отображения"""
         self.current_display_type = "fingers" if display_type == "Пальцы" else "notes"
@@ -170,7 +194,7 @@ class ChordConfigTab(QWidget):
         self.display_chord(chord_info)
 
     def display_chord(self, chord_info):
-        """Отображение выбранного аккорда на изображении размером с область обрезки"""
+        """Отображение выбранного аккорда на изображении с выбранным масштабом"""
         try:
             if not self.original_pixmap or self.original_pixmap.isNull():
                 self.image_label.setText("Ошибка: изображение не загружено")
@@ -180,6 +204,9 @@ class ChordConfigTab(QWidget):
             ram_key = chord_info['data'].get('RAM')
             crop_rect = self.config_manager.get_ram_crop_area(ram_key)
 
+            print(f"🎯 Оригинальное изображение: {self.original_pixmap.width()}x{self.original_pixmap.height()}")
+            print(f"🎯 Область обрезки для RAM '{ram_key}': {crop_rect}")
+
             # Получаем элементы для отображения
             elements = self.config_manager.get_chord_elements(
                 chord_info['data'],
@@ -188,8 +215,6 @@ class ChordConfigTab(QWidget):
 
             print(f"🎯 Отображение аккорда: {chord_info['name']}")
             print(f"📊 Найдено элементов: {len(elements)}")
-            print(f"🔧 RAM ключ: {ram_key}")
-            print(f"📐 Область обрезки: {crop_rect}")
 
             # ВСЕГДА используем обрезку по RAM, если она определена
             if crop_rect:
@@ -201,12 +226,16 @@ class ChordConfigTab(QWidget):
                 crop_width = max(1, min(crop_width, self.original_pixmap.width() - crop_x))
                 crop_height = max(1, min(crop_height, self.original_pixmap.height() - crop_y))
 
+                print(f"🎯 Финальная область обрезки: ({crop_x}, {crop_y}, {crop_width}, {crop_height})")
+
                 # СОЗДАЕМ НОВОЕ ИЗОБРАЖЕНИЕ РАЗМЕРОМ С ОБЛАСТЬ ОБРЕЗКИ
                 result_pixmap = QPixmap(crop_width, crop_height)
-                result_pixmap.fill(Qt.white)  # Заполняем белым фоном
+                result_pixmap.fill(Qt.white)  # Белый фон
+
+                # Создаем painter для нового изображения
+                painter = QPainter(result_pixmap)
 
                 # Копируем область из оригинального изображения
-                painter = QPainter(result_pixmap)
                 painter.drawPixmap(0, 0, self.original_pixmap,
                                    crop_x, crop_y, crop_width, crop_height)
 
@@ -216,38 +245,105 @@ class ChordConfigTab(QWidget):
                 )
                 painter.end()
 
-                # МАСШТАБИРУЕМ изображение для отображения (делаем маленьким)
-                display_width = min(400, crop_width)  # Максимальная ширина 400px
-                scale_factor = display_width / crop_width
-                display_height = int(crop_height * scale_factor)
+                # Применяем выбранный масштаб
+                if self.current_scale_type == "small":
+                    # МАЛЕНЬКИЙ - как было раньше (авто масштаб)
+                    display_width = min(400, crop_width)
+                    scale_factor = display_width / crop_width
+                    display_height = int(crop_height * scale_factor)
 
-                scaled_pixmap = result_pixmap.scaled(
-                    display_width,
-                    display_height,
-                    Qt.KeepAspectRatio,
-                    Qt.SmoothTransformation
-                )
-
-                # Устанавливаем масштабированное изображение
-                if not scaled_pixmap.isNull():
+                    scaled_pixmap = result_pixmap.scaled(
+                        display_width,
+                        display_height,
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
                     self.image_label.setPixmap(scaled_pixmap)
-                    print(f"📏 Создано изображение: {crop_width}x{crop_height} -> {display_width}x{display_height}")
+                    print(f"📏 Маленький масштаб: {crop_width}x{crop_height} -> {display_width}x{display_height}")
+
+                elif self.current_scale_type == "medium1":
+                    # СРЕДНИЙ 1 - 50% от оригинального
+                    display_width = int(crop_width * 0.5)
+                    display_height = int(crop_height * 0.5)
+
+                    scaled_pixmap = result_pixmap.scaled(
+                        display_width,
+                        display_height,
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.image_label.setPixmap(scaled_pixmap)
+                    print(f"📏 Средний 1 (50%): {crop_width}x{crop_height} -> {display_width}x{display_height}")
+
+                elif self.current_scale_type == "medium2":
+                    # СРЕДНИЙ 2 - 70% от оригинального
+                    display_width = int(crop_width * 0.7)
+                    display_height = int(crop_height * 0.7)
+
+                    scaled_pixmap = result_pixmap.scaled(
+                        display_width,
+                        display_height,
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.image_label.setPixmap(scaled_pixmap)
+                    print(f"📏 Средний 2 (70%): {crop_width}x{crop_height} -> {display_width}x{display_height}")
+
                 else:
-                    self.image_label.setText("Ошибка создания изображения")
+                    # ОРИГИНАЛЬНЫЙ РАЗМЕР
+                    self.image_label.setPixmap(result_pixmap)
+                    print(f"📏 Оригинальный размер: {crop_width}x{crop_height}")
 
             else:
-                # Если нет обрезки, рисуем на полном изображении и масштабируем
+                # Если нет обрезки, рисуем на полном изображении
                 result_pixmap = self.config_manager.draw_elements_on_image(
                     self.original_pixmap, elements, None
                 )
-                # Масштабируем полное изображение
-                scaled_pixmap = result_pixmap.scaled(
-                    self.image_label.width(),
-                    self.image_label.height(),
-                    Qt.KeepAspectRatio,
-                    Qt.SmoothTransformation
-                )
-                self.image_label.setPixmap(scaled_pixmap)
+
+                # Применяем выбранный масштаб
+                if self.current_scale_type == "small":
+                    # МАЛЕНЬКИЙ
+                    scaled_pixmap = result_pixmap.scaled(
+                        self.image_label.width(),
+                        self.image_label.height(),
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.image_label.setPixmap(scaled_pixmap)
+                    print(f"📏 Маленький масштаб полного изображения")
+
+                elif self.current_scale_type == "medium1":
+                    # СРЕДНИЙ 1 - 50% от оригинального
+                    display_width = int(result_pixmap.width() * 0.5)
+                    display_height = int(result_pixmap.height() * 0.5)
+
+                    scaled_pixmap = result_pixmap.scaled(
+                        display_width,
+                        display_height,
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.image_label.setPixmap(scaled_pixmap)
+                    print(f"📏 Средний 1 (50%) полного изображения")
+
+                elif self.current_scale_type == "medium2":
+                    # СРЕДНИЙ 2 - 70% от оригинального
+                    display_width = int(result_pixmap.width() * 0.7)
+                    display_height = int(result_pixmap.height() * 0.7)
+
+                    scaled_pixmap = result_pixmap.scaled(
+                        display_width,
+                        display_height,
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.image_label.setPixmap(scaled_pixmap)
+                    print(f"📏 Средний 2 (70%) полного изображения")
+
+                else:
+                    # ОРИГИНАЛЬНЫЙ РАЗМЕР
+                    self.image_label.setPixmap(result_pixmap)
+                    print(f"📏 Оригинальный размер полного изображения")
 
         except Exception as e:
             self.image_label.setText(f"Ошибка отображения: {str(e)}")

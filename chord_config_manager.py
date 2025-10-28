@@ -157,18 +157,26 @@ class ChordConfigManager:
 
         # Ищем элементы RAM в frets
         if ram_name in self.templates.get('frets', {}):
+            element_data = self.templates['frets'][ram_name]
+            element_data['_key'] = ram_name
+            element_data['type'] = 'fret'  # Явно указываем тип
+
             elements.append({
                 'type': 'fret',
-                'data': self.templates['frets'][ram_name]
+                'data': element_data
             })
 
         # Ищем элементы с суффиксами (RAM1, RAM2 и т.д.)
         for i in range(1, 5):
             element_key = f"{ram_name}{i}"
             if element_key in self.templates.get('frets', {}):
+                element_data = self.templates['frets'][element_key]
+                element_data['_key'] = element_key
+                element_data['type'] = 'fret'  # Явно указываем тип
+
                 elements.append({
                     'type': 'fret',
-                    'data': self.templates['frets'][element_key]
+                    'data': element_data
                 })
 
         return elements
@@ -190,9 +198,13 @@ class ChordConfigManager:
             # Формируем ключ для поиска в JSON (добавляем LAD)
             json_key = f"{lad_key}LAD"
             if json_key in self.templates.get('frets', {}):
+                element_data = self.templates['frets'][json_key]
+                element_data['_key'] = json_key
+                element_data['type'] = 'fret'  # Явно указываем тип
+
                 elements.append({
                     'type': 'fret',
-                    'data': self.templates['frets'][json_key]
+                    'data': element_data
                 })
                 print(f"✅ Найден элемент лада: {json_key}")
             else:
@@ -407,6 +419,7 @@ class ChordConfigManager:
             element_data = self.templates['notes'][element_key]
             # Добавляем ключ для отладки
             element_data['_key'] = element_key
+            element_data['type'] = 'note'  # Явно указываем тип
             print(f"    ✅ Найден элемент ноты: {element_key} (стиль: {element_data.get('style', 'default')})")
             return {
                 'type': 'note',
@@ -417,16 +430,18 @@ class ChordConfigManager:
         if element_key in self.templates.get('open_notes', {}):
             element_data = self.templates['open_notes'][element_key]
             element_data['_key'] = element_key
+            element_data['type'] = 'note'  # Явно указываем тип
             print(f"    ✅ Найден элемент открытой ноты: {element_key} (стиль: {element_data.get('style', 'default')})")
             return {
                 'type': 'note',
                 'data': element_data
             }
 
-        # Ищем в frets (на случай, если это лад)
+        # Ищем в frets (лады)
         if element_key in self.templates.get('frets', {}):
             element_data = self.templates['frets'][element_key]
             element_data['_key'] = element_key
+            element_data['type'] = 'fret'  # Явно указываем тип
             print(f"    ✅ Найден элемент лада: {element_key}")
             return {
                 'type': 'fret',
@@ -471,10 +486,13 @@ class ChordConfigManager:
             elements.extend(lad_elements)
             print(f"🎯 Добавлено {len(lad_elements)} элементов LAD")
 
-        # Добавляем элементы баре (всегда)
-        bar_elements = self.get_barre_elements(chord_config.get('BAR'))
-        elements.extend(bar_elements)
-        print(f"🎸 Добавлено {len(bar_elements)} элементов баре")
+        # Добавляем элементы баре ТОЛЬКО для режима пальцев
+        if display_type == "fingers":
+            bar_elements = self.get_barre_elements(chord_config.get('BAR'))
+            elements.extend(bar_elements)
+            print(f"🎸 Добавлено {len(bar_elements)} элементов баре")
+        else:
+            print("🎸 Баре пропущен (режим нот)")
 
         if display_type == "notes":
             # Для нот: используем FNL и FN
@@ -684,7 +702,7 @@ class ChordConfigManager:
         return adapted_data
 
     def _adapt_coordinates_for_canvas(self, element_data, crop_rect):
-        """Адаптация координат для рисования на canvas размером с область обрезки"""
+        """Упрощенная адаптация координат для canvas - ВСЕ элементы одинаково"""
         if not crop_rect:
             return element_data.copy()
 
@@ -694,36 +712,34 @@ class ChordConfigManager:
         # Получаем координаты обрезки
         crop_x, crop_y, crop_width, crop_height = crop_rect
 
-        # Для баре - координаты в JSON это центр, нужно преобразовать в левый верхний угол
-        if element_data.get('_key', '').startswith('BAR') or element_data.get('type') == 'barre':
-            # Получаем размеры баре
-            barre_width = adapted_data.get('width', 100)
-            barre_height = adapted_data.get('height', 20)
+        original_x = element_data.get('x', 0)
+        original_y = element_data.get('y', 0)
 
-            # Преобразуем координаты центра в координаты левого верхнего угла
-            if 'x' in adapted_data:
-                adapted_data['x'] = adapted_data['x'] - crop_x - (barre_width // 2)
-            if 'y' in adapted_data:
-                adapted_data['y'] = adapted_data['y'] - crop_y - (barre_height // 2)
+        print(f"🎯 Адаптация {element_data.get('type', 'unknown')}:")
+        print(f"   Оригинальные координаты: ({original_x}, {original_y})")
+        print(f"   Область обрезки: ({crop_x}, {crop_y}, {crop_width}, {crop_height})")
 
-            print(
-                f"🎯 Адаптация баре: центр ({element_data.get('x', 0)}, {element_data.get('y', 0)}) -> угол ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)})")
-        else:
-            # Для остальных элементов - обычный сдвиг
-            if 'x' in adapted_data:
-                adapted_data['x'] = adapted_data['x'] - crop_x
-            if 'y' in adapted_data:
-                adapted_data['y'] = adapted_data['y'] - crop_y
+        # Для ВСЕХ элементов просто вычитаем координаты обрезки
+        if 'x' in adapted_data:
+            adapted_data['x'] = original_x - crop_x
+
+        if 'y' in adapted_data:
+            adapted_data['y'] = original_y - crop_y
 
         # Преобразуем в целые числа для Qt
         adapted_data['x'] = int(round(adapted_data.get('x', 0)))
         adapted_data['y'] = int(round(adapted_data.get('y', 0)))
 
-        if 'width' in adapted_data:
-            adapted_data['width'] = int(round(adapted_data.get('width', 100)))
-        if 'height' in adapted_data:
-            adapted_data['height'] = int(round(adapted_data.get('height', 20)))
-        if 'radius' in adapted_data:
-            adapted_data['radius'] = int(round(adapted_data.get('radius', 10)))
+        # Для баре - дополнительная коррекция координат (центр -> левый верхний угол)
+        if adapted_data.get('type') == 'barre':
+            barre_width = adapted_data.get('width', 100)
+            barre_height = adapted_data.get('height', 20)
+
+            if 'x' in adapted_data:
+                adapted_data['x'] = adapted_data['x'] - (barre_width // 2)
+            if 'y' in adapted_data:
+                adapted_data['y'] = adapted_data['y'] - (barre_height // 2)
+
+        print(f"   Финальные координаты: ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)})")
 
         return adapted_data
