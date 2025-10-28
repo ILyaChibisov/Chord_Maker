@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="поправил отображение">
+    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="настроил выбор масштаба">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chord_config_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/chord_config_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chord_config_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/chord_config_tab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/drawing_elements.py" beforeDir="false" afterPath="$PROJECT_DIR$/drawing_elements.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +163,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761635738399</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="настроил выбор масштаба">
+      <option name="closed" value="true" />
+      <created>1761659559506</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1761659559507</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -177,6 +183,7 @@
     <MESSAGE value="цвета нот определены" />
     <MESSAGE value="поправил баре по масштабу" />
     <MESSAGE value="поправил отображение" />
-    <option name="LAST_COMMIT_MESSAGE" value="поправил отображение" />
+    <MESSAGE value="настроил выбор масштаба" />
+    <option name="LAST_COMMIT_MESSAGE" value="настроил выбор масштаба" />
   </component>
 </project>

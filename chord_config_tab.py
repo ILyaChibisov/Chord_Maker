@@ -14,7 +14,7 @@ class ChordConfigTab(QWidget):
         super().__init__()
         self.config_manager = ChordConfigManager()
         self.current_display_type = "fingers"  # fingers или notes
-        self.current_scale_type = "small"  # small, medium1, medium2 или original
+        self.current_scale_type = "small1"  # small1, small2, medium1, medium2 или original
         self.current_group = None
         self.current_chords = []
         self.current_chord = None
@@ -31,7 +31,7 @@ class ChordConfigTab(QWidget):
 
         # Комбобокс выбора масштаба (НОВЫЙ)
         self.scale_combo = QComboBox()
-        self.scale_combo.addItems(["Маленький", "Средний 1", "Средний 2", "Оригинальный размер"])
+        self.scale_combo.addItems(["Маленький 1", "Маленький 2", "Средний 1", "Средний 2", "Оригинальный размер"])
         self.scale_combo.currentTextChanged.connect(self.on_scale_changed)
         top_layout.addWidget(QLabel("Масштаб:"))
         top_layout.addWidget(self.scale_combo)
@@ -152,8 +152,10 @@ class ChordConfigTab(QWidget):
 
     def on_scale_changed(self, scale_type):
         """Обработчик изменения масштаба"""
-        if scale_type == "Маленький":
-            self.current_scale_type = "small"
+        if scale_type == "Маленький 1":
+            self.current_scale_type = "small1"
+        elif scale_type == "Маленький 2":
+            self.current_scale_type = "small2"
         elif scale_type == "Средний 1":
             self.current_scale_type = "medium1"
         elif scale_type == "Средний 2":
@@ -246,8 +248,8 @@ class ChordConfigTab(QWidget):
                 painter.end()
 
                 # Применяем выбранный масштаб
-                if self.current_scale_type == "small":
-                    # МАЛЕНЬКИЙ - как было раньше (авто масштаб)
+                if self.current_scale_type == "small1":
+                    # МАЛЕНЬКИЙ 1 - как было раньше (авто масштаб)
                     display_width = min(400, crop_width)
                     scale_factor = display_width / crop_width
                     display_height = int(crop_height * scale_factor)
@@ -259,7 +261,21 @@ class ChordConfigTab(QWidget):
                         Qt.SmoothTransformation
                     )
                     self.image_label.setPixmap(scaled_pixmap)
-                    print(f"📏 Маленький масштаб: {crop_width}x{crop_height} -> {display_width}x{display_height}")
+                    print(f"📏 Маленький 1: {crop_width}x{crop_height} -> {display_width}x{display_height}")
+
+                elif self.current_scale_type == "small2":
+                    # МАЛЕНЬКИЙ 2 - 30% от оригинального
+                    display_width = int(crop_width * 0.3)
+                    display_height = int(crop_height * 0.3)
+
+                    scaled_pixmap = result_pixmap.scaled(
+                        display_width,
+                        display_height,
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.image_label.setPixmap(scaled_pixmap)
+                    print(f"📏 Маленький 2 (30%): {crop_width}x{crop_height} -> {display_width}x{display_height}")
 
                 elif self.current_scale_type == "medium1":
                     # СРЕДНИЙ 1 - 50% от оригинального
@@ -301,8 +317,8 @@ class ChordConfigTab(QWidget):
                 )
 
                 # Применяем выбранный масштаб
-                if self.current_scale_type == "small":
-                    # МАЛЕНЬКИЙ
+                if self.current_scale_type == "small1":
+                    # МАЛЕНЬКИЙ 1
                     scaled_pixmap = result_pixmap.scaled(
                         self.image_label.width(),
                         self.image_label.height(),
@@ -310,7 +326,21 @@ class ChordConfigTab(QWidget):
                         Qt.SmoothTransformation
                     )
                     self.image_label.setPixmap(scaled_pixmap)
-                    print(f"📏 Маленький масштаб полного изображения")
+                    print(f"📏 Маленький 1 полного изображения")
+
+                elif self.current_scale_type == "small2":
+                    # МАЛЕНЬКИЙ 2 - 30% от оригинального
+                    display_width = int(result_pixmap.width() * 0.3)
+                    display_height = int(result_pixmap.height() * 0.3)
+
+                    scaled_pixmap = result_pixmap.scaled(
+                        display_width,
+                        display_height,
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation
+                    )
+                    self.image_label.setPixmap(scaled_pixmap)
+                    print(f"📏 Маленький 2 (30%) полного изображения")
 
                 elif self.current_scale_type == "medium1":
                     # СРЕДНИЙ 1 - 50% от оригинального
