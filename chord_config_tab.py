@@ -75,7 +75,7 @@ class ChordConfigTab(QWidget):
         top_layout.addWidget(self.chords_scroll, 1)  # Растягиваем на оставшееся место
 
         # Кнопка обновления конфигурации (НОВАЯ)
-        self.refresh_button = QPushButton("Обновить конфигурацию")
+        self.refresh_button = QPushButton("Обновить шаблоны")
         self.refresh_button.setFixedSize(150, 30)
         self.refresh_button.clicked.connect(self.refresh_configuration)
         top_layout.addWidget(self.refresh_button)
@@ -172,7 +172,6 @@ class ChordConfigTab(QWidget):
                 else:
                     self.image_label.setText("Группы аккордов не найдены после обновления")
 
-                QMessageBox.information(self, "Успех", "Конфигурация успешно обновлена из Excel файла!")
                 print("✅ Конфигурация обновлена успешно")
             else:
                 QMessageBox.warning(self, "Ошибка", "Не удалось загрузить конфигурацию из Excel файла")

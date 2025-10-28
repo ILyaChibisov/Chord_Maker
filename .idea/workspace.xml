@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="настроил 4 масштаба">
+    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="сделал замену выбор разметки ладов">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chord_config_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/chord_config_tab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates2/chord_config.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/templates2/chord_config.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,7 +179,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761660188311</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="сделал замену выбор разметки ладов">
+      <option name="closed" value="true" />
+      <created>1761661480288</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1761661480288</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -194,6 +201,7 @@
     <MESSAGE value="поправил отображение" />
     <MESSAGE value="настроил выбор масштаба" />
     <MESSAGE value="настроил 4 масштаба" />
-    <option name="LAST_COMMIT_MESSAGE" value="настроил 4 масштаба" />
+    <MESSAGE value="сделал замену выбор разметки ладов" />
+    <option name="LAST_COMMIT_MESSAGE" value="сделал замену выбор разметки ладов" />
   </component>
 </project>
