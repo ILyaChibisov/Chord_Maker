@@ -239,6 +239,10 @@ class ChordConfigManager:
         if bar_str in self.templates.get('barres', {}):
             barre_data = self.templates['barres'][bar_str]
 
+            # Добавляем ключ для идентификации типа
+            barre_data['_key'] = bar_str
+            barre_data['type'] = 'barre'
+
             # Валидируем данные баре
             if self.validate_barre_data(barre_data):
                 elements.append({
@@ -629,13 +633,20 @@ class ChordConfigManager:
         # Получаем координаты обрезки
         crop_x, crop_y, crop_width, crop_height = crop_rect
 
-        # Для баре используем специальную логику - координаты центра
-        if element_data.get('_key', '').startswith('BAR'):
-            # Баре обычно задается координатами центра, а не левого верхнего угла
+        # Для баре - координаты в JSON это центр, нужно преобразовать в левый верхний угол
+        if element_data.get('_key', '').startswith('BAR') or element_data.get('type') == 'barre':
+            # Получаем размеры баре
+            barre_width = adapted_data.get('width', 100)
+            barre_height = adapted_data.get('height', 20)
+
+            # Преобразуем координаты центра в координаты левого верхнего угла
             if 'x' in adapted_data:
-                adapted_data['x'] = adapted_data['x'] - crop_x - (adapted_data.get('width', 0) // 2)
+                adapted_data['x'] = adapted_data['x'] - crop_x - (barre_width // 2)
             if 'y' in adapted_data:
-                adapted_data['y'] = adapted_data['y'] - crop_y - (adapted_data.get('height', 0) // 2)
+                adapted_data['y'] = adapted_data['y'] - crop_y - (barre_height // 2)
+
+            print(
+                f"🎯 Адаптация баре: центр ({element_data.get('x', 0)}, {element_data.get('y', 0)}) -> угол ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)})")
         else:
             # Для остальных элементов - обычный сдвиг
             if 'x' in adapted_data:
