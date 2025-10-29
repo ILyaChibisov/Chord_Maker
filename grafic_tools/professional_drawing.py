@@ -317,25 +317,14 @@ class ProfessionalDrawingTab(QMainWindow):
         self.barre_radius_input.setPlaceholderText("Закругление")
         self.barre_radius_input.setText("10")
 
-        # Выбор стиля баре - ОБНОВЛЕННЫЙ СПИСОК
+        # Выбор стиля баре
         self.barre_style_combo = QComboBox()
-        self.barre_style_combo.addItems([
-            'default', 'wood', 'metal', 'rubber', 'gradient', 'striped',
-            # НОВЫЕ ОРАНЖЕВЫЕ СТИЛИ
-            'orange_gradient', 'orange_metallic', 'orange_glow', 'dark_orange',
-            'orange_wood', 'bright_orange', 'orange_red', 'orange_yellow',
-            'orange_brown', 'orange_pastel'
-        ])
+        self.barre_style_combo.addItems(['default', 'wood', 'metal', 'rubber', 'gradient', 'striped'])
         self.barre_style_combo.setCurrentText('default')
 
-        # Выбор цвета - ОБНОВЛЕННЫЙ СПИСОК
+        # Выбор цвета
         self.barre_color_combo = QComboBox()
-        self.barre_color_combo.addItems([
-            'Золотистый', 'Коричневый', 'Серый', 'Черный', 'Красный', 'Синий',
-            # НОВЫЕ ОРАНЖЕВЫЕ ЦВЕТА
-            'Оранжевый', 'Темно-оранжевый', 'Ярко-оранжевый', 'Красно-оранжевый',
-            'Желто-оранжевый', 'Коричнево-оранжевый', 'Светло-оранжевый'
-        ])
+        self.barre_color_combo.addItems(['Золотистый', 'Коричневый', 'Серый', 'Черный', 'Красный', 'Синий'])
         self.barre_color_combo.setCurrentText('Золотистый')
 
         # Выбор оформления
@@ -930,7 +919,7 @@ class ProfessionalDrawingTab(QMainWindow):
             style = self.barre_style_combo.currentText()
             decoration = self.barre_decoration_combo.currentText()
 
-            # Цвет баре - ОБНОВЛЕННАЯ КАРТА ЦВЕТОВ
+            # Цвет баре
             color_name = self.barre_color_combo.currentText()
             color_map = {
                 'Золотистый': (189, 183, 107),
@@ -938,15 +927,7 @@ class ProfessionalDrawingTab(QMainWindow):
                 'Серый': (128, 128, 128),
                 'Черный': (0, 0, 0),
                 'Красный': (255, 0, 0),
-                'Синий': (0, 0, 255),
-                # НОВЫЕ ОРАНЖЕВЫЕ ЦВЕТА
-                'Оранжевый': (255, 165, 0),
-                'Темно-оранжевый': (255, 140, 0),
-                'Ярко-оранжевый': (255, 200, 0),
-                'Красно-оранжевый': (255, 100, 0),
-                'Желто-оранжевый': (255, 180, 50),
-                'Коричнево-оранжевый': (205, 127, 50),
-                'Светло-оранжевый': (255, 200, 150)
+                'Синий': (0, 0, 255)
             }
             color = color_map.get(color_name, (189, 183, 107))
 
@@ -1228,15 +1209,7 @@ class ProfessionalDrawingTab(QMainWindow):
             'Серый': (128, 128, 128),
             'Черный': (0, 0, 0),
             'Красный': (255, 0, 0),
-            'Синий': (0, 0, 255),
-            # НОВЫЕ ОРАНЖЕВЫЕ ЦВЕТА
-            'Оранжевый': (255, 165, 0),
-            'Темно-оранжевый': (255, 140, 0),
-            'Ярко-оранжевый': (255, 200, 0),
-            'Красно-оранжевый': (255, 100, 0),
-            'Желто-оранжевый': (255, 180, 50),
-            'Коричнево-оранжевый': (205, 127, 50),
-            'Светло-оранжевый': (255, 200, 150)
+            'Синий': (0, 0, 255)
         }
         color = color_map.get(color_name, (189, 183, 107))
 
@@ -1482,22 +1455,14 @@ class ProfessionalDrawingTab(QMainWindow):
         return color_map.get(tuple(color_tuple), 'Белый')
 
     def _get_barre_color_name(self, color_tuple):
-        """Преобразует RGB кортеж в название цвета баре - ОБНОВЛЕННЫЙ"""
+        """Преобразует RGB кортеж в название цвета баре"""
         color_map = {
             (189, 183, 107): 'Золотистый',
             (139, 69, 19): 'Коричневый',
             (128, 128, 128): 'Серый',
             (0, 0, 0): 'Черный',
             (255, 0, 0): 'Красный',
-            (0, 0, 255): 'Синий',
-            # НОВЫЕ ОРАНЖЕВЫЕ ЦВЕТА
-            (255, 165, 0): 'Оранжевый',
-            (255, 140, 0): 'Темно-оранжевый',
-            (255, 200, 0): 'Ярко-оранжевый',
-            (255, 100, 0): 'Красно-оранжевый',
-            (255, 180, 50): 'Желто-оранжевый',
-            (205, 127, 50): 'Коричнево-оранжевый',
-            (255, 200, 150): 'Светло-оранжевый'
+            (0, 0, 255): 'Синий'
         }
         return color_map.get(tuple(color_tuple), 'Золотистый')
 
