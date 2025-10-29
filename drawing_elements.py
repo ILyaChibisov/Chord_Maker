@@ -40,6 +40,70 @@ class DrawingElements:
         elif style_name == "striped":
             return QBrush(QColor(189, 183, 107))
 
+            # НОВЫЕ ОРАНЖЕВЫЕ СТИЛИ ДЛЯ БАРЕ
+        elif style_name == "orange_gradient":
+            gradient = QLinearGradient(x, y, x + width, y + height)
+            gradient.setColorAt(0, QColor(255, 200, 100))  # Светло-оранжевый
+            gradient.setColorAt(0.5, QColor(255, 140, 0))  # Оранжевый
+            gradient.setColorAt(1, QColor(255, 100, 0))  # Темно-оранжевый
+            return QBrush(gradient)
+        elif style_name == "orange_metallic":
+            gradient = QLinearGradient(x, y, x + width, y + height)
+            gradient.setColorAt(0, QColor(255, 220, 150))
+            gradient.setColorAt(0.3, QColor(255, 180, 80))
+            gradient.setColorAt(0.7, QColor(255, 140, 40))
+            gradient.setColorAt(1, QColor(255, 120, 20))
+            return QBrush(gradient)
+        elif style_name == "orange_glow":
+            gradient = QRadialGradient(x + width / 2, y + height / 2, max(width, height) * 0.8)
+            gradient.setColorAt(0, QColor(255, 230, 180))
+            gradient.setColorAt(0.5, QColor(255, 180, 80))
+            gradient.setColorAt(1, QColor(255, 140, 0))
+            return QBrush(gradient)
+        elif style_name == "dark_orange":
+            gradient = QLinearGradient(x, y, x + width, y + height)
+            gradient.setColorAt(0, QColor(255, 150, 50))
+            gradient.setColorAt(0.5, QColor(255, 120, 0))
+            gradient.setColorAt(1, QColor(220, 100, 0))
+            return QBrush(gradient)
+        elif style_name == "orange_wood":
+            gradient = QLinearGradient(x, y, x + width, y + height)
+            gradient.setColorAt(0, QColor(255, 200, 150))
+            gradient.setColorAt(0.3, QColor(255, 170, 100))
+            gradient.setColorAt(0.7, QColor(255, 140, 60))
+            gradient.setColorAt(1, QColor(255, 120, 40))
+            return QBrush(gradient)
+        elif style_name == "bright_orange":
+            gradient = QLinearGradient(x, y, x + width, y + height)
+            gradient.setColorAt(0, QColor(255, 230, 100))
+            gradient.setColorAt(0.5, QColor(255, 200, 0))
+            gradient.setColorAt(1, QColor(255, 160, 0))
+            return QBrush(gradient)
+        elif style_name == "orange_red":
+            gradient = QLinearGradient(x, y, x + width, y + height)
+            gradient.setColorAt(0, QColor(255, 180, 100))
+            gradient.setColorAt(0.5, QColor(255, 120, 0))
+            gradient.setColorAt(1, QColor(255, 80, 0))
+            return QBrush(gradient)
+        elif style_name == "orange_yellow":
+            gradient = QLinearGradient(x, y, x + width, y + height)
+            gradient.setColorAt(0, QColor(255, 240, 150))
+            gradient.setColorAt(0.5, QColor(255, 200, 50))
+            gradient.setColorAt(1, QColor(255, 180, 0))
+            return QBrush(gradient)
+        elif style_name == "orange_brown":
+            gradient = QLinearGradient(x, y, x + width, y + height)
+            gradient.setColorAt(0, QColor(255, 190, 130))
+            gradient.setColorAt(0.5, QColor(255, 150, 80))
+            gradient.setColorAt(1, QColor(210, 120, 60))
+            return QBrush(gradient)
+        elif style_name == "orange_pastel":
+            gradient = QLinearGradient(x, y, x + width, y + height)
+            gradient.setColorAt(0, QColor(255, 220, 180))
+            gradient.setColorAt(0.5, QColor(255, 190, 140))
+            gradient.setColorAt(1, QColor(255, 170, 120))
+            return QBrush(gradient)
+
         # Стили для нот (50+ вариантов) - ТОЧНО ТАКИЕ ЖЕ КАК В ПРИЛОЖЕНИИ ДЛЯ ШАБЛОНОВ
         elif style_name == "default":
             return QBrush(QColor(255, 0, 0))
@@ -557,10 +621,11 @@ class DrawingElements:
         width = barre_data.get('width', 100)
         height = barre_data.get('height', 20)
         radius = barre_data.get('radius', 10)
-        style = barre_data.get('style', 'wood')
+        style = barre_data.get('style', 'wood')  # Теперь поддерживает новые оранжевые стили
         decoration = barre_data.get('decoration', 'none')
 
         # Получаем кисть с учетом координат для градиентов
+        # Автоматически поддерживает новые оранжевые стили через get_brush_from_style
         brush = DrawingElements.get_brush_from_style(style, x, y, 0, width, height)
 
         # УБИРАЕМ ЧЕРНУЮ ОБВОДКУ - используем прозрачное перо
