@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import json
-from PyQt5.QtGui import QPixmap, QPainter
+from PyQt5.QtGui import QPixmap, QPainter, QBrush, QColor, QLinearGradient, QRadialGradient
 from PyQt5.QtCore import Qt
 
 
@@ -743,3 +743,99 @@ class ChordConfigManager:
         print(f"   Финальные координаты: ({adapted_data.get('x', 0)}, {adapted_data.get('y', 0)})")
 
         return adapted_data
+
+    def get_brush_from_style(self, style_name, x=0, y=0, radius=0, width=0, height=0):
+        """Получение кисти на основе стиля с поддержкой градиентов"""
+        if style_name == "default":
+            painter.setBrush(QColor(*color))
+        elif style_name == "wood":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(210, 180, 140))
+            gradient.setColorAt(0.5, QColor(160, 120, 80))
+            gradient.setColorAt(1, QColor(210, 180, 140))
+            return QBrush(gradient)
+        elif style_name == "metal":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(200, 200, 200))
+            gradient.setColorAt(0.5, QColor(100, 100, 100))
+            gradient.setColorAt(1, QColor(200, 200, 200))
+            return QBrush(gradient)
+        elif style_name == "rubber":
+            gradient = QRadialGradient(x, y, max(width, height))
+            gradient.setColorAt(0, QColor(80, 80, 80))
+            gradient.setColorAt(1, QColor(40, 40, 40))
+            return QBrush(gradient)
+        elif style_name == "gradient":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(*color))
+            lighter = QColor(*color).lighter(150)
+            gradient.setColorAt(1, QColor(lighter.red(), lighter.green(), lighter.blue()))
+            return QBrush(gradient)
+        elif style_name == "striped":
+            return QBrush(QColor(*color))
+
+        # НОВЫЕ ОРАНЖЕВЫЕ СТИЛИ ДЛЯ БАРЕ (ТАКИЕ ЖЕ КАК В drawing_elements.py)
+        elif style_name == "orange_wood":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(220, 160, 100))
+            gradient.setColorAt(0.5, QColor(180, 120, 60))
+            gradient.setColorAt(1, QColor(220, 160, 100))
+            return QBrush(gradient)
+        elif style_name == "orange_metal":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(255, 200, 120))
+            gradient.setColorAt(0.3, QColor(255, 160, 80))
+            gradient.setColorAt(0.7, QColor(220, 120, 50))
+            gradient.setColorAt(1, QColor(200, 100, 40))
+            return QBrush(gradient)
+        elif style_name == "orange_rubber":
+            gradient = QRadialGradient(x, y, max(width, height))
+            gradient.setColorAt(0, QColor(200, 120, 60))
+            gradient.setColorAt(0.7, QColor(180, 100, 50))
+            gradient.setColorAt(1, QColor(160, 80, 40))
+            return QBrush(gradient)
+        elif style_name == "orange_gradient":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(255, 180, 80))
+            gradient.setColorAt(0.5, QColor(255, 140, 40))
+            gradient.setColorAt(1, QColor(220, 100, 20))
+            return QBrush(gradient)
+        elif style_name == "orange_glow":
+            gradient = QRadialGradient(x, y, max(width, height))
+            gradient.setColorAt(0, QColor(255, 220, 150))
+            gradient.setColorAt(0.5, QColor(255, 180, 80))
+            gradient.setColorAt(1, QColor(255, 140, 40))
+            return QBrush(gradient)
+        elif style_name == "burnt_orange":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(220, 140, 80))
+            gradient.setColorAt(0.5, QColor(200, 100, 50))
+            gradient.setColorAt(1, QColor(180, 80, 30))
+            return QBrush(gradient)
+        elif style_name == "orange_amber":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(255, 200, 100))
+            gradient.setColorAt(0.5, QColor(255, 160, 40))
+            gradient.setColorAt(1, QColor(230, 120, 20))
+            return QBrush(gradient)
+        elif style_name == "orange_sunset":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(255, 180, 100))
+            gradient.setColorAt(0.5, QColor(255, 140, 60))
+            gradient.setColorAt(1, QColor(220, 100, 40))
+            return QBrush(gradient)
+        elif style_name == "orange_rust":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(220, 140, 80))
+            gradient.setColorAt(0.5, QColor(200, 100, 50))
+            gradient.setColorAt(1, QColor(160, 70, 30))
+            return QBrush(gradient)
+        elif style_name == "orange_pumpkin":
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(255, 160, 80))
+            gradient.setColorAt(0.5, QColor(255, 120, 40))
+            gradient.setColorAt(1, QColor(220, 80, 20))
+            return QBrush(gradient)
+
+        # Стиль по умолчанию
+        return QBrush(QColor(189, 183, 107))  # Золотистый по умолчанию

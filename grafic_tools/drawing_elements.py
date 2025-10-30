@@ -671,8 +671,72 @@ class DrawingElements:
             painter.setBrush(gradient)
         elif style == 'striped':
             painter.setBrush(QColor(*color))
+
+            # НОВЫЕ ОРАНЖЕВЫЕ СТИЛИ ДЛЯ БАРЕ
+        elif style == 'orange_wood':
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(220, 160, 100))
+            gradient.setColorAt(0.5, QColor(180, 120, 60))
+            gradient.setColorAt(1, QColor(220, 160, 100))
+            painter.setBrush(gradient)
+        elif style == 'orange_metal':
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(255, 200, 120))
+            gradient.setColorAt(0.3, QColor(255, 160, 80))
+            gradient.setColorAt(0.7, QColor(220, 120, 50))
+            gradient.setColorAt(1, QColor(200, 100, 40))
+            painter.setBrush(gradient)
+        elif style == 'orange_rubber':
+            gradient = QRadialGradient(x, y, max(width, height))
+            gradient.setColorAt(0, QColor(200, 120, 60))
+            gradient.setColorAt(0.7, QColor(180, 100, 50))
+            gradient.setColorAt(1, QColor(160, 80, 40))
+            painter.setBrush(gradient)
+        elif style == 'orange_gradient':
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(255, 180, 80))
+            gradient.setColorAt(0.5, QColor(255, 140, 40))
+            gradient.setColorAt(1, QColor(220, 100, 20))
+            painter.setBrush(gradient)
+        elif style == 'orange_glow':
+            gradient = QRadialGradient(x, y, max(width, height))
+            gradient.setColorAt(0, QColor(255, 220, 150))
+            gradient.setColorAt(0.5, QColor(255, 180, 80))
+            gradient.setColorAt(1, QColor(255, 140, 40))
+            painter.setBrush(gradient)
+        elif style == 'burnt_orange':
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(220, 140, 80))
+            gradient.setColorAt(0.5, QColor(200, 100, 50))
+            gradient.setColorAt(1, QColor(180, 80, 30))
+            painter.setBrush(gradient)
+        elif style == 'orange_amber':
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(255, 200, 100))
+            gradient.setColorAt(0.5, QColor(255, 160, 40))
+            gradient.setColorAt(1, QColor(230, 120, 20))
+            painter.setBrush(gradient)
+        elif style == 'orange_sunset':
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(255, 180, 100))
+            gradient.setColorAt(0.5, QColor(255, 140, 60))
+            gradient.setColorAt(1, QColor(220, 100, 40))
+            painter.setBrush(gradient)
+        elif style == 'orange_rust':
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(220, 140, 80))
+            gradient.setColorAt(0.5, QColor(200, 100, 50))
+            gradient.setColorAt(1, QColor(160, 70, 30))
+            painter.setBrush(gradient)
+        elif style == 'orange_pumpkin':
+            gradient = QLinearGradient(x - width // 2, y - height // 2, x + width // 2, y + height // 2)
+            gradient.setColorAt(0, QColor(255, 160, 80))
+            gradient.setColorAt(0.5, QColor(255, 120, 40))
+            gradient.setColorAt(1, QColor(220, 80, 20))
+            painter.setBrush(gradient)
         else:
             painter.setBrush(QColor(*color))
+
 
     @staticmethod
     def _apply_barre_decoration(painter, x, y, width, height, radius, decoration, style, color):

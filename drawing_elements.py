@@ -40,7 +40,7 @@ class DrawingElements:
         elif style_name == "striped":
             return QBrush(QColor(189, 183, 107))
 
-            # НОВЫЕ ОРАНЖЕВЫЕ СТИЛИ ДЛЯ БАРЕ
+            # НОВЫЕ ОРАНЖЕВЫЕ СТИЛИ ДЛЯ БАРЕ (ТАКИЕ ЖЕ КАК В drawing_elements.py)
         elif style_name == "orange_gradient":
             gradient = QLinearGradient(x, y, x + width, y + height)
             gradient.setColorAt(0, QColor(255, 200, 100))  # Светло-оранжевый

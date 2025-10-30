@@ -317,17 +317,28 @@ class ProfessionalDrawingTab(QMainWindow):
         self.barre_radius_input.setPlaceholderText("Закругление")
         self.barre_radius_input.setText("10")
 
-        # Выбор стиля баре
+        # Выбор стиля баре - ОБНОВЛЕННЫЙ СПИСОК
         self.barre_style_combo = QComboBox()
-        self.barre_style_combo.addItems(['default', 'wood', 'metal', 'rubber', 'gradient', 'striped'])
+        self.barre_style_combo.addItems([
+            'default', 'wood', 'metal', 'rubber', 'gradient', 'striped',
+            # Новые оранжевые стили
+            'orange_wood', 'orange_metal', 'orange_rubber', 'orange_gradient',
+            'orange_glow', 'burnt_orange', 'orange_amber', 'orange_sunset',
+            'orange_rust', 'orange_pumpkin'
+        ])
         self.barre_style_combo.setCurrentText('default')
 
-        # Выбор цвета
+        # Выбор цвета - ОБНОВЛЕННЫЙ СПИСОК
         self.barre_color_combo = QComboBox()
-        self.barre_color_combo.addItems(['Золотистый', 'Коричневый', 'Серый', 'Черный', 'Красный', 'Синий'])
+        self.barre_color_combo.addItems([
+            'Золотистый', 'Коричневый', 'Серый', 'Черный', 'Красный', 'Синий',
+            # Новые оранжевые цвета
+            'Оранжевый', 'Темно-оранжевый', 'Светло-оранжевый', 'Красно-оранжевый',
+            'Ярко-оранжевый', 'Персиковый', 'Мандариновый', 'Медовый'
+        ])
         self.barre_color_combo.setCurrentText('Золотистый')
 
-        # Выбор оформления
+        # Остальной код остается без изменений...
         self.barre_decoration_combo = QComboBox()
         self.barre_decoration_combo.addItems(['none', 'shadow', 'glow', 'double_border', 'stripes'])
         self.barre_decoration_combo.setCurrentText('none')
@@ -919,7 +930,7 @@ class ProfessionalDrawingTab(QMainWindow):
             style = self.barre_style_combo.currentText()
             decoration = self.barre_decoration_combo.currentText()
 
-            # Цвет баре
+            # Цвет баре - ОБНОВЛЕННАЯ ЦВЕТОВАЯ КАРТА
             color_name = self.barre_color_combo.currentText()
             color_map = {
                 'Золотистый': (189, 183, 107),
@@ -927,7 +938,16 @@ class ProfessionalDrawingTab(QMainWindow):
                 'Серый': (128, 128, 128),
                 'Черный': (0, 0, 0),
                 'Красный': (255, 0, 0),
-                'Синий': (0, 0, 255)
+                'Синий': (0, 0, 255),
+                # Новые оранжевые цвета
+                'Оранжевый': (255, 165, 0),
+                'Темно-оранжевый': (255, 140, 0),
+                'Светло-оранжевый': (255, 200, 100),
+                'Красно-оранжевый': (255, 100, 0),
+                'Ярко-оранжевый': (255, 120, 40),
+                'Персиковый': (255, 200, 150),
+                'Мандариновый': (255, 160, 80),
+                'Медовый': (255, 180, 100)
             }
             color = color_map.get(color_name, (189, 183, 107))
 
@@ -1462,7 +1482,16 @@ class ProfessionalDrawingTab(QMainWindow):
             (128, 128, 128): 'Серый',
             (0, 0, 0): 'Черный',
             (255, 0, 0): 'Красный',
-            (0, 0, 255): 'Синий'
+            (0, 0, 255): 'Синий',
+            # Новые оранжевые цвета
+            (255, 165, 0): 'Оранжевый',
+            (255, 140, 0): 'Темно-оранжевый',
+            (255, 200, 100): 'Светло-оранжевый',
+            (255, 100, 0): 'Красно-оранжевый',
+            (255, 120, 40): 'Ярко-оранжевый',
+            (255, 200, 150): 'Персиковый',
+            (255, 160, 80): 'Мандариновый',
+            (255, 180, 100): 'Медовый'
         }
         return color_map.get(tuple(color_tuple), 'Золотистый')
 
