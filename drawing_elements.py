@@ -47,7 +47,7 @@ class DrawingElements:
             gradient.setColorAt(0.5, QColor(255, 140, 0))  # Оранжевый
             gradient.setColorAt(1, QColor(255, 100, 0))  # Темно-оранжевый
             return QBrush(gradient)
-        elif style_name == "orange_metallic":
+        elif style_name == "orange_metal":
             gradient = QLinearGradient(x, y, x + width, y + height)
             gradient.setColorAt(0, QColor(255, 220, 150))
             gradient.setColorAt(0.3, QColor(255, 180, 80))
@@ -502,14 +502,19 @@ class DrawingElements:
 
     @staticmethod
     def draw_note(painter, note_data):
-        """Рисование ноты/пальца с ТАКИМИ ЖЕ СИМВОЛАМИ КАК В ПРИЛОЖЕНИИ ДЛЯ ШАБЛОНОВ"""
+        """Рисование ноты/пальца с поддержкой обводки"""
         x = note_data.get('x', 0)
         y = note_data.get('y', 0)
-        radius = note_data.get('radius', 15)  # Оригинальный радиус из приложения для шаблонов
+        radius = note_data.get('radius', 15)
         style = note_data.get('style', 'red_3d')
         text_color = DrawingElements.get_color_from_data(note_data.get('text_color', [255, 255, 255]))
         font_style = note_data.get('font_style', 'normal')
         decoration = note_data.get('decoration', 'none')
+
+        # НОВЫЕ ПАРАМЕТРЫ ОБВОДКИ
+        outline_width = note_data.get('outline_width', 0)
+        outline_color_data = note_data.get('outline_color', [0, 0, 0])
+        outline_color = DrawingElements.get_color_from_data(outline_color_data)
 
         # Определяем отображаемый текст
         display_text = note_data.get('display_text', 'finger')
@@ -520,17 +525,21 @@ class DrawingElements:
         else:  # finger
             symbol = note_data.get('finger', '1')
 
-        # Устанавливаем кисть на основе стиля - ТОЧНО ТАК ЖЕ КАК В ПРИЛОЖЕНИИ ДЛЯ ШАБЛОНОВ
+        # Устанавливаем кисть на основе стиля
         brush = DrawingElements.get_brush_from_style(style, x, y, radius)
 
-        # УБИРАЕМ ЧЕРНУЮ ОБВОДКУ - используем прозрачное перо
+        # РИСУЕМ ОБВОДКУ ЕСЛИ НУЖНО
+        if outline_width > 0:
+            painter.setPen(QPen(outline_color, outline_width))
+            painter.setBrush(Qt.NoBrush)
+            painter.drawEllipse(x - radius, y - radius, radius * 2, radius * 2)
+
+        # Рисуем основную фигуру
         painter.setPen(Qt.NoPen)
         painter.setBrush(brush)
-
-        # Рисуем круг
         painter.drawEllipse(x - radius, y - radius, radius * 2, radius * 2)
 
-        # Применяем дополнительное оформление (БЕЗ ЧЕРНЫХ КОНТУРОВ)
+        # Применяем дополнительное оформление (с учетом обводки)
         if decoration == 'double_border':
             # Белая обводка вместо черной
             painter.setPen(QPen(QColor(255, 255, 255), 2))
@@ -568,15 +577,12 @@ class DrawingElements:
             painter.setBrush(Qt.NoBrush)
             painter.drawEllipse(x - radius + 1, y - radius + 1, (radius - 1) * 2, (radius - 1) * 2)
 
-        # Восстанавливаем кисть для текста
-        DrawingElements.get_brush_from_style(style, x, y, radius)
-
-        # Рисуем текст внутри круга - ТОЧНО ТАКОЙ ЖЕ КАК В ПРИЛОЖЕНИИ ДЛЯ ШАБЛОНОВ
+        # Рисуем текст внутри круга
         if symbol:
             painter.setPen(QPen(text_color))
 
             # Настраиваем шрифт - увеличиваем размер для лучшего заполнения круга
-            font_size = max(10, radius)  # Увеличиваем размер шрифта как в приложении для шаблонов
+            font_size = max(10, radius)
             font = QFont("Arial", font_size)
 
             if font_style == 'bold':
@@ -591,14 +597,14 @@ class DrawingElements:
 
             painter.setFont(font)
 
-            # Идеальное центрирование текста - как в приложении для шаблонов
+            # Идеальное центрирование текста
             font_metrics = QFontMetrics(font)
             text_width = font_metrics.width(symbol)
             text_height = font_metrics.height()
 
             # Центрируем по горизонтали и вертикали
             text_x = x - text_width // 2
-            text_y = y + text_height // 4  # Более точное вертикальное центрирование
+            text_y = y + text_height // 4
 
             # Если текст слишком большой для круга, уменьшаем шрифт
             if text_width > radius * 1.8 or text_height > radius * 1.8:
@@ -615,20 +621,33 @@ class DrawingElements:
 
     @staticmethod
     def draw_barre(painter, barre_data):
-        """Рисование баре БЕЗ ЧЕРНЫХ КОНТУРОВ"""
+        """Рисование баре с поддержкой обводки"""
         x = barre_data.get('x', 0)
         y = barre_data.get('y', 0)
         width = barre_data.get('width', 100)
         height = barre_data.get('height', 20)
         radius = barre_data.get('radius', 10)
-        style = barre_data.get('style', 'wood')  # Теперь поддерживает новые оранжевые стили
+        style = barre_data.get('style', 'wood')
         decoration = barre_data.get('decoration', 'none')
 
+        # НОВЫЕ ПАРАМЕТРЫ ОБВОДКИ
+        outline_width = barre_data.get('outline_width', 0)
+        outline_color_data = barre_data.get('outline_color', [0, 0, 0])
+        outline_color = DrawingElements.get_color_from_data(outline_color_data)
+
         # Получаем кисть с учетом координат для градиентов
-        # Автоматически поддерживает новые оранжевые стили через get_brush_from_style
         brush = DrawingElements.get_brush_from_style(style, x, y, 0, width, height)
 
-        # УБИРАЕМ ЧЕРНУЮ ОБВОДКУ - используем прозрачное перо
+        # РИСУЕМ ОБВОДКУ ЕСЛИ НУЖНО
+        if outline_width > 0:
+            painter.setPen(QPen(outline_color, outline_width))
+            painter.setBrush(Qt.NoBrush)
+            if radius > 0:
+                painter.drawRoundedRect(x, y, width, height, radius, radius)
+            else:
+                painter.drawRect(x, y, width, height)
+
+        # Рисуем основную фигуру
         painter.setPen(Qt.NoPen)
         painter.setBrush(brush)
 
@@ -638,7 +657,7 @@ class DrawingElements:
         else:
             painter.drawRect(x, y, width, height)
 
-        # Применяем декорации (БЕЗ ЧЕРНЫХ КОНТУРОВ)
+        # Применяем декорации
         if decoration == 'shadow':
             # Полупрозрачная тень
             painter.setPen(QPen(QColor(0, 0, 0, 80), 2))

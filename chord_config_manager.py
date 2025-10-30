@@ -779,7 +779,7 @@ class ChordConfigManager:
             gradient.setColorAt(0.5, QColor(255, 140, 0))  # Оранжевый
             gradient.setColorAt(1, QColor(255, 100, 0))  # Темно-оранжевый
             return QBrush(gradient)
-        elif style_name == "orange_metallic":
+        elif style_name == "orange_metal":
             gradient = QLinearGradient(x, y, x + width, y + height)
             gradient.setColorAt(0, QColor(255, 220, 150))
             gradient.setColorAt(0.3, QColor(255, 180, 80))

@@ -4,15 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="откатил все изменения">
+    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="ввёл поправки">
+      <change beforePath="$PROJECT_DIR$/.idea/GuitarChord_maker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GuitarChord_maker.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chord_config_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/chord_config_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chord_config_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/chord_config_tab.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/drawing_elements.py" beforeDir="false" afterPath="$PROJECT_DIR$/drawing_elements.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grafic_tools/drawing_elements.py" beforeDir="false" afterPath="$PROJECT_DIR$/grafic_tools/drawing_elements.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grafic_tools/professional_drawing.py" beforeDir="false" afterPath="$PROJECT_DIR$/grafic_tools/professional_drawing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates2/chord_config.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/templates2/chord_config.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates2/template.json" beforeDir="false" afterPath="$PROJECT_DIR$/templates2/template.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/update_chords_color.py" beforeDir="false" afterPath="$PROJECT_DIR$/update_chords_color.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +61,7 @@
     &quot;last_opened_file_path&quot;: &quot;C:/my_app/CHORD_MAKER&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.update_chords_color">
+  <component name="RunManager" selected="Python.main">
     <configuration name="get_sound_files" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GuitarChord_maker" />
       <option name="ENV_FILES" value="" />
@@ -131,8 +130,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.update_chords_color" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.update_chords_color" />
         <item itemvalue="Python.get_sound_files" />
       </list>
     </recent_temporary>
@@ -265,7 +264,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761746488897</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="ввёл поправки">
+      <option name="closed" value="true" />
+      <created>1761842442657</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1761842442657</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -283,6 +290,7 @@
     <MESSAGE value="поправил файл шаблонов" />
     <MESSAGE value="добавил оранжевые стили для баре" />
     <MESSAGE value="откатил все изменения" />
-    <option name="LAST_COMMIT_MESSAGE" value="откатил все изменения" />
+    <MESSAGE value="ввёл поправки" />
+    <option name="LAST_COMMIT_MESSAGE" value="ввёл поправки" />
   </component>
 </project>

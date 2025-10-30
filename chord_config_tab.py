@@ -16,6 +16,8 @@ class ChordConfigTab(QWidget):
         self.current_display_type = "fingers"  # fingers или notes
         self.current_scale_type = "small1"  # small1, small2, medium1, medium2 или original
         self.current_fret_type = "roman"  # roman или numeric
+        self.current_barre_outline = "none"  # none, thin, medium, thick
+        self.current_note_outline = "none"  # none, thin, medium, thick
         self.current_group = None
         self.current_chords = []
         self.current_chord = None
@@ -50,6 +52,20 @@ class ChordConfigTab(QWidget):
         self.fret_type_combo.currentTextChanged.connect(self.on_fret_type_changed)
         top_layout.addWidget(QLabel("Лад:"))
         top_layout.addWidget(self.fret_type_combo)
+
+        # Комбобокс обводки барре (НОВЫЙ)
+        self.barre_outline_combo = QComboBox()
+        self.barre_outline_combo.addItems(["Без обводки", "Тонкая", "Средняя", "Толстая"])
+        self.barre_outline_combo.currentTextChanged.connect(self.on_barre_outline_changed)
+        top_layout.addWidget(QLabel("Обводка барре:"))
+        top_layout.addWidget(self.barre_outline_combo)
+
+        # Комбобокс обводки нот (НОВЫЙ)
+        self.note_outline_combo = QComboBox()
+        self.note_outline_combo.addItems(["Без обводки", "Тонкая", "Средняя", "Толстая"])
+        self.note_outline_combo.currentTextChanged.connect(self.on_note_outline_changed)
+        top_layout.addWidget(QLabel("Обводка нот:"))
+        top_layout.addWidget(self.note_outline_combo)
 
         # Комбобокс выбора группы аккордов
         self.group_combo = QComboBox()
@@ -257,6 +273,34 @@ class ChordConfigTab(QWidget):
         if self.current_chord:
             self.display_chord(self.current_chord)
 
+    def on_barre_outline_changed(self, outline_type):
+        """Обработчик изменения обводки барре"""
+        if outline_type == "Без обводки":
+            self.current_barre_outline = "none"
+        elif outline_type == "Тонкая":
+            self.current_barre_outline = "thin"
+        elif outline_type == "Средняя":
+            self.current_barre_outline = "medium"
+        else:  # "Толстая"
+            self.current_barre_outline = "thick"
+
+        if self.current_chord:
+            self.display_chord(self.current_chord)
+
+    def on_note_outline_changed(self, outline_type):
+        """Обработчик изменения обводки нот"""
+        if outline_type == "Без обводки":
+            self.current_note_outline = "none"
+        elif outline_type == "Тонкая":
+            self.current_note_outline = "thin"
+        elif outline_type == "Средняя":
+            self.current_note_outline = "medium"
+        else:  # "Толстая"
+            self.current_note_outline = "thick"
+
+        if self.current_chord:
+            self.display_chord(self.current_chord)
+
     def on_group_changed(self, group):
         """Обработчик изменения группы аккордов"""
         self.current_group = group
@@ -304,6 +348,9 @@ class ChordConfigTab(QWidget):
             # Преобразуем символы ладов в зависимости от выбранного типа
             if self.current_fret_type == "numeric":
                 elements = self.convert_frets_to_numeric(elements)
+
+            # Применяем настройки обводки к элементам
+            elements = self.apply_outline_settings(elements)
 
             # ВСЕГДА используем обрезку по RAM, если она определена
             if crop_rect:
@@ -497,3 +544,46 @@ class ChordConfigTab(QWidget):
                 converted_elements.append(element)
 
         return converted_elements
+
+    def apply_outline_settings(self, elements):
+        """Применение настроек обводки к элементам"""
+        # Определяем толщину обводки для барре
+        barre_outline_widths = {
+            "none": 0,
+            "thin": 4,
+            "medium": 6,
+            "thick": 8
+        }
+
+        # Определяем толщину обводки для нот
+        note_outline_widths = {
+            "none": 0,
+            "thin": 6,
+            "medium": 8,
+            "thick": 10
+        }
+
+        barre_width = barre_outline_widths.get(self.current_barre_outline, 0)
+        note_width = note_outline_widths.get(self.current_note_outline, 0)
+
+        modified_elements = []
+        for element in elements:
+            if element['type'] == 'barre' and barre_width > 0:
+                # Добавляем обводку к барре
+                modified_element = element.copy()
+                modified_element['data'] = element['data'].copy()
+                modified_element['data']['outline_width'] = barre_width
+                modified_element['data']['outline_color'] = [101, 67, 33]  # Черный цвет
+                modified_elements.append(modified_element)
+            elif element['type'] == 'note' and note_width > 0:
+                # Добавляем обводку к нотам
+                modified_element = element.copy()
+                modified_element['data'] = element['data'].copy()
+                modified_element['data']['outline_width'] = note_width
+                modified_element['data']['outline_color'] = [101, 67, 33]  # Черный цвет
+                modified_elements.append(modified_element)
+            else:
+                # Для других элементов оставляем как есть
+                modified_elements.append(element)
+
+        return modified_elements
