@@ -1,10 +1,14 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                              QComboBox, QLabel, QScrollArea, QGridLayout,
-                             QGroupBox, QMessageBox, QSizePolicy)
+                             QGroupBox, QMessageBox, QSizePolicy, QFileDialog)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QPainter
 import os
 import pandas as pd
+import json
+import openpyxl
+import subprocess
+import sys
 
 from chord_config_manager import ChordConfigManager
 
@@ -96,6 +100,18 @@ class ChordConfigTab(QWidget):
         self.refresh_button.clicked.connect(self.refresh_configuration)
         top_layout.addWidget(self.refresh_button)
 
+        # Кнопка обновления цветов (НОВАЯ)
+        self.refresh_colors_button = QPushButton("Обновить цвета")
+        self.refresh_colors_button.setFixedSize(150, 30)
+        self.refresh_colors_button.clicked.connect(self.refresh_colors)
+        top_layout.addWidget(self.refresh_colors_button)
+
+        # Кнопка сохранения конфигурации (НОВАЯ)
+        self.save_config_button = QPushButton("Сохранить конфигурацию")
+        self.save_config_button.setFixedSize(180, 30)
+        self.save_config_button.clicked.connect(self.save_chord_configuration)
+        top_layout.addWidget(self.save_config_button)
+
         top_layout.setSpacing(5)
 
         layout.addLayout(top_layout)
@@ -110,6 +126,139 @@ class ChordConfigTab(QWidget):
         self.image_label.setMinimumSize(400, 300)  # Оригинальный минимальный размер
         self.image_scroll.setWidget(self.image_label)
         layout.addWidget(self.image_scroll, 1)  # Растягиваем область с изображением
+
+    def save_chord_configuration(self):
+        """Сохранение конфигурации всех аккордов в JSON файл"""
+        try:
+            if not self.config_manager.chord_data:
+                QMessageBox.warning(self, "Ошибка", "Нет данных аккордов для сохранения")
+                return
+
+            # Запрашиваем путь для сохранения
+            file_path, _ = QFileDialog.getSaveFileName(
+                self,
+                "Сохранить конфигурацию аккордов",
+                "chords_configuration.json",
+                "JSON Files (*.json)"
+            )
+
+            if not file_path:
+                return
+
+            print("💾 Сохранение конфигурации аккордов...")
+
+            # Создаем структуру для сохранения
+            config_data = {
+                "metadata": {
+                    "image_file": os.path.basename(self.config_manager.image_path),
+                    "total_chords": len(self.config_manager.chord_data),
+                    "outline_settings": {
+                        "barre_outline": self.current_barre_outline,
+                        "note_outline": self.current_note_outline,
+                        "scale_type": "original"  # Всегда оригинальный масштаб
+                    },
+                    "created_date": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S")
+                },
+                "chords": {}
+            }
+
+            # Получаем данные из таблицы CHORDS для каждого аккорда
+            chords_info = {}
+            for chord in self.config_manager.chord_data:
+                chord_name = chord.get('CHORD', '')
+                variant = chord.get('VARIANT', '')
+                caption = chord.get('CAPTION', '')
+                chord_type = chord.get('TYPE', '')
+
+                if chord_name:
+                    full_name = f"{chord_name}{variant}" if variant else chord_name
+                    chords_info[full_name] = {
+                        "base_chord": chord_name,
+                        "variant": variant,
+                        "caption": caption,
+                        "type": chord_type,
+                        "ram": chord.get('RAM'),
+                        "bar": chord.get('BAR'),
+                        "fnl": chord.get('FNL'),
+                        "fn": chord.get('FN'),
+                        "fpol": chord.get('FPOL'),
+                        "fpxl": chord.get('FPXL'),
+                        "fp1": chord.get('FP1'),
+                        "fp2": chord.get('FP2'),
+                        "fp3": chord.get('FP3'),
+                        "fp4": chord.get('FP4')
+                    }
+
+            # Добавляем информацию о группах
+            config_data["groups"] = self.config_manager.get_chord_groups()
+
+            # Собираем полную конфигурацию для каждого аккорда
+            total_saved = 0
+            for group in config_data["groups"]:
+                chords_in_group = self.config_manager.get_chords_by_group(group)
+                for chord_info in chords_in_group:
+                    chord_name = chord_info['name']
+
+                    # Получаем элементы для обоих типов отображения
+                    elements_fingers = self.config_manager.get_chord_elements(
+                        chord_info['data'], "fingers"
+                    )
+                    elements_notes = self.config_manager.get_chord_elements(
+                        chord_info['data'], "notes"
+                    )
+
+                    # Получаем область обрезки
+                    ram_key = chord_info['data'].get('RAM')
+                    crop_rect = self.config_manager.get_ram_crop_area(ram_key)
+
+                    # Сохраняем конфигурацию аккорда
+                    config_data["chords"][chord_name] = {
+                        "group": group,
+                        "base_info": chords_info.get(chord_name, {}),
+                        "crop_rect": crop_rect,
+                        "elements_fingers": self._serialize_elements(elements_fingers),
+                        "elements_notes": self._serialize_elements(elements_notes),
+                        "display_settings": {
+                            "fret_type": self.current_fret_type,
+                            "barre_outline": self.current_barre_outline,
+                            "note_outline": self.current_note_outline
+                        }
+                    }
+                    total_saved += 1
+
+            # Сохраняем в файл
+            with open(file_path, 'w', encoding='utf-8') as f:
+                json.dump(config_data, f, indent=2, ensure_ascii=False)
+
+            QMessageBox.information(
+                self,
+                "Успех",
+                f"Конфигурация сохранена!\n"
+                f"Аккордов: {total_saved}\n"
+                f"Файл: {os.path.basename(file_path)}"
+            )
+            print(f"✅ Конфигурация сохранена: {total_saved} аккордов")
+
+        except Exception as e:
+            error_msg = f"Ошибка при сохранении конфигурации: {str(e)}"
+            QMessageBox.critical(self, "Ошибка", error_msg)
+            print(f"❌ {error_msg}")
+            import traceback
+            traceback.print_exc()
+
+    def _serialize_elements(self, elements):
+        """Сериализация элементов для сохранения в JSON"""
+        serialized = []
+        for element in elements:
+            element_data = {
+                "type": element['type'],
+                "data": element['data'].copy()
+            }
+            # Убираем временные поля
+            if '_key' in element_data['data']:
+                del element_data['data']['_key']
+            serialized.append(element_data)
+        return serialized
 
     def load_configuration(self):
         """Загрузка конфигурации"""
@@ -170,6 +319,7 @@ class ChordConfigTab(QWidget):
                     self.load_chord_buttons()
 
                     # Пытаемся восстановить предыдущий аккорд
+
                     if current_chord:
                         chord_names = [chord['name'] for chord in self.current_chords]
                         if current_chord['name'] in chord_names:
@@ -199,6 +349,118 @@ class ChordConfigTab(QWidget):
             print(f"❌ {error_msg}")
             import traceback
             traceback.print_exc()
+
+    def refresh_colors(self):
+        """Обновление цветов из Excel файла"""
+        try:
+            print("🎨 Обновление цветов...")
+
+            # Запускаем функцию обновления цветов напрямую
+            success = self.update_note_styles_no_pandas()
+
+            if success:
+                # Перезагружаем конфигурацию для применения новых цветов
+                self.refresh_configuration()
+                QMessageBox.information(self, "Успех", "Цвета успешно обновлены!")
+                print("✅ Цвета обновлены успешно")
+            else:
+                QMessageBox.warning(self, "Ошибка", "Не удалось обновить цвета")
+                print("❌ Ошибка обновления цветов")
+
+        except Exception as e:
+            error_msg = f"Ошибка при обновлении цветов: {str(e)}"
+            QMessageBox.critical(self, "Ошибка", error_msg)
+            print(f"❌ {error_msg}")
+            import traceback
+            traceback.print_exc()
+
+    def update_note_styles_no_pandas(self):
+        """
+        Версия без использования pandas - встроенная в класс
+        """
+        excel_path = os.path.join("templates2", "chord_config.xlsx")
+        json_path = os.path.join("templates2", "template.json")
+
+        try:
+            print("Чтение Excel файла...")
+            workbook = openpyxl.load_workbook(excel_path)
+            sheet = workbook['COLOR']
+
+            # Создаем словари для сопоставления нот и стилей, а также для барре
+            note_to_style = {}
+            barre_style = None
+
+            # Находим колонки
+            headers = [cell.value for cell in sheet[1]]
+            try:
+                ton_col = headers.index('ton')
+                color_col = headers.index('color')
+            except ValueError:
+                print("Ошибка: В таблице должны быть колонки 'ton' и 'color'")
+                return False
+
+            # Читаем данные
+            for row_num, row in enumerate(sheet.iter_rows(min_row=2, values_only=True), 2):
+                if row[ton_col] and row[color_col]:
+                    note_name = str(row[ton_col]).strip()
+                    style_name = str(row[color_col]).strip()
+
+                    if note_name.lower() == 'barre':
+                        barre_style = style_name
+                        print(f"Загружен стиль для барре: {barre_style}")
+                    else:
+                        note_to_style[note_name] = style_name
+                        print(f"Загружено: {note_name} -> {style_name}")
+
+            print(f"Всего загружено {len(note_to_style)} соответствий для нот")
+            if barre_style:
+                print(f"Стиль для барре: {barre_style}")
+
+            # Чтение и обновление JSON
+            print("Чтение JSON файла...")
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+
+            updated_notes_count = 0
+            updated_barre_count = 0
+
+            # Обновляем ноты (раздел 'notes')
+            if 'notes' in data:
+                for note_key, note_data in data['notes'].items():
+                    if 'note_name' in note_data:
+                        note_name = note_data['note_name']
+                        if note_name in note_to_style:
+                            old_style = note_data.get('style', 'не установлен')
+                            note_data['style'] = note_to_style[note_name]
+                            updated_notes_count += 1
+                            print(
+                                f"Обновлена нота: {note_key} - '{note_name}' - '{old_style}' -> '{note_to_style[note_name]}'")
+            else:
+                print("Раздел 'notes' не найден в JSON")
+
+            # Обновляем барре (раздел 'barres')
+            if 'barres' in data and barre_style:
+                for barre_key, barre_data in data['barres'].items():
+                    old_style = barre_data.get('style', 'не установлен')
+                    barre_data['style'] = barre_style
+                    updated_barre_count += 1
+                    print(f"Обновлено барре: {barre_key} - '{old_style}' -> '{barre_style}'")
+            else:
+                if 'barres' not in data:
+                    print("Раздел 'barres' не найден в JSON")
+                if not barre_style:
+                    print("Стиль для барре не задан в Excel")
+
+            # Сохранение
+            with open(json_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+
+            print(f"Готово! Обновлено {updated_notes_count} нот и {updated_barre_count} барре")
+            return True
+
+        except Exception as e:
+            print(f"Ошибка: {e}")
+            return False
 
     def display_original_image(self):
         """Отображение оригинального изображения при запуске с масштабированием"""
@@ -547,20 +809,20 @@ class ChordConfigTab(QWidget):
 
     def apply_outline_settings(self, elements):
         """Применение настроек обводки к элементам"""
-        # Определяем толщину обводки для барре
+        # Определяем толщину обводки для барре (В ДВА РАЗА ТОЛЩЕ)
         barre_outline_widths = {
             "none": 0,
-            "thin": 4,
-            "medium": 6,
-            "thick": 8
+            "thin": 2,  # было 1, стало 2
+            "medium": 4,  # было 2, стало 4
+            "thick": 6  # было 3, стало 6
         }
 
-        # Определяем толщину обводки для нот
+        # Определяем толщину обводки для нот (В ДВА РАЗА ТОЛЩЕ)
         note_outline_widths = {
             "none": 0,
-            "thin": 6,
-            "medium": 8,
-            "thick": 10
+            "thin": 2,  # было 1, стало 2
+            "medium": 4,  # было 2, стало 4
+            "thick": 6  # было 3, стало 6
         }
 
         barre_width = barre_outline_widths.get(self.current_barre_outline, 0)
@@ -573,14 +835,14 @@ class ChordConfigTab(QWidget):
                 modified_element = element.copy()
                 modified_element['data'] = element['data'].copy()
                 modified_element['data']['outline_width'] = barre_width
-                modified_element['data']['outline_color'] = [101, 67, 33]  # Черный цвет
+                modified_element['data']['outline_color'] = [0, 0, 0]  # Черный цвет
                 modified_elements.append(modified_element)
             elif element['type'] == 'note' and note_width > 0:
                 # Добавляем обводку к нотам
                 modified_element = element.copy()
                 modified_element['data'] = element['data'].copy()
                 modified_element['data']['outline_width'] = note_width
-                modified_element['data']['outline_color'] = [101, 67, 33]  # Черный цвет
+                modified_element['data']['outline_color'] = [0, 0, 0]  # Черный цвет
                 modified_elements.append(modified_element)
             else:
                 # Для других элементов оставляем как есть

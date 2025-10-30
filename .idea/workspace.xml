@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="ввёл поправки">
-      <change beforePath="$PROJECT_DIR$/.idea/GuitarChord_maker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GuitarChord_maker.iml" afterDir="false" />
+    <list default="true" id="8b3fe51f-b435-4a68-9ecb-df608ea76dd6" name="Changes" comment="обновление цветов барре">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chord_config_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/chord_config_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chord_config_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/chord_config_tab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/drawing_elements.py" beforeDir="false" afterPath="$PROJECT_DIR$/drawing_elements.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates2/chord_config.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/templates2/chord_config.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates2/template.json" beforeDir="false" afterPath="$PROJECT_DIR$/templates2/template.json" afterDir="false" />
     </list>
@@ -272,7 +269,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761842442657</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="обновление цветов барре">
+      <option name="closed" value="true" />
+      <created>1761845769773</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1761845769773</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -291,6 +296,7 @@
     <MESSAGE value="добавил оранжевые стили для баре" />
     <MESSAGE value="откатил все изменения" />
     <MESSAGE value="ввёл поправки" />
-    <option name="LAST_COMMIT_MESSAGE" value="ввёл поправки" />
+    <MESSAGE value="обновление цветов барре" />
+    <option name="LAST_COMMIT_MESSAGE" value="обновление цветов барре" />
   </component>
 </project>
